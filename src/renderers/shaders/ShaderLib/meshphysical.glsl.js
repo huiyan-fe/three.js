@@ -12,7 +12,6 @@ varying vec3 vViewPosition;
 #include <common>
 #include <uv_pars_vertex>
 #include <uv2_pars_vertex>
-#include <envmap_pars_vertex>
 #include <displacementmap_pars_vertex>
 #include <color_pars_vertex>
 #include <fog_pars_vertex>
@@ -47,7 +46,6 @@ void main() {
 	vViewPosition = - mvPosition.xyz;
 
 	#include <worldpos_vertex>
-	#include <envmap_vertex>
 	#include <shadowmap_vertex>
 	#include <fog_vertex>
 
@@ -125,12 +123,10 @@ varying vec3 vViewPosition;
 #include <bsdfs>
 #include <cube_uv_reflection_fragment>
 #include <envmap_common_pars_fragment>
-#include <envmap_pars_fragment>
 #include <envmap_physical_pars_fragment>
 #include <fog_pars_fragment>
 #include <lights_pars_begin>
 #include <normal_pars_fragment>
-#include <specularmap_pars_fragment>
 #include <lights_physical_pars_fragment>
 #include <transmission_pars_fragment>
 #include <shadowmap_pars_fragment>
@@ -200,7 +196,6 @@ void main() {
 
 	#endif
 
-	#include <envmap_fragment>
 	#include <output_fragment>
 	#include <tonemapping_fragment>
 	#include <encodings_fragment>

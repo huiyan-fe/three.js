@@ -38,6 +38,7 @@
 
 				init( texture );
 				animate();
+				// render();
 
 			} );
 
@@ -57,31 +58,39 @@
 				//
 
 				cubeRenderTarget1 = new THREE.WebGLCubeRenderTarget( 256, {
-					format: THREE.RGBFormat,
-					generateMipmaps: true,
-					minFilter: THREE.LinearMipmapLinearFilter,
+					// type: THREE.HalfFloatType,
+					// magFilter: THREE.NearestFilter,
+					// format: THREE.RGBAFormat,
+					generateMipmaps: false,
+					// format: THREE.RGBAFormat,
+					// generateMipmaps: false,
+					// // minFilter: THREE.LinearMipmapLinearFilter,
 					encoding: THREE.sRGBEncoding // temporary -- to prevent the material's shader from recompiling every frame
 				} );
 
 				cubeCamera1 = new THREE.CubeCamera( 1, 1000, cubeRenderTarget1 );
 
 				cubeRenderTarget2 = new THREE.WebGLCubeRenderTarget( 256, {
-					format: THREE.RGBFormat,
-					generateMipmaps: true,
-					minFilter: THREE.LinearMipmapLinearFilter,
+					// type: THREE.HalfFloatType,
+					// magFilter: THREE.NearestFilter,
+					// format: THREE.RGBAFormat,
+					generateMipmaps: false,
 					encoding: THREE.sRGBEncoding
 				} );
 
 				cubeCamera2 = new THREE.CubeCamera( 1, 1000, cubeRenderTarget2 );
 
 				//
-
-				material = new THREE.MeshBasicMaterial( {
+				// material = new THREE.MeshLambertMaterial( {
+				material = new THREE.MeshStandardMaterial( {
+					color: 0xff0000,
 					envMap: cubeRenderTarget2.texture,
-					combine: THREE.MultiplyOperation,
-					reflectivity: 1
+					roughness: 0,
+					metalness: 0.5,
+					// combine: THREE.MultiplyOperation,
+					// reflectivity: 1
 				} );
-
+				console.log(material);
 				sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 20, 8 ), material );
 				scene.add( sphere );
 
@@ -91,6 +100,11 @@
 				torus = new THREE.Mesh( new THREE.TorusKnotGeometry( 10, 5, 128, 16 ), material );
 				scene.add( torus );
 
+				scene.add( new THREE.AmbientLight( 0xffffff, 0.5 ) );
+				var dirLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+				dirLight.position.set( 1, 1, 1 );
+				// scene.add( new THREE.AmbientLight( 0xffffff, 0.1 ) );
+				scene.add( dirLight );
 				//
 
 				document.addEventListener( 'pointerdown', onPointerDown );
