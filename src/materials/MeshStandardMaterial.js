@@ -1,4 +1,4 @@
-import { TangentSpaceNormalMap } from '../constants.js';
+import { TangentSpaceNormalMap, MultiplyOperation } from '../constants.js';
 import { Material } from './Material.js';
 import { Vector2 } from '../math/Vector2.js';
 import { Color } from '../math/Color.js';
@@ -96,7 +96,8 @@ class MeshStandardMaterial extends Material {
 
 		this.envMap = null;
 		this.envMapIntensity = 1.0;
-
+		this.combine = MultiplyOperation;
+		this.reflectivity = 1;
 		this.refractionRatio = 0.98;
 
 		this.wireframe = false;
