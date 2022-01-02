@@ -679,6 +679,14 @@ function WebGLProgram( renderer, cacheKey, parameters, bindingStates ) {
 
 	}
 
+	if ( renderer.onShaderBeforeCompile ) {
+
+		const ret = renderer.onShaderBeforeCompile( vertexShader, fragmentShader, parameters );
+		vertexShader = ret.vertexShader;
+		fragmentShader = ret.fragmentShader;
+
+	}
+
 	vertexShader = resolveIncludes( vertexShader );
 	vertexShader = replaceLightNums( vertexShader, parameters );
 	vertexShader = replaceClippingPlaneNums( vertexShader, parameters );
