@@ -100,10 +100,21 @@ class PMREMGenerator {
 	 * and far planes ensure the scene is rendered in its entirety (the cubeCamera
 	 * is placed at the origin).
 	 */
-	fromScene( scene, sigma = 0, near = 0.1, far = 100 ) {
+	fromScene( scene, sigma = 0, near = 0.1, far = 100, cubeUVRenderTarget = null, pingPongRenderTarget = null ) {
 
 		_oldTarget = this._renderer.getRenderTarget();
-		const cubeUVRenderTarget = this._allocateTargets();
+
+		if ( ! cubeUVRenderTarget ) {
+
+			cubeUVRenderTarget = this._allocateTargets();
+
+		}
+
+		if ( pingPongRenderTarget ) {
+
+			this._pingPongRenderTarget = pingPongRenderTarget;
+
+		}
 
 		this._sceneToCubeUV( scene, near, far, cubeUVRenderTarget );
 		if ( sigma > 0 ) {
@@ -114,6 +125,30 @@ class PMREMGenerator {
 
 		this._applyPMREM( cubeUVRenderTarget );
 		this._cleanup( cubeUVRenderTarget );
+
+		return cubeUVRenderTarget;
+
+	}
+
+	fromSceneToRenderTarget( scene, cubeUVRenderTarget, pingPongRenderTarget, sigma = 0, near = 0.1, far = 100 ) {
+
+		_oldTarget = this._renderer.getRenderTarget();
+
+		this._pingPongRenderTarget = pingPongRenderTarget;
+
+
+		this._sceneToCubeUV( scene, near, far, cubeUVRenderTarget );
+		if ( sigma > 0 ) {
+
+			this._blur( cubeUVRenderTarget, 0, 0, sigma );
+
+		}
+
+		this._applyPMREM( cubeUVRenderTarget );
+
+		this._renderer.setRenderTarget( _oldTarget );
+		cubeUVRenderTarget.scissorTest = false;
+		_setViewport( cubeUVRenderTarget, 0, 0, cubeUVRenderTarget.width, cubeUVRenderTarget.height );
 
 		return cubeUVRenderTarget;
 
