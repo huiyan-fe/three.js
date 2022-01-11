@@ -19,7 +19,9 @@
 
 			import * as THREE from '../build/three.module.js';
 
-			let camera, scene, renderer;
+			import Stats from './jsm/libs/stats.module.js';
+
+			let camera, scene, renderer, stats;
 			let cube, sphere, torus, material;
 
 			let count = 0, cubeCamera1, cubeCamera2, cubeRenderTarget1, cubeRenderTarget2;
@@ -50,6 +52,9 @@
 				renderer.outputEncoding = THREE.sRGBEncoding;
 				document.body.appendChild( renderer.domElement );
 
+				stats = new Stats();
+				document.body.appendChild( stats.dom );
+
 				scene = new THREE.Scene();
 				scene.background = texture;
 
@@ -57,40 +62,22 @@
 
 				//
 
-				cubeRenderTarget1 = new THREE.WebGLCubeRenderTarget( 256, {
-					// type: THREE.HalfFloatType,
-					// magFilter: THREE.NearestFilter,
-					// format: THREE.RGBAFormat,
-					generateMipmaps: false,
-					// format: THREE.RGBAFormat,
-					// generateMipmaps: false,
-					// // minFilter: THREE.LinearMipmapLinearFilter,
-					encoding: THREE.sRGBEncoding // temporary -- to prevent the material's shader from recompiling every frame
-				} );
+				cubeRenderTarget1 = new THREE.WebGLCubeRenderTarget( 256 );
 
 				cubeCamera1 = new THREE.CubeCamera( 1, 1000, cubeRenderTarget1 );
 
-				cubeRenderTarget2 = new THREE.WebGLCubeRenderTarget( 256, {
-					// type: THREE.HalfFloatType,
-					// magFilter: THREE.NearestFilter,
-					// format: THREE.RGBAFormat,
-					generateMipmaps: false,
-					encoding: THREE.sRGBEncoding
-				} );
+				cubeRenderTarget2 = new THREE.WebGLCubeRenderTarget( 256 );
 
 				cubeCamera2 = new THREE.CubeCamera( 1, 1000, cubeRenderTarget2 );
 
 				//
-				// material = new THREE.MeshLambertMaterial( {
+
 				material = new THREE.MeshStandardMaterial( {
-					color: 0xff0000,
 					envMap: cubeRenderTarget2.texture,
-					roughness: 0,
-					metalness: 0.5,
-					// combine: THREE.MultiplyOperation,
-					// reflectivity: 1
+					roughness: 0.2,
+					metalness: 1
 				} );
-				console.log(material);
+
 				sphere = new THREE.Mesh( new THREE.IcosahedronGeometry( 20, 8 ), material );
 				scene.add( sphere );
 
@@ -165,11 +152,6 @@
 			function animate() {
 
 				requestAnimationFrame( animate );
-				render();
-
-			}
-
-			function render() {
 
 				const time = Date.now();
 
@@ -214,6 +196,14 @@
 				}
 
 				count ++;
+
+				render();
+
+				stats.update();
+
+			}
+
+			function render() {
 
 				renderer.render( scene, camera );
 
