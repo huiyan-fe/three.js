@@ -339,7 +339,9 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 			rendererExtensionDrawBuffers: IS_WEBGL2 || extensions.has( 'WEBGL_draw_buffers' ),
 			rendererExtensionShaderTextureLod: IS_WEBGL2 || extensions.has( 'EXT_shader_texture_lod' ),
 
-			customProgramCacheKey: material.customProgramCacheKey()
+			customProgramCacheKey: material.customProgramCacheKey(),
+
+			extraProgramCacheKey: renderer.extraProgramCacheKey
 
 		};
 
@@ -382,6 +384,12 @@ function WebGLPrograms( renderer, cubemaps, cubeuvmaps, extensions, capabilities
 		}
 
 		array.push( parameters.customProgramCacheKey );
+
+		if ( renderer.extraProgramCacheKey ) {
+
+			array.push( renderer.extraProgramCacheKey );
+
+		}
 
 		return array.join();
 

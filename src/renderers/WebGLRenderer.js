@@ -1622,6 +1622,7 @@ class WebGLRenderer {
 			materialProperties.vertexAlphas = parameters.vertexAlphas;
 			materialProperties.vertexTangents = parameters.vertexTangents;
 			materialProperties.toneMapping = parameters.toneMapping;
+			materialProperties.extraProgramCacheKey = parameters.extraProgramCacheKey;
 
 		}
 
@@ -1647,6 +1648,8 @@ class WebGLRenderer {
 
 			const materialProperties = properties.get( material );
 			const lights = currentRenderState.state.lights;
+
+			const extraProgramCacheKey = _this.extraProgramCacheKey;
 
 			if ( _clippingEnabled === true ) {
 
@@ -1734,6 +1737,10 @@ class WebGLRenderer {
 					needsProgramChange = true;
 
 				} else if ( capabilities.isWebGL2 === true && materialProperties.morphTargetsCount !== morphTargetsCount ) {
+
+					needsProgramChange = true;
+
+				} else if ( extraProgramCacheKey !== materialProperties.extraProgramCacheKey ) {
 
 					needsProgramChange = true;
 

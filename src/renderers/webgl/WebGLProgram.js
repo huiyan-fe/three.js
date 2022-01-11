@@ -771,6 +771,14 @@ function WebGLProgram( renderer, cacheKey, parameters, bindingStates ) {
 
 	}
 
+	if ( renderer.onShaderBeforeResolve ) {
+
+		const ret = renderer.onShaderBeforeResolve( vertexShader, fragmentShader, parameters );
+		vertexShader = ret.vertexShader;
+		fragmentShader = ret.fragmentShader;
+
+	}
+
 	vertexShader = resolveIncludes( vertexShader );
 	vertexShader = replaceLightNums( vertexShader, parameters );
 	vertexShader = replaceClippingPlaneNums( vertexShader, parameters );
@@ -813,9 +821,16 @@ function WebGLProgram( renderer, cacheKey, parameters, bindingStates ) {
 
 	}
 
-	const vertexGlsl = versionString + prefixVertex + vertexShader;
-	const fragmentGlsl = versionString + prefixFragment + fragmentShader;
+	let vertexGlsl = versionString + prefixVertex + vertexShader;
+	let fragmentGlsl = versionString + prefixFragment + fragmentShader;
 
+	if ( renderer.onShaderBeforeCompile ) {
+
+		const ret = renderer.onShaderBeforeCompile( vertexGlsl, fragmentGlsl, parameters );
+		vertexGlsl = ret.vertexShader;
+		fragmentGlsl = ret.fragmentShader;
+
+	}
 	// console.log( '*VERTEX*', vertexGlsl );
 	// console.log( '*FRAGMENT*', fragmentGlsl );
 
