@@ -1,6 +1,6 @@
 /* global QUnit */
 
-import * as Constants from '../../../src/constants';
+import * as Constants from '../../../src/constants.js';
 
 export default QUnit.module( 'Constants', () => {
 
@@ -64,7 +64,6 @@ export default QUnit.module( 'Constants', () => {
 		assert.equal( Constants.EquirectangularReflectionMapping, 303, 'EquirectangularReflectionMapping is equal to 303' );
 		assert.equal( Constants.EquirectangularRefractionMapping, 304, 'EquirectangularRefractionMapping is equal to 304' );
 		assert.equal( Constants.CubeUVReflectionMapping, 306, 'CubeUVReflectionMapping is equal to 306' );
-		assert.equal( Constants.CubeUVRefractionMapping, 307, 'CubeUVRefractionMapping is equal to 307' );
 		assert.equal( Constants.RepeatWrapping, 1000, 'RepeatWrapping is equal to 1000' );
 		assert.equal( Constants.ClampToEdgeWrapping, 1001, 'ClampToEdgeWrapping is equal to 1001' );
 		assert.equal( Constants.MirroredRepeatWrapping, 1002, 'MirroredRepeatWrapping is equal to 1002' );
@@ -84,10 +83,8 @@ export default QUnit.module( 'Constants', () => {
 		assert.equal( Constants.HalfFloatType, 1016, 'HalfFloatType is equal to 1016' );
 		assert.equal( Constants.UnsignedShort4444Type, 1017, 'UnsignedShort4444Type is equal to 1017' );
 		assert.equal( Constants.UnsignedShort5551Type, 1018, 'UnsignedShort5551Type is equal to 1018' );
-		assert.equal( Constants.UnsignedShort565Type, 1019, 'UnsignedShort565Type is equal to 1019' );
 		assert.equal( Constants.UnsignedInt248Type, 1020, 'UnsignedInt248Type is equal to 1020' );
 		assert.equal( Constants.AlphaFormat, 1021, 'AlphaFormat is equal to 1021' );
-		assert.equal( Constants.RGBFormat, 1022, 'RGBFormat is equal to 1022' );
 		assert.equal( Constants.RGBAFormat, 1023, 'RGBAFormat is equal to 1023' );
 		assert.equal( Constants.LuminanceFormat, 1024, 'LuminanceFormat is equal to 1024' );
 		assert.equal( Constants.LuminanceAlphaFormat, 1025, 'LuminanceAlphaFormat is equal to 1025' );

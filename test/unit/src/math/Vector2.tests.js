@@ -1,13 +1,13 @@
 /* global QUnit */
 
-import { Vector2 } from '../../../../src/math/Vector2';
-import { Matrix3 } from '../../../../src/math/Matrix3';
-import { BufferAttribute } from '../../../../src/core/BufferAttribute';
+import { Vector2 } from '../../../../src/math/Vector2.js';
+import { Matrix3 } from '../../../../src/math/Matrix3.js';
+import { BufferAttribute } from '../../../../src/core/BufferAttribute.js';
 import {
 	x,
 	y,
 	eps
-} from './Constants.tests';
+} from './Constants.tests.js';
 
 export default QUnit.module( 'Maths', () => {
 
@@ -683,6 +683,15 @@ export default QUnit.module( 'Maths', () => {
 			b.divide( c );
 			assert.strictEqual( b.x, 0.5, 'divide: check x' );
 			assert.strictEqual( b.y, 0.5, 'divide: check y' );
+
+		} );
+
+		QUnit.test( 'iterable', ( assert ) => {
+
+			var v = new Vector2( 0, 1 );
+			var array = [ ...v ];
+			assert.strictEqual( array[ 0 ], 0, 'Vector2 is iterable.' );
+			assert.strictEqual( array[ 1 ], 1, 'Vector2 is iterable.' );
 
 		} );
 

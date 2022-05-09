@@ -1,10 +1,10 @@
 /* global QUnit */
 
-import { Euler } from '../../../../src/math/Euler';
-import { Matrix4 } from '../../../../src/math/Matrix4';
-import { Quaternion } from '../../../../src/math/Quaternion';
-import { Vector3 } from '../../../../src/math/Vector3';
-import { x, y, z } from './Constants.tests';
+import { Euler } from '../../../../src/math/Euler.js';
+import { Matrix4 } from '../../../../src/math/Matrix4.js';
+import { Quaternion } from '../../../../src/math/Quaternion.js';
+import { Vector3 } from '../../../../src/math/Vector3.js';
+import { x, y, z } from './Constants.tests.js';
 
 const eulerZero = new Euler( 0, 0, 0, 'XYZ' );
 const eulerAxyz = new Euler( 1, 0, 0, 'XYZ' );
@@ -31,15 +31,6 @@ function matrixEquals4( a, b, tolerance ) {
 	}
 
 	return true;
-
-}
-
-function eulerEquals( a, b, tolerance ) {
-
-	tolerance = tolerance || 0.0001;
-	var diff = Math.abs( a.x - b.x ) + Math.abs( a.y - b.y ) + Math.abs( a.z - b.z );
-
-	return ( diff < tolerance );
 
 }
 
@@ -206,25 +197,6 @@ export default QUnit.module( 'Maths', () => {
 			var b = new Vector3();
 			assert.ok( ! b.isEuler, 'Passed!' );
 
-
-		} );
-
-		QUnit.test( 'set/setFromVector3/toVector3', ( assert ) => {
-
-			var a = new Euler();
-
-			a.set( 0, 1, 0, 'ZYX' );
-			assert.ok( a.equals( eulerAzyx ), 'Passed!' );
-			assert.ok( ! a.equals( eulerAxyz ), 'Passed!' );
-			assert.ok( ! a.equals( eulerZero ), 'Passed!' );
-
-			var vec = new Vector3( 0, 1, 0 );
-
-			var b = new Euler().setFromVector3( vec, 'ZYX' );
-			assert.ok( a.equals( b ), 'Passed!' );
-
-			var c = b.toVector3();
-			assert.ok( c.equals( vec ), 'Passed!' );
 
 		} );
 
@@ -413,8 +385,6 @@ export default QUnit.module( 'Maths', () => {
 
 			var f = function () {
 
-				var b = true;
-
 			};
 
 			var a = new Euler( 11, 12, 13, 'XYZ' );
@@ -440,6 +410,17 @@ export default QUnit.module( 'Maths', () => {
 
 			a._onChangeCallback();
 			assert.ok( b, 'Passed!' );
+
+		} );
+
+		QUnit.test( 'iterable', ( assert ) => {
+
+			var e = new Euler( 0.5, 0.75, 1, 'YZX' );
+			var array = [ ...e ];
+			assert.strictEqual( array[ 0 ], 0.5, 'Euler is iterable.' );
+			assert.strictEqual( array[ 1 ], 0.75, 'Euler is iterable.' );
+			assert.strictEqual( array[ 2 ], 1, 'Euler is iterable.' );
+			assert.strictEqual( array[ 3 ], 'YZX', 'Euler is iterable.' );
 
 		} );
 

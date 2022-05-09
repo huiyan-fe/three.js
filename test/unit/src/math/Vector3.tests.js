@@ -1,22 +1,22 @@
 /* global QUnit */
 
-import { Vector3 } from '../../../../src/math/Vector3';
-import { Vector4 } from '../../../../src/math/Vector4';
-import { Matrix3 } from '../../../../src/math/Matrix3';
-import { Matrix4 } from '../../../../src/math/Matrix4';
-import { Spherical } from '../../../../src/math/Spherical';
-import { Quaternion } from '../../../../src/math/Quaternion';
-import { Euler } from '../../../../src/math/Euler';
-import { Cylindrical } from '../../../../src/math/Cylindrical';
-import { BufferAttribute } from '../../../../src/core/BufferAttribute';
-import { PerspectiveCamera } from '../../../../src/cameras/PerspectiveCamera';
+import { Vector3 } from '../../../../src/math/Vector3.js';
+import { Vector4 } from '../../../../src/math/Vector4.js';
+import { Matrix3 } from '../../../../src/math/Matrix3.js';
+import { Matrix4 } from '../../../../src/math/Matrix4.js';
+import { Spherical } from '../../../../src/math/Spherical.js';
+import { Quaternion } from '../../../../src/math/Quaternion.js';
+import { Euler } from '../../../../src/math/Euler.js';
+import { Cylindrical } from '../../../../src/math/Cylindrical.js';
+import { BufferAttribute } from '../../../../src/core/BufferAttribute.js';
+import { PerspectiveCamera } from '../../../../src/cameras/PerspectiveCamera.js';
 import {
 	x,
 	y,
 	z,
 	w,
 	eps
-} from './Constants.tests';
+} from './Constants.tests.js';
 
 export default QUnit.module( 'Maths', () => {
 
@@ -1003,6 +1003,16 @@ export default QUnit.module( 'Maths', () => {
 			);
 
 			assert.ok( ( 1 - vec.length() ) <= Number.EPSILON, 'produces a unit vector' );
+
+		} );
+
+		QUnit.test( 'iterable', ( assert ) => {
+
+			var v = new Vector3( 0, 0.5, 1 );
+			var array = [ ...v ];
+			assert.strictEqual( array[ 0 ], 0, 'Vector3 is iterable.' );
+			assert.strictEqual( array[ 1 ], 0.5, 'Vector3 is iterable.' );
+			assert.strictEqual( array[ 2 ], 1, 'Vector3 is iterable.' );
 
 		} );
 

@@ -1,15 +1,15 @@
 /* global QUnit */
 
-import { Vector4 } from '../../../../src/math/Vector4';
-import { Matrix4 } from '../../../../src/math/Matrix4';
-import { BufferAttribute } from '../../../../src/core/BufferAttribute';
+import { Vector4 } from '../../../../src/math/Vector4.js';
+import { Matrix4 } from '../../../../src/math/Matrix4.js';
+import { BufferAttribute } from '../../../../src/core/BufferAttribute.js';
 import {
 	x,
 	y,
 	z,
 	w,
 	eps
-} from './Constants.tests';
+} from './Constants.tests.js';
 
 export default QUnit.module( 'Maths', () => {
 
@@ -714,6 +714,17 @@ export default QUnit.module( 'Maths', () => {
 			assert.ok( a.clone().lerp( b, 0.5 ).w == - w * 0.5, 'Passed!' );
 
 			assert.ok( a.clone().lerp( b, 1 ).equals( b ), 'Passed!' );
+
+		} );
+
+		QUnit.test( 'iterable', ( assert ) => {
+
+			var v = new Vector4( 0, 0.3, 0.7, 1 );
+			var array = [ ...v ];
+			assert.strictEqual( array[ 0 ], 0, 'Vector4 is iterable.' );
+			assert.strictEqual( array[ 1 ], 0.3, 'Vector4 is iterable.' );
+			assert.strictEqual( array[ 2 ], 0.7, 'Vector4 is iterable.' );
+			assert.strictEqual( array[ 3 ], 1, 'Vector4 is iterable.' );
 
 		} );
 

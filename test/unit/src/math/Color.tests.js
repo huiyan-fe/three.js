@@ -1,8 +1,8 @@
 /* global QUnit */
 
-import { Color } from '../../../../src/math/Color';
-import { eps } from './Constants.tests';
-import { CONSOLE_LEVEL } from '../../utils/console-wrapper';
+import { Color } from '../../../../src/math/Color.js';
+import { eps } from './Constants.tests.js';
+import { CONSOLE_LEVEL } from '../../utils/console-wrapper.js';
 
 export default QUnit.module( 'Maths', () => {
 
@@ -648,6 +648,16 @@ export default QUnit.module( 'Maths', () => {
 			var c = new Color();
 			c.setStyle( 'powderblue' );
 			assert.ok( c.getHex() == 0xB0E0E6, 'Hex c: ' + c.getHex() );
+
+		} );
+
+		QUnit.test( 'iterable', ( assert ) => {
+
+			var c = new Color( 0.5, 0.75, 1 );
+			var array = [ ...c ];
+			assert.strictEqual( array[ 0 ], 0.5, 'Color is iterable.' );
+			assert.strictEqual( array[ 1 ], 0.75, 'Color is iterable.' );
+			assert.strictEqual( array[ 2 ], 1, 'Color is iterable.' );
 
 		} );
 
