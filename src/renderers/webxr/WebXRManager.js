@@ -7,12 +7,10 @@ import { WebGLAnimation } from '../webgl/WebGLAnimation.js';
 import { WebGLRenderTarget } from '../WebGLRenderTarget.js';
 import { WebXRController } from './WebXRController.js';
 import { DepthTexture } from '../../textures/DepthTexture.js';
-import { WebGLMultisampleRenderTarget } from '../WebGLMultisampleRenderTarget.js';
 import {
 	DepthFormat,
 	DepthStencilFormat,
 	RGBAFormat,
-	RGBFormat,
 	sRGBEncoding,
 	UnsignedByteType,
 	UnsignedShortType,
@@ -32,13 +30,12 @@ class WebXRManager extends EventDispatcher {
 
 		let referenceSpace = null;
 		let referenceSpaceType = 'local-floor';
-		const hasMultisampledRenderToTexture = renderer.extensions.has( 'WEBGL_multisampled_render_to_texture' );
+		let customReferenceSpace = null;
 
 		let pose = null;
 		let glBinding = null;
 		let glProjLayer = null;
 		let glBaseLayer = null;
-		let isMultisample = false;
 		let xrFrame = null;
 		const attributes = gl.getContextAttributes();
 		let initialRenderTarget = null;
@@ -124,7 +121,7 @@ class WebXRManager extends EventDispatcher {
 
 			const controller = inputSourcesMap.get( event.inputSource );
 
-			if ( controller ) {
+			if ( controller !== undefined ) {
 
 				controller.dispatchEvent( { type: event.type, data: event.inputSource } );
 
@@ -136,7 +133,11 @@ class WebXRManager extends EventDispatcher {
 
 			inputSourcesMap.forEach( function ( controller, inputSource ) {
 
-				controller.disconnect( inputSource );
+				if ( controller !== undefined ) {
+
+					controller.disconnect( inputSource );
+
+				}
 
 			} );
 
@@ -191,7 +192,13 @@ class WebXRManager extends EventDispatcher {
 
 		this.getReferenceSpace = function () {
 
-			return referenceSpace;
+			return customReferenceSpace || referenceSpace;
+
+		};
+
+		this.setReferenceSpace = function ( space ) {
+
+			customReferenceSpace = space;
 
 		};
 
@@ -268,7 +275,6 @@ class WebXRManager extends EventDispatcher {
 
 				} else {
 
-					isMultisample = attributes.antialias;
 					let depthFormat = null;
 					let depthType = null;
 					let glDepthFormat = null;
@@ -282,16 +288,10 @@ class WebXRManager extends EventDispatcher {
 					}
 
 					const projectionlayerInit = {
-						colorFormat: ( attributes.alpha || isMultisample ) ? gl.RGBA8 : gl.RGB8,
+						colorFormat: ( renderer.outputEncoding === sRGBEncoding ) ? gl.SRGB8_ALPHA8 : gl.RGBA8,
 						depthFormat: glDepthFormat,
 						scaleFactor: framebufferScaleFactor
 					};
-
-					if ( renderer.outputEncoding === sRGBEncoding ) {
-
-						projectionlayerInit.colorFormat = ( attributes.alpha || isMultisample ) ? gl.SRGB8_ALPHA8 : gl.SRGB8;
-
-					}
 
 					glBinding = new XRWebGLBinding( session, gl );
 
@@ -299,38 +299,24 @@ class WebXRManager extends EventDispatcher {
 
 					session.updateRenderState( { layers: [ glProjLayer ] } );
 
-					if ( isMultisample ) {
+					newRenderTarget = new WebGLRenderTarget(
+						glProjLayer.textureWidth,
+						glProjLayer.textureHeight,
+						{
+							format: RGBAFormat,
+							type: UnsignedByteType,
+							depthTexture: new DepthTexture( glProjLayer.textureWidth, glProjLayer.textureHeight, depthType, undefined, undefined, undefined, undefined, undefined, undefined, depthFormat ),
+							stencilBuffer: attributes.stencil,
+							encoding: renderer.outputEncoding,
+							samples: attributes.antialias ? 4 : 0
+						} );
 
-						newRenderTarget = new WebGLMultisampleRenderTarget(
-							glProjLayer.textureWidth,
-							glProjLayer.textureHeight,
-							{
-								format: RGBAFormat,
-								type: UnsignedByteType,
-								depthTexture: new DepthTexture( glProjLayer.textureWidth, glProjLayer.textureHeight, depthType, undefined, undefined, undefined, undefined, undefined, undefined, depthFormat ),
-								stencilBuffer: attributes.stencil,
-								ignoreDepth: glProjLayer.ignoreDepthValues,
-								useRenderToTexture: hasMultisampledRenderToTexture,
-								encoding: renderer.outputEncoding
-							} );
-
-					} else {
-
-						newRenderTarget = new WebGLRenderTarget(
-							glProjLayer.textureWidth,
-							glProjLayer.textureHeight,
-							{
-								format: attributes.alpha ? RGBAFormat : RGBFormat,
-								type: UnsignedByteType,
-								depthTexture: new DepthTexture( glProjLayer.textureWidth, glProjLayer.textureHeight, depthType, undefined, undefined, undefined, undefined, undefined, undefined, depthFormat ),
-								stencilBuffer: attributes.stencil,
-								ignoreDepth: glProjLayer.ignoreDepthValues,
-								encoding: renderer.outputEncoding
-							} );
-
-					}
+					const renderTargetProperties = renderer.properties.get( newRenderTarget );
+					renderTargetProperties.__ignoreDepthValues = glProjLayer.ignoreDepthValues;
 
 				}
+
+				newRenderTarget.isXRRenderTarget = true; // TODO Remove this when possible, see #23278
 
 				// Set foveation to maximum.
 				this.setFoveation( 1.0 );
@@ -352,11 +338,12 @@ class WebXRManager extends EventDispatcher {
 
 			const inputSources = session.inputSources;
 
-			// Assign inputSources to available controllers
+			// Assign controllers to available inputSources
 
-			for ( let i = 0; i < controllers.length; i ++ ) {
+			for ( let i = 0; i < inputSources.length; i ++ ) {
 
-				inputSourcesMap.set( inputSources[ i ], controllers[ i ] );
+				const index = inputSources[ i ].handedness === 'right' ? 1 : 0;
+				inputSourcesMap.set( inputSources[ i ], controllers[ index ] );
 
 			}
 
@@ -584,7 +571,7 @@ class WebXRManager extends EventDispatcher {
 
 		function onAnimationFrame( time, frame ) {
 
-			pose = frame.getViewerPose( referenceSpace );
+			pose = frame.getViewerPose( customReferenceSpace || referenceSpace );
 			xrFrame = frame;
 
 			if ( pose !== null ) {
@@ -666,10 +653,14 @@ class WebXRManager extends EventDispatcher {
 
 			for ( let i = 0; i < controllers.length; i ++ ) {
 
-				const controller = controllers[ i ];
 				const inputSource = inputSources[ i ];
+				const controller = inputSourcesMap.get( inputSource );
 
-				controller.update( inputSource, frame, referenceSpace );
+				if ( controller !== undefined ) {
+
+					controller.update( inputSource, frame, customReferenceSpace || referenceSpace );
+
+				}
 
 			}
 

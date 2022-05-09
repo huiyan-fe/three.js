@@ -14,7 +14,7 @@ import {
 	Matrix4,
 	MathUtils,
 	EventDispatcher
-} from '../../../build/three.module.js';
+} from 'three';
 
 //trackball state
 const STATE = {
@@ -1040,7 +1040,9 @@ class ArcballControls extends EventDispatcher {
 
 							}
 
-							this.applyTransformMatrix( this.scale( size, this._gizmos.position ) );
+							this._v3_1.setFromMatrixPosition(this._gizmoMatrixState);
+
+							this.applyTransformMatrix( this.scale( size, this._v3_1 ) );
 
 						}
 

@@ -11,7 +11,7 @@ import {
 	ShapeUtils,
 	Vector2,
 	Vector3
-} from '../../../build/three.module.js';
+} from 'three';
 
 class SVGLoader extends Loader {
 
@@ -71,7 +71,7 @@ class SVGLoader extends Loader {
 
 			const transform = getNodeTransform( node );
 
-			let traverseChildNodes = true;
+			let isDefsNode = false;
 
 			let path = null;
 
@@ -124,12 +124,14 @@ class SVGLoader extends Loader {
 					break;
 
 				case 'defs':
-					traverseChildNodes = false;
+					isDefsNode = true;
 					break;
 
 				case 'use':
 					style = parseStyle( node, style );
-					const usedNodeId = node.href.baseVal.substring( 1 );
+
+					const href = node.getAttributeNS( 'http://www.w3.org/1999/xlink', 'href' ) || '';
+					const usedNodeId = href.substring( 1 );
 					const usedNode = node.viewportElement.getElementById( usedNodeId );
 					if ( usedNode ) {
 
@@ -164,17 +166,25 @@ class SVGLoader extends Loader {
 
 			}
 
-			if ( traverseChildNodes ) {
+			const childNodes = node.childNodes;
 
-				const nodes = node.childNodes;
+			for ( let i = 0; i < childNodes.length; i ++ ) {
 
-				for ( let i = 0; i < nodes.length; i ++ ) {
+				const node = childNodes[ i ];
 
-					parseNode( nodes[ i ], style );
+				if ( isDefsNode && node.nodeName !== 'style' && node.nodeName !== 'defs' ) {
+
+					// Ignore everything in defs except CSS style definitions
+					// and nested defs, because it is OK by the standard to have
+					// <style/> there.
+					continue;
 
 				}
 
+				parseNode( node, style );
+
 			}
+
 
 			if ( transform ) {
 
@@ -216,7 +226,7 @@ class SVGLoader extends Loader {
 				const command = commands[ i ];
 
 				const type = command.charAt( 0 );
-				const data = command.substr( 1 ).trim();
+				const data = command.slice( 1 ).trim();
 
 				if ( isFirstPoint === true ) {
 
@@ -661,7 +671,7 @@ class SVGLoader extends Loader {
 
 					// Remove empty rules
 					const definitions = Object.fromEntries(
-						Object.entries( stylesheet.style ).filter( ( [ _, v ] ) => v !== '' )
+						Object.entries( stylesheet.style ).filter( ( [ , v ] ) => v !== '' )
 					);
 
 					stylesheets[ selectorList[ j ] ] = Object.assign(
@@ -1435,9 +1445,9 @@ class SVGLoader extends Loader {
 
 					if ( openParPos > 0 && openParPos < closeParPos ) {
 
-						const transformType = transformText.substr( 0, openParPos );
+						const transformType = transformText.slice( 0, openParPos );
 
-						const array = parseFloats( transformText.substr( openParPos + 1, closeParPos - openParPos - 1 ) );
+						const array = parseFloats( transformText.slice( openParPos + 1 ) );
 
 						currentTransform.identity();
 
