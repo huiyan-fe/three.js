@@ -1,7 +1,7 @@
 import {
 	Vector2,
 	Vector3
-} from 'three';
+} from 'bmap-three';
 
 /**
  * Shaders to render 3D volumes using raycasting.

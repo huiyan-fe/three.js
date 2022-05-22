@@ -1,5 +1,5 @@
 import { GPULoadOp, GPUStoreOp } from './constants.js';
-import { Color } from 'three';
+import { Color } from 'bmap-three';
 
 let _clearAlpha;
 const _clearColor = new Color();

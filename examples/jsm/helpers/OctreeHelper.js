@@ -3,7 +3,7 @@ import {
 	BufferGeometry,
 	Float32BufferAttribute,
 	LineBasicMaterial
-} from 'three';
+} from 'bmap-three';
 
 class OctreeHelper extends LineSegments {
 

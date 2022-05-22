@@ -7,7 +7,7 @@ import MathNode from '../math/MathNode.js';
 import { NodeUpdateType } from '../core/constants.js';
 import getDistanceAttenuation from '../functions/light/getDistanceAttenuation.js';
 
-import { Color } from 'three';
+import { Color } from 'bmap-three';
 
 class LightNode extends Node {
 

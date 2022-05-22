@@ -1,6 +1,6 @@
 import {
 	WireframeGeometry
-} from 'three';
+} from 'bmap-three';
 import { LineSegmentsGeometry } from '../lines/LineSegmentsGeometry.js';
 
 class WireframeGeometry2 extends LineSegmentsGeometry {

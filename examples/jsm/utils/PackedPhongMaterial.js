@@ -9,7 +9,7 @@ import {
 	ShaderChunk,
 	ShaderLib,
 	UniformsUtils,
-} from 'three';
+} from 'bmap-three';
 
 class PackedPhongMaterial extends MeshPhongMaterial {
 

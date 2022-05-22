@@ -19,7 +19,7 @@ import {
 	Scene,
 	Source,
 	Vector3
-} from 'three';
+} from 'bmap-three';
 
 
 class GLTFExporter {

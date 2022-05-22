@@ -5,7 +5,7 @@ import {
 	LineSegments,
 	Matrix3,
 	Mesh
-} from 'three';
+} from 'bmap-three';
 
 import { mergeBufferGeometries } from './BufferGeometryUtils.js';
 

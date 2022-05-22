@@ -5,7 +5,7 @@ import GLSLNodeParser from 'three-nodes/parsers/GLSLNodeParser.js';
 import WebGLPhysicalContextNode from './WebGLPhysicalContextNode.js';
 
 import { PerspectiveCamera, ShaderChunk, ShaderLib, UniformsUtils, UniformsLib,
-	LinearEncoding, RGBAFormat, UnsignedByteType, sRGBEncoding } from 'three';
+	LinearEncoding, RGBAFormat, UnsignedByteType, sRGBEncoding } from 'bmap-three';
 
 const nodeFrame = new NodeFrame();
 nodeFrame.camera = new PerspectiveCamera();

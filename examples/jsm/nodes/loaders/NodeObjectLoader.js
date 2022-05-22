@@ -1,6 +1,6 @@
 import NodeLoader from './NodeLoader.js';
 import NodeMaterialLoader from './NodeMaterialLoader.js';
-import { ObjectLoader } from 'three';
+import { ObjectLoader } from 'bmap-three';
 
 class NodeObjectLoader extends ObjectLoader {
 

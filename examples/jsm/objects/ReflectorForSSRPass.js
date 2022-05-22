@@ -12,7 +12,7 @@ import {
 	UnsignedShortType,
 	NearestFilter,
 	Plane
-} from 'three';
+} from 'bmap-three';
 
 class ReflectorForSSRPass extends Mesh {
 

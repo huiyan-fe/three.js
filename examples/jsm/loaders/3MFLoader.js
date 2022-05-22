@@ -19,7 +19,7 @@ import {
 	RepeatWrapping,
 	TextureLoader,
 	sRGBEncoding
-} from 'three';
+} from 'bmap-three';
 import * as fflate from '../libs/fflate.module.js';
 
 /**

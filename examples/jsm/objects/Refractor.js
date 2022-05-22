@@ -10,7 +10,7 @@ import {
 	Vector3,
 	Vector4,
 	WebGLRenderTarget
-} from 'three';
+} from 'bmap-three';
 
 class Refractor extends Mesh {
 

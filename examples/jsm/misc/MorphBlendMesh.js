@@ -1,7 +1,7 @@
 import {
 	MathUtils,
 	Mesh
-} from 'three';
+} from 'bmap-three';
 
 class MorphBlendMesh extends Mesh {
 

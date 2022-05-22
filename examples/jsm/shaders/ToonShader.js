@@ -1,7 +1,7 @@
 import {
 	Color,
 	Vector3
-} from 'three';
+} from 'bmap-three';
 
 /**
  * Currently contains:

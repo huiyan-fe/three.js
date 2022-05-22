@@ -15,7 +15,7 @@ import {
 	UniformsUtils,
 	Vector3,
 	Ray
-} from 'three';
+} from 'bmap-three';
 
 // Special surface finish tag types.
 // Note: "MATERIAL" tag (e.g. GLITTER, SPECKLE) is not implemented

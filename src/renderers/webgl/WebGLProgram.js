@@ -597,7 +597,6 @@ function WebGLProgram( renderer, cacheKey, parameters, bindingStates ) {
 			'\n'
 
 		].filter( filterEmptyLine ).join( '\n' );
-
 		prefixFragment = [
 
 			customExtensions,

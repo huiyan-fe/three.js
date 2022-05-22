@@ -1,6 +1,6 @@
 import {
 	Vector2
-} from 'three';
+} from 'bmap-three';
 
 /**
  * Dot screen shader

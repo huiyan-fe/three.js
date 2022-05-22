@@ -1,7 +1,7 @@
 import {
 	Color,
 	MathUtils
-} from 'three';
+} from 'bmap-three';
 
 class Lut {
 

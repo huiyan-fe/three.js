@@ -1,4 +1,4 @@
-import { WebGLRenderTarget } from 'three';
+import { WebGLRenderTarget } from 'bmap-three';
 
 class WebGPUTextureRenderer {
 

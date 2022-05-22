@@ -5,7 +5,7 @@ import {
 	Loader,
 	LoaderUtils,
 	Color
-} from 'three';
+} from 'bmap-three';
 
 /**
  * Description: A THREE loader for PLY ASCII files (known as the Polygon

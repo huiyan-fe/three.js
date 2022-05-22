@@ -117,7 +117,6 @@ class PMREMGenerator {
 		}
 		this._setSize( 256 );
 
-		const cubeUVRenderTarget = this._allocateTargets();
 		cubeUVRenderTarget.depthBuffer = true;
 
 		this._sceneToCubeUV( scene, near, far, cubeUVRenderTarget );
@@ -135,12 +134,24 @@ class PMREMGenerator {
 
 	}
 
+	prepareForRenderTarget ( cubeUVRenderTarget, pingPongRenderTarget = null, cubeSize = 256 ) {
+		this._setSize( cubeSize );
+		const { _lodMax } = this;
+		( { sizeLods: this._sizeLods, lodPlanes: this._lodPlanes, sigmas: this._sigmas } = _createPlanes( _lodMax ) );
+		const width = 3 * Math.max( this._cubeSize, 16 * 7 );
+		const height = 4 * this._cubeSize;
+		this._blurMaterial = _getBlurShader( _lodMax, width, height );
+		cubeUVRenderTarget.setSize( width, height );
+		if (pingPongRenderTarget) {
+			pingPongRenderTarget.setSize( width, height);
+		}
+	}
+
 	fromSceneToRenderTarget( scene, cubeUVRenderTarget, pingPongRenderTarget, sigma = 0, near = 0.1, far = 100 ) {
 
 		_oldTarget = this._renderer.getRenderTarget();
 
 		this._pingPongRenderTarget = pingPongRenderTarget;
-
 
 		this._sceneToCubeUV( scene, near, far, cubeUVRenderTarget );
 		if ( sigma > 0 ) {
@@ -882,6 +893,16 @@ function _getCommonVertexShader() {
 
 		varying vec3 vOutputDirection;
 
+		mat3 getRotationMatrix(vec3 axis, float angle) {
+			axis = normalize(axis);
+			float s = sin(angle);
+			float c = cos(angle);
+			float oc = 1.0 - c;
+		
+			return mat3(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,
+						oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,
+						oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c);
+		}
 		// RH coordinate system; PMREM face-indexing convention
 		vec3 getDirection( vec2 uv, float face ) {
 
@@ -917,7 +938,8 @@ function _getCommonVertexShader() {
 				direction.z *= -1.0; // ( u, v, -1 ) neg z
 
 			}
-
+			mat3 rotationMatrix = getRotationMatrix(vec3(1.0, 0.0, 0.0), 1.57);
+			direction = rotationMatrix * direction;
 			return direction;
 
 		}

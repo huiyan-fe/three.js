@@ -5,7 +5,7 @@ import {
 	MeshBasicMaterial,
 	PlaneGeometry,
 	sRGBEncoding
-} from 'three';
+} from 'bmap-three';
 
 class HTMLMesh extends Mesh {
 

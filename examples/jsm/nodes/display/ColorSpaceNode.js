@@ -1,7 +1,7 @@
 import TempNode from '../core/Node.js';
 import { ShaderNode, vec3, pow, mul, sub, mix, vec4, lessThanEqual } from '../shadernode/ShaderNodeBaseElements.js';
 
-import { LinearEncoding, sRGBEncoding } from 'three';
+import { LinearEncoding, sRGBEncoding } from 'bmap-three';
 
 export const LinearToLinear = new ShaderNode( ( inputs ) => {
 

@@ -3,7 +3,7 @@ import {
 	Mesh,
 	BufferAttribute,
 	BufferGeometry
-} from 'three';
+} from 'bmap-three';
 
 import { mergeGroups } from './BufferGeometryUtils.js';
 

@@ -1,6 +1,6 @@
 import {
 	WebGLRenderTarget
-} from 'three';
+} from 'bmap-three';
 import { SSAARenderPass } from './SSAARenderPass.js';
 
 /**

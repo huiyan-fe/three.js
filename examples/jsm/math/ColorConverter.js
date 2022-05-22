@@ -1,6 +1,6 @@
 import {
 	MathUtils
-} from 'three';
+} from 'bmap-three';
 
 const _hsl = {};
 

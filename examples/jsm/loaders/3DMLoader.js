@@ -22,7 +22,7 @@ import {
 	LinearFilter,
 	ClampToEdgeWrapping,
 	TextureLoader
-} from 'three';
+} from 'bmap-three';
 
 const _taskCache = new WeakMap();
 

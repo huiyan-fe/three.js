@@ -1,5 +1,5 @@
 import NodeMaterial from './NodeMaterial.js';
-import { PointsMaterial } from 'three';
+import { PointsMaterial } from 'bmap-three';
 
 const defaultValues = new PointsMaterial();
 

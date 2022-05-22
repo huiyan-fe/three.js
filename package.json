@@ -1,6 +1,6 @@
 {
   "name": "bmap-three",
-  "version": "0.136.8",
+  "version": "0.140.1",
   "description": "JavaScript 3D library",
   "type": "module",
   "main": "./build/three.js",

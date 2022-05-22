@@ -4,7 +4,7 @@ import {
 	ShaderMaterial,
 	UniformsLib,
 	UniformsUtils
-} from 'three';
+} from 'bmap-three';
 
 /**
  * Reference: https://en.wikipedia.org/wiki/Cel_shading

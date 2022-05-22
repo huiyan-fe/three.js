@@ -4,7 +4,7 @@ import {
 	Float32BufferAttribute,
 	Vector2,
 	Vector3
-} from 'three';
+} from 'bmap-three';
 
 /**
  * Break faces with edges longer than maxEdgeLength

@@ -6,7 +6,7 @@ import {
 	MeshStandardMaterial,
 	PointLight,
 	Scene,
-} from 'three';
+} from 'bmap-three';
 
 class DebugEnvironment extends Scene {
 

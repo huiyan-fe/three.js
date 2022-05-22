@@ -1,6 +1,6 @@
 import {
 	Color
-} from 'three';
+} from 'bmap-three';
 
 /**
  * Colorify shader

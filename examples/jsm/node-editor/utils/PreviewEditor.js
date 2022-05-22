@@ -3,7 +3,7 @@ import { ViewHelper } from 'three-addons/helpers/ViewHelper.js';
 import { Element, LabelElement, SelectInput } from '../../libs/flow.module.js';
 import { BaseNode } from '../core/BaseNode.js';
 import { MeshBasicNodeMaterial, ConstNode } from 'three-nodes/Nodes.js';
-import { WebGLRenderer, PerspectiveCamera, Scene, Mesh, DoubleSide, SphereGeometry, BoxGeometry, PlaneGeometry, TorusKnotGeometry } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Scene, Mesh, DoubleSide, SphereGeometry, BoxGeometry, PlaneGeometry, TorusKnotGeometry } from 'bmap-three';
 
 const nullValue = new ConstNode( 0 );
 

@@ -8,7 +8,7 @@ import {
 import getRoughness from '../functions/material/getRoughness.js';
 import PhysicalLightingModel from '../functions/PhysicalLightingModel.js';
 
-import { MeshStandardMaterial } from 'three';
+import { MeshStandardMaterial } from 'bmap-three';
 
 const defaultValues = new MeshStandardMaterial();
 

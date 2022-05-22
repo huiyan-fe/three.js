@@ -1,5 +1,5 @@
 import NodeMaterial from './NodeMaterial.js';
-import { MeshBasicMaterial } from 'three';
+import { MeshBasicMaterial } from 'bmap-three';
 
 const defaultValues = new MeshBasicMaterial();
 

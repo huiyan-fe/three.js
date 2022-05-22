@@ -3,7 +3,7 @@ import LineBasicNodeMaterial from './LineBasicNodeMaterial.js';
 import MeshBasicNodeMaterial from './MeshBasicNodeMaterial.js';
 import MeshStandardNodeMaterial from './MeshStandardNodeMaterial.js';
 import PointsNodeMaterial from './PointsNodeMaterial.js';
-import { Material } from 'three';
+import { Material } from 'bmap-three';
 
 export {
 	NodeMaterial,

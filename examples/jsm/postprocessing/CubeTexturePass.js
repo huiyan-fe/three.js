@@ -7,7 +7,7 @@ import {
 	ShaderLib,
 	ShaderMaterial,
 	UniformsUtils
-} from 'three';
+} from 'bmap-three';
 import { Pass } from './Pass.js';
 
 class CubeTexturePass extends Pass {

@@ -6,7 +6,7 @@ import {
 	OrthographicCamera,
 	Vector2,
 	WebGLRenderTarget
-} from 'three';
+} from 'bmap-three';
 import { CopyShader } from '../shaders/CopyShader.js';
 import { ShaderPass } from './ShaderPass.js';
 import { MaskPass } from './MaskPass.js';
