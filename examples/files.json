@@ -300,6 +300,7 @@
 		"webgl2_materials_texture3d",
 		"webgl2_materials_texture3d_partialupdate",
 		"webgl2_multiple_rendertargets",
+		"webgl2_multiple_rendertargets_multisampled",
 		"webgl2_multisampled_renderbuffers",
 		"webgl2_rendertarget_texture2darray",
 		"webgl2_volume_cloud",
@@ -308,18 +309,21 @@
 	],
 	"webgpu": [
 		"webgpu_compute",
+		"webgpu_cubemap_mix",
 		"webgpu_depth_texture",
 		"webgpu_instance_mesh",
 		"webgpu_instance_uniform",
 		"webgpu_lights_custom",
 		"webgpu_lights_selective",
+		"webgpu_loader_gltf",
 		"webgpu_materials",
 		"webgpu_nodes_playground",
 		"webgpu_rtt",
 		"webgpu_sandbox",
 		"webgpu_skinning",
 		"webgpu_skinning_instancing",
-		"webgpu_skinning_points"
+		"webgpu_skinning_points",
+		"webgpu_sprites"
 	],
 	"webaudio": [
 		"webaudio_orientation",
