@@ -1,8 +1,11 @@
 import {
 	BufferAttribute,
 	BufferGeometry,
+	Color,
 	FileLoader,
-	Loader
+	Loader,
+	LinearSRGBColorSpace,
+	SRGBColorSpace
 } from 'three';
 
 const _taskCache = new WeakMap();
@@ -73,51 +76,32 @@ class DRACOLoader extends Loader {
 
 		loader.load( url, ( buffer ) => {
 
-			const taskConfig = {
-				attributeIDs: this.defaultAttributeIDs,
-				attributeTypes: this.defaultAttributeTypes,
-				useUniqueIDs: false
-			};
-
-			this.decodeGeometry( buffer, taskConfig )
-				.then( onLoad )
-				.catch( onError );
+			this.parse( buffer, onLoad, onError );
 
 		}, onProgress, onError );
 
 	}
 
-	/** @deprecated Kept for backward-compatibility with previous DRACOLoader versions. */
-	decodeDracoFile( buffer, callback, attributeIDs, attributeTypes ) {
+	parse ( buffer, onLoad, onError ) {
+
+		this.decodeDracoFile( buffer, onLoad, null, null, SRGBColorSpace ).catch( onError );
+
+	}
+
+	decodeDracoFile( buffer, callback, attributeIDs, attributeTypes, vertexColorSpace = LinearSRGBColorSpace ) {
 
 		const taskConfig = {
 			attributeIDs: attributeIDs || this.defaultAttributeIDs,
 			attributeTypes: attributeTypes || this.defaultAttributeTypes,
-			useUniqueIDs: !! attributeIDs
+			useUniqueIDs: !! attributeIDs,
+			vertexColorSpace: vertexColorSpace,
 		};
 
-		this.decodeGeometry( buffer, taskConfig ).then( callback );
+		return this.decodeGeometry( buffer, taskConfig ).then( callback );
 
 	}
 
 	decodeGeometry( buffer, taskConfig ) {
-
-		// TODO: For backward-compatibility, support 'attributeTypes' objects containing
-		// references (rather than names) to typed array constructors. These must be
-		// serialized before sending them to the worker.
-		for ( const attribute in taskConfig.attributeTypes ) {
-
-			const type = taskConfig.attributeTypes[ attribute ];
-
-			if ( type.BYTES_PER_ELEMENT !== undefined ) {
-
-				taskConfig.attributeTypes[ attribute ] = type.name;
-
-			}
-
-		}
-
-		//
 
 		const taskKey = JSON.stringify( taskConfig );
 
@@ -214,16 +198,44 @@ class DRACOLoader extends Loader {
 
 		for ( let i = 0; i < geometryData.attributes.length; i ++ ) {
 
-			const attribute = geometryData.attributes[ i ];
-			const name = attribute.name;
-			const array = attribute.array;
-			const itemSize = attribute.itemSize;
+			const result = geometryData.attributes[ i ];
+			const name = result.name;
+			const array = result.array;
+			const itemSize = result.itemSize;
 
-			geometry.setAttribute( name, new BufferAttribute( array, itemSize ) );
+			const attribute = new BufferAttribute( array, itemSize );
+
+			if ( name === 'color' ) {
+
+				this._assignVertexColorSpace( attribute, result.vertexColorSpace );
+
+			}
+
+			geometry.setAttribute( name, attribute );
 
 		}
 
 		return geometry;
+
+	}
+
+	_assignVertexColorSpace( attribute, inputColorSpace ) {
+
+		// While .drc files do not specify colorspace, the only 'official' tooling
+		// is PLY and OBJ converters, which use sRGB. We'll assume sRGB when a .drc
+		// file is passed into .load() or .parse(). GLTFLoader uses internal APIs
+		// to decode geometry, and vertex colors are already Linear-sRGB in there.
+
+		if ( inputColorSpace !== SRGBColorSpace ) return;
+
+		const _color = new Color();
+
+		for ( let i = 0, il = attribute.count; i < il; i ++ ) {
+
+			_color.fromBufferAttribute( attribute, i ).convertSRGBToLinear();
+			attribute.setXYZ( i, _color.r, _color.g, _color.b );
+
+		}
 
 	}
 
@@ -377,6 +389,12 @@ class DRACOLoader extends Loader {
 
 		this.workerPool.length = 0;
 
+		if ( this.workerSourceURL !== '' ) {
+
+			URL.revokeObjectURL( this.workerSourceURL );
+
+		}
+
 		return this;
 
 	}
@@ -513,7 +531,15 @@ function DRACOWorker() {
 
 			}
 
-			geometry.attributes.push( decodeAttribute( draco, decoder, dracoGeometry, attributeName, attributeType, attribute ) );
+			const attributeResult = decodeAttribute( draco, decoder, dracoGeometry, attributeName, attributeType, attribute );
+
+			if ( attributeName === 'color' ) {
+
+				attributeResult.vertexColorSpace = taskConfig.vertexColorSpace;
+
+			}
+
+			geometry.attributes.push( attributeResult );
 
 		}
 

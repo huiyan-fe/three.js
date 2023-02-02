@@ -1,17 +1,10 @@
 /* global QUnit */
 
-// import { FogExp2 } from '../../../../src/scenes/FogExp2.js';
+import { FogExp2 } from '../../../../src/scenes/FogExp2.js';
 
-export default QUnit.module( 'FoxExp2', () => {
+export default QUnit.module( 'Scenes', () => {
 
-	QUnit.module( 'Scene', () => {
-
-		// INHERITANCE
-		QUnit.todo( 'Extending', ( assert ) => {
-
-			assert.ok( false, 'everything\'s gonna be alright' );
-
-		} );
+	QUnit.module( 'FoxExp2', () => {
 
 		// INSTANCING
 		QUnit.todo( 'Instancing', ( assert ) => {
@@ -20,10 +13,33 @@ export default QUnit.module( 'FoxExp2', () => {
 
 		} );
 
-		// PUBLIC STUFF
-		QUnit.todo( 'isFogExp2', ( assert ) => {
+		// PROPERTIES
+		QUnit.todo( 'name', ( assert ) => {
 
 			assert.ok( false, 'everything\'s gonna be alright' );
+
+		} );
+
+		QUnit.todo( 'color', ( assert ) => {
+
+			assert.ok( false, 'everything\'s gonna be alright' );
+
+		} );
+
+		QUnit.todo( 'density', ( assert ) => {
+
+			assert.ok( false, 'everything\'s gonna be alright' );
+
+		} );
+
+		// PUBLIC STUFF
+		QUnit.test( 'isFogExp2', ( assert ) => {
+
+			const object = new FogExp2();
+			assert.ok(
+				object.isFogExp2,
+				'FogExp2.isFogExp2 should be true'
+			);
 
 		} );
 

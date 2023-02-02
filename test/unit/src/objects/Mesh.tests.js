@@ -1,5 +1,6 @@
 /* global QUnit */
 
+import { Object3D } from '../../../../src/core/Object3D.js';
 import { Mesh } from '../../../../src/objects/Mesh.js';
 import { Raycaster } from '../../../../src/core/Raycaster.js';
 import { PlaneGeometry } from '../../../../src/geometries/PlaneGeometry.js';
@@ -12,9 +13,11 @@ export default QUnit.module( 'Objects', () => {
 	QUnit.module( 'Mesh', () => {
 
 		// INHERITANCE
-		QUnit.todo( 'Extending', ( assert ) => {
+		QUnit.test( 'Extending', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			var mesh = new Mesh();
+
+			assert.strictEqual( mesh instanceof Object3D, true, 'Mesh extends from Object3D' );
 
 		} );
 
@@ -25,22 +28,58 @@ export default QUnit.module( 'Objects', () => {
 
 		} );
 
-		// PUBLIC STUFF
-		QUnit.todo( 'isMesh', ( assert ) => {
+		// PROPERTIES
+		QUnit.test( 'type', ( assert ) => {
+
+			const object = new Mesh();
+			assert.ok(
+				object.type === 'Mesh',
+				'Mesh.type should be Mesh'
+			);
+
+		} );
+
+		QUnit.todo( 'geometry', ( assert ) => {
 
 			assert.ok( false, 'everything\'s gonna be alright' );
 
 		} );
+
+		QUnit.todo( 'material', ( assert ) => {
+
+			assert.ok( false, 'everything\'s gonna be alright' );
+
+		} );
+
+		// PUBLIC
+		QUnit.test( 'isMesh', ( assert ) => {
+
+			const object = new Mesh();
+			assert.ok(
+				object.isMesh,
+				'Mesh.isMesh should be true'
+			);
+
+		} );
+
 		QUnit.todo( 'copy', ( assert ) => {
 
 			assert.ok( false, 'everything\'s gonna be alright' );
 
 		} );
+
 		QUnit.todo( 'updateMorphTargets', ( assert ) => {
 
 			assert.ok( false, 'everything\'s gonna be alright' );
 
 		} );
+
+		QUnit.todo( 'getVertexPosition', ( assert ) => {
+
+			assert.ok( false, 'everything\'s gonna be alright' );
+
+		} );
+
 		QUnit.todo( 'raycast', ( assert ) => {
 
 			const geometry = new PlaneGeometry();
@@ -66,12 +105,6 @@ export default QUnit.module( 'Objects', () => {
 			assert.deepEqual( intersection.uv, new Vector2( 0.75, 0.75 ), 'intersction uv' );
 
 		} );
-		QUnit.todo( 'clone', ( assert ) => {
-
-			assert.ok( false, 'everything\'s gonna be alright' );
-
-		} );
-
 
 	} );
 

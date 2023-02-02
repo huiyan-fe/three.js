@@ -4,7 +4,7 @@ import { Euler } from '../../../../src/math/Euler.js';
 import { Matrix4 } from '../../../../src/math/Matrix4.js';
 import { Quaternion } from '../../../../src/math/Quaternion.js';
 import { Vector3 } from '../../../../src/math/Vector3.js';
-import { x, y, z } from './Constants.tests.js';
+import { x, y, z } from '../../utils/math-constants.js';
 
 const eulerZero = new Euler( 0, 0, 0, 'XYZ' );
 const eulerAxyz = new Euler( 1, 0, 0, 'XYZ' );
@@ -58,16 +58,10 @@ export default QUnit.module( 'Maths', () => {
 		} );
 
 		// STATIC STUFF
-		QUnit.test( 'RotationOrders', ( assert ) => {
 
-			assert.ok( Array.isArray( Euler.RotationOrders ), 'Passed!' );
-			assert.deepEqual( Euler.RotationOrders, [ 'XYZ', 'YZX', 'ZXY', 'XZY', 'YXZ', 'ZYX' ], 'Passed!' );
+		QUnit.test( 'DEFAULT_ORDER', ( assert ) => {
 
-		} );
-
-		QUnit.test( 'DefaultOrder', ( assert ) => {
-
-			assert.equal( Euler.DefaultOrder, 'XYZ', 'Passed!' );
+			assert.equal( Euler.DEFAULT_ORDER, 'XYZ', 'Passed!' );
 
 
 		} );
@@ -163,10 +157,10 @@ export default QUnit.module( 'Maths', () => {
 
 
 			var a = new Euler();
-			assert.ok( a.order === Euler.DefaultOrder, 'Passed!' );
+			assert.ok( a.order === Euler.DEFAULT_ORDER, 'Passed!' );
 
 			a = new Euler( 1, 2, 3 );
-			assert.ok( a.order === Euler.DefaultOrder, 'Passed!' );
+			assert.ok( a.order === Euler.DEFAULT_ORDER, 'Passed!' );
 
 			a = new Euler( 4, 5, 6, 'YZX' );
 			assert.ok( a.order === 'YZX', 'Passed!' );
@@ -214,7 +208,7 @@ export default QUnit.module( 'Maths', () => {
 
 		} );
 
-		QUnit.test( 'Quaternion.setFromEuler/Euler.fromQuaternion', ( assert ) => {
+		QUnit.test( 'Quaternion.setFromEuler/Euler.setFromQuaternion', ( assert ) => {
 
 			var testValues = [ eulerZero, eulerAxyz, eulerAzyx ];
 			for ( var i = 0; i < testValues.length; i ++ ) {
@@ -230,7 +224,7 @@ export default QUnit.module( 'Maths', () => {
 
 		} );
 
-		QUnit.test( 'Matrix4.setFromEuler/Euler.fromRotationMatrix', ( assert ) => {
+		QUnit.test( 'Matrix4.makeRotationFromEuler/Euler.setFromRotationMatrix', ( assert ) => {
 
 			var testValues = [ eulerZero, eulerAxyz, eulerAzyx ];
 			for ( var i = 0; i < testValues.length; i ++ ) {
@@ -243,6 +237,13 @@ export default QUnit.module( 'Maths', () => {
 				assert.ok( matrixEquals4( m, m2, 0.0001 ), 'Passed!' );
 
 			}
+
+		} );
+
+		QUnit.todo( 'Euler.setFromVector3', ( assert ) => {
+
+			// setFromVector3( v, order = this._order )
+			assert.ok( false, 'everything\'s gonna be alright' );
 
 		} );
 

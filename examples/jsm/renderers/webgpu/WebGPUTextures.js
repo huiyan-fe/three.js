@@ -399,7 +399,7 @@ class WebGPUTextures {
 		const data = image.data;
 
 		const bytesPerTexel = this._getBytesPerTexel( format );
-		const bytesPerRow = Math.ceil( image.width * bytesPerTexel / 256 ) * 256;
+		const bytesPerRow = image.width * bytesPerTexel;
 
 		this.device.queue.writeTexture(
 			{
@@ -428,7 +428,7 @@ class WebGPUTextures {
 
 			if ( image.isDataTexture ) {
 
-				this._copyBufferToTexture( image.image, format, textureGPU, { z : i } );
+				this._copyBufferToTexture( image.image, format, textureGPU, { z: i } );
 
 				if ( needsMipmaps === true ) this._generateMipmaps( textureGPU, textureGPUDescriptor, i );
 
@@ -436,7 +436,7 @@ class WebGPUTextures {
 
 				this._getImageBitmap( image, texture ).then( imageBitmap => {
 
-					this._copyExternalImageToTexture( imageBitmap, textureGPU, { z : i } );
+					this._copyExternalImageToTexture( imageBitmap, textureGPU, { z: i } );
 
 					if ( needsMipmaps === true ) this._generateMipmaps( textureGPU, textureGPUDescriptor, i );
 
@@ -716,8 +716,8 @@ class WebGPUTextures {
 
 			const faceImage = image.length > 0 ? image[ 0 ].image || image[ 0 ] : null;
 
-			width = faceImage?.width || 1;
-			height = faceImage?.height || 1;
+			width = faceImage ? faceImage.width : 1;
+			height = faceImage ? faceImage.height : 1;
 			depth = 6; // one image for each side of the cube map
 
 		} else if ( image !== null ) {

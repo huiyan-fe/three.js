@@ -39,7 +39,8 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js"
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
@@ -48,10 +49,10 @@
 
 			import * as THREE from 'three';
 
-			import { OrbitControls } from './jsm/controls/OrbitControls.js';
-			import { Rhino3dmLoader } from './jsm/loaders/3DMLoader.js';
+			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+			import { Rhino3dmLoader } from 'three/addons/loaders/3DMLoader.js';
 
-			import { GUI } from './jsm/libs/lil-gui.module.min.js';
+			import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 			let camera, scene, renderer;
 			let controls, gui;
@@ -61,7 +62,7 @@
 
 			function init() {
 
-				THREE.Object3D.DefaultUp = new THREE.Vector3( 0, 0, 1 );
+				THREE.Object3D.DEFAULT_UP.set( 0, 0, 1 );
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
