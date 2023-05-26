@@ -19,15 +19,21 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js"
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
 
 		<script type="module">
 
+<<<<<<< HEAD
 			import * as THREE from 'bmap-three';
 			import { ARButton } from './jsm/webxr/ARButton.js';
+=======
+			import * as THREE from 'three';
+			import { ARButton } from 'three/addons/webxr/ARButton.js';
+>>>>>>> mrdoob-dev
 
 			let container;
 			let camera, scene, renderer;

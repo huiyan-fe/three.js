@@ -1,12 +1,12 @@
 /* global QUnit */
 
-import { DataUtils } from '../../../../src/extras/DataUtils.js';
+import * as DataUtils from '../../../../src/extras/DataUtils.js';
 
 export default QUnit.module( 'Extras', () => {
 
 	QUnit.module( 'DataUtils', () => {
 
-		// PUBLIC STUFF
+		// PUBLIC
 		QUnit.test( 'toHalfFloat', ( assert ) => {
 
 			assert.ok( DataUtils.toHalfFloat( 0 ) === 0, 'Passed!' );

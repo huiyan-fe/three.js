@@ -26,15 +26,21 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js"
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
 
 		<script type="module">
 
+<<<<<<< HEAD
 			import * as THREE from 'bmap-three';
 			import { VRButton } from './jsm/webxr/VRButton.js';
+=======
+			import * as THREE from 'three';
+			import { VRButton } from 'three/addons/webxr/VRButton.js';
+>>>>>>> mrdoob-dev
 
 			let camera, scene, renderer;
 

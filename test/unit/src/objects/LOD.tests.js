@@ -18,6 +18,16 @@ export default QUnit.module( 'Objects', () => {
 		} );
 
 		// PROPERTIES
+		QUnit.test( 'type', ( assert ) => {
+
+			const object = new LOD();
+			assert.ok(
+				object.type === 'LOD',
+				'LOD.type should be LOD'
+			);
+
+		} );
+
 		QUnit.test( 'levels', ( assert ) => {
 
 			var lod = new LOD();
@@ -30,20 +40,21 @@ export default QUnit.module( 'Objects', () => {
 
 		QUnit.test( 'autoUpdate', ( assert ) => {
 
-			var lod = new LOD();
+			const lod = new LOD();
 
 			assert.strictEqual( lod.autoUpdate, true, 'LOD.autoUpdate is of type boolean and true by default.' );
 
 		} );
 
-		// PUBLIC STUFF
+		// PUBLIC
 		QUnit.test( 'isLOD', ( assert ) => {
 
-			var lod = new LOD();
+			const lod = new LOD();
 
 			assert.strictEqual( lod.isLOD, true, '.isLOD property is defined.' );
 
 		} );
+
 		QUnit.test( 'copy', ( assert ) => {
 
 			var lod1 = new LOD();
@@ -65,6 +76,7 @@ export default QUnit.module( 'Objects', () => {
 			assert.strictEqual( lod2.levels.length, 3, 'LOD.levels has the correct length after the copy.' );
 
 		} );
+
 		QUnit.test( 'addLevel', ( assert ) => {
 
 			var lod = new LOD();
@@ -73,16 +85,23 @@ export default QUnit.module( 'Objects', () => {
 			var mid = new Object3D();
 			var low = new Object3D();
 
-			lod.addLevel( high, 5 );
-			lod.addLevel( mid, 25 );
-			lod.addLevel( low, 50 );
+			lod.addLevel( high, 5, 0.00 );
+			lod.addLevel( mid, 25, 0.05 );
+			lod.addLevel( low, 50, 0.10 );
 
 			assert.strictEqual( lod.levels.length, 3, 'LOD.levels has the correct length.' );
-			assert.deepEqual( lod.levels[ 0 ], { distance: 5, object: high }, 'First entry correct.' );
-			assert.deepEqual( lod.levels[ 1 ], { distance: 25, object: mid }, 'Second entry correct.' );
-			assert.deepEqual( lod.levels[ 2 ], { distance: 50, object: low }, 'Third entry correct.' );
+			assert.deepEqual( lod.levels[ 0 ], { distance: 5, object: high, hysteresis: 0.00 }, 'First entry correct.' );
+			assert.deepEqual( lod.levels[ 1 ], { distance: 25, object: mid, hysteresis: 0.05 }, 'Second entry correct.' );
+			assert.deepEqual( lod.levels[ 2 ], { distance: 50, object: low, hysteresis: 0.10 }, 'Third entry correct.' );
 
 		} );
+
+		QUnit.todo( 'getCurrentLevel', ( assert ) => {
+
+			assert.ok( false, 'everything\'s gonna be alright' );
+
+		} );
+
 		QUnit.test( 'getObjectForDistance', ( assert ) => {
 
 			var lod = new LOD();
@@ -108,6 +127,7 @@ export default QUnit.module( 'Objects', () => {
 			assert.strictEqual( lod.getObjectForDistance( 60 ), low, 'Returns the low resolution object.' );
 
 		} );
+
 		QUnit.test( 'raycast', ( assert ) => {
 
 			var lod = new LOD();
@@ -119,11 +139,13 @@ export default QUnit.module( 'Objects', () => {
 			assert.strictEqual( intersections.length, 0, 'Does not fail if raycasting is used with a LOD object without levels.' );
 
 		} );
+
 		QUnit.todo( 'update', ( assert ) => {
 
 			assert.ok( false, 'everything\'s gonna be alright' );
 
 		} );
+
 		QUnit.todo( 'toJSON', ( assert ) => {
 
 			assert.ok( false, 'everything\'s gonna be alright' );

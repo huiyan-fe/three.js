@@ -27,14 +27,20 @@
 <script type="importmap">
 {
   "imports": {
-    "three": "../../build/three.module.js"
+    "three": "../../build/three.module.js",
+    "three/addons/": "../../examples/jsm/"
   }
 }
 </script>
 
 <script type="module">
+<<<<<<< HEAD
 import * as THREE from 'bmap-three';
 import {OrbitControls} from '../../examples/jsm/controls/OrbitControls.js';
+=======
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+>>>>>>> mrdoob-dev
 
 class VoxelWorld {
   constructor(cellSize) {

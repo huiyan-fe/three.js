@@ -15,7 +15,11 @@ class STLExporter {
 
 	parse( scene, options = {} ) {
 
-		const binary = options.binary !== undefined ? options.binary : false;
+		options = Object.assign( {
+			binary: false
+		}, options );
+
+		const binary = options.binary;
 
 		//
 
@@ -27,12 +31,6 @@ class STLExporter {
 			if ( object.isMesh ) {
 
 				const geometry = object.geometry;
-
-				if ( geometry.isBufferGeometry !== true ) {
-
-					throw new Error( 'THREE.STLExporter: Geometry is not of type THREE.BufferGeometry.' );
-
-				}
 
 				const index = geometry.index;
 				const positionAttribute = geometry.getAttribute( 'position' );

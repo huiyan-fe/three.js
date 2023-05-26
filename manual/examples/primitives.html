@@ -27,16 +27,24 @@
 <script type="importmap">
 {
   "imports": {
-    "three": "../../build/three.module.js"
+    "three": "../../build/three.module.js",
+    "three/addons/": "../../examples/jsm/"
   }
 }
 </script>
 
 <script type="module">
+<<<<<<< HEAD
 import * as THREE from 'bmap-three';
 import {FontLoader} from '../../examples/jsm/loaders/FontLoader.js';
 import {ParametricGeometry} from '../../examples/jsm/geometries/ParametricGeometry.js';
 import {TextGeometry} from '../../examples/jsm/geometries/TextGeometry.js';
+=======
+import * as THREE from 'three';
+import {FontLoader} from 'three/addons/loaders/FontLoader.js';
+import {ParametricGeometry} from 'three/addons/geometries/ParametricGeometry.js';
+import {TextGeometry} from 'three/addons/geometries/TextGeometry.js';
+>>>>>>> mrdoob-dev
 
 function main() {
   const canvas = document.querySelector('#c');

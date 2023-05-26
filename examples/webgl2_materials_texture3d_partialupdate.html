@@ -19,18 +19,25 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js"
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
 
 		<script type="module">
+<<<<<<< HEAD
 			import * as THREE from 'bmap-three';
 			import { OrbitControls } from './jsm/controls/OrbitControls.js';
 			import { ImprovedNoise } from './jsm/math/ImprovedNoise.js';
+=======
+			import * as THREE from 'three';
+			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+			import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
+>>>>>>> mrdoob-dev
 
-			import { GUI } from './jsm/libs/lil-gui.module.min.js';
-			import WebGL from './jsm/capabilities/WebGL.js';
+			import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+			import WebGL from 'three/addons/capabilities/WebGL.js';
 
 			if ( WebGL.isWebGL2Available() === false ) {
 

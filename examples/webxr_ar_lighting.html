@@ -20,17 +20,25 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js"
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
 
 		<script type="module">
 
+<<<<<<< HEAD
 			import * as THREE from 'bmap-three';
 			import { RGBELoader } from './jsm/loaders/RGBELoader.js';
 			import { ARButton } from './jsm/webxr/ARButton.js';
 			import { XREstimatedLight } from './jsm/webxr/XREstimatedLight.js';
+=======
+			import * as THREE from 'three';
+			import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+			import { ARButton } from 'three/addons/webxr/ARButton.js';
+			import { XREstimatedLight } from 'three/addons/webxr/XREstimatedLight.js';
+>>>>>>> mrdoob-dev
 
 			let camera, scene, renderer;
 			let controller;
@@ -114,7 +122,7 @@
 
 				//
 
-				const ballGeometry = new THREE.SphereBufferGeometry( 0.175, 32, 32 );
+				const ballGeometry = new THREE.SphereGeometry( 0.175, 32, 32 );
 				const ballGroup = new THREE.Group();
 				ballGroup.position.z = - 2;
 

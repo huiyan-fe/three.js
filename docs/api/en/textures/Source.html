@@ -27,6 +27,11 @@
 		The actual data of a texture. The type of this property depends on the texture that uses this instance.
 		</p>
 
+		<h3>[property:Boolean isSource]</h3>
+		<p>
+			Read-only flag to check if a given object is of type [name].
+		</p>
+
 		<h3>[property:Boolean needsUpdate]</h3>
 		<p>
 		Set this to `true` to trigger a data upload to the GPU next time the source is used.
@@ -40,7 +45,7 @@
 
 		<h3>[property:Integer version]</h3>
 		<p>
-		This starts at `0` and counts how many times [property:Boolean needsUpdate] is set to `true`.
+		This starts at `0` and counts how many times [page:Source.needsUpdate .needsUpdate] is set to `true`.
 		</p>
 
 		<h2>Methods</h2>

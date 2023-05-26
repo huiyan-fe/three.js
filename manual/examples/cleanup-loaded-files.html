@@ -32,14 +32,20 @@
 <script type="importmap">
 {
   "imports": {
-    "three": "../../build/three.module.js"
+    "three": "../../build/three.module.js",
+    "three/addons/": "../../examples/jsm/"
   }
 }
 </script>
 
 <script type="module">
+<<<<<<< HEAD
 import * as THREE from 'bmap-three';
 import {GLTFLoader} from '../../examples/jsm/loaders/GLTFLoader.js';
+=======
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+>>>>>>> mrdoob-dev
 
 class ResourceTracker {
   constructor() {

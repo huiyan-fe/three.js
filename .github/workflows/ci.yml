@@ -12,15 +12,17 @@ on:
       - 'docs/**'
       - 'files/**'
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   lint:
-    name: "Linting"
+    name: "Lint testing"
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
-      - name: Install node
+      - name: Install Node
         uses: actions/setup-node@v2
         with:
           node-version: 16
@@ -28,7 +30,7 @@ jobs:
       - name: Install packages
         run: npm ci
 
-      - name: === Linting ===
+      - name: === Lint testing ===
         run: npm run lint
 
   unit:
@@ -37,15 +39,13 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
-      - name: Install node
+      - name: Install Node
         uses: actions/setup-node@v2
         with:
           node-version: 16
           cache: 'npm'
       - name: Install packages
-        run: |
-          npm ci
-          npm ci --prefix test
+        run: npm ci
       - name: Build
         run: npm run build
 
@@ -54,9 +54,11 @@ jobs:
 
   e2e:
     name: "E2E testing"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
+        os: [ windows-latest, ubuntu-latest ]
         CI: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
     env:
       CI: ${{ matrix.CI }}
@@ -64,29 +66,26 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
-      - name: Install node
+      - name: Install Node
         uses: actions/setup-node@v2
         with:
           node-version: 16
           cache: 'npm'
       - name: Install packages
-        run: |
-          npm ci
-          npm ci --prefix test
-          sudo apt-get install xvfb
+        run: npm ci
       - name: Build
         run: npm run build
 
       - name: === E2E testing ===
-        run: xvfb-run --auto-servernum npm run test-e2e
+        run: npm run test-e2e
 
   e2e-cov:
-    name: "Ready for release"
+    name: "Examples ready for release"
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
-      - name: Install node
+      - name: Install Node
         uses: actions/setup-node@v2
         with:
           node-version: 16
@@ -94,5 +93,5 @@ jobs:
       - name: Install packages
         run: npm ci
 
-      - name: === Ready for release ===
+      - name: === Examples ready for release ===
         run: npm run test-e2e-cov
