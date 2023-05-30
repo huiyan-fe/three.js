@@ -225,9 +225,10 @@ export default QUnit.module( 'Geometries', () => {
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new EdgesGeometry();
+			assert.ok( object, 'Can instantiate an EdgesGeometry.' );
 
 		} );
 
@@ -269,7 +270,7 @@ export default QUnit.module( 'Geometries', () => {
 
 		QUnit.test( 'two isolated triangles', ( assert ) => {
 
-			var vertList = [
+			const vertList = [
 				new Vector3( 0, 0, 0 ),
 				new Vector3( 1, 0, 0 ),
 				new Vector3( 1, 1, 0 ),

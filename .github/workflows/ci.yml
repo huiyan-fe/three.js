@@ -17,80 +17,85 @@ permissions:
 
 jobs:
   lint:
-    name: "Lint testing"
+    name: Lint testing
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
-      - name: Install packages
+      - name: Install dependencies
         run: npm ci
 
       - name: === Lint testing ===
         run: npm run lint
 
   unit:
-    name: "Unit testing"
+    name: Unit testing
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
-      - name: Install packages
+      - name: Install dependencies
         run: npm ci
-      - name: Build
-        run: npm run build
 
       - name: === Unit testing ===
         run: npm run test-unit
 
   e2e:
-    name: "E2E testing"
+    name: E2E testing
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        os: [ windows-latest, ubuntu-latest ]
-        CI: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+        os: [ windows-latest, ubuntu-latest, macos-latest ]
+        CI: [ 0, 1, 2, 3 ]
     env:
       CI: ${{ matrix.CI }}
-      FORCE_COLOR: 1
     steps:
       - name: Git checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
-      - name: Install packages
+      - name: Install dependencies
         run: npm ci
       - name: Build
         run: npm run build
 
       - name: === E2E testing ===
         run: npm run test-e2e
+      - name: Upload output screenshots
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Output screenshots
+          path: test/e2e/output-screenshots
+          if-no-files-found: ignore
 
   e2e-cov:
-    name: "Examples ready for release"
+    name: Examples ready for release
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
-      - name: Install packages
+      - name: Install dependencies
         run: npm ci
 
       - name: === Examples ready for release ===

@@ -13,7 +13,7 @@
  *  * Add mmd_toon_matcap_fragment.
  */
 
-import { UniformsUtils, ShaderLib } from 'bmap-three';
+import { UniformsUtils, ShaderLib } from 'three';
 
 const lights_mmd_toon_pars_fragment = /* glsl */`
 varying vec3 vViewPosition;

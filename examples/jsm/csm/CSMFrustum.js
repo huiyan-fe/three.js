@@ -1,4 +1,4 @@
-import { Vector3, Matrix4 } from 'bmap-three';
+import { Vector3, Matrix4 } from 'three';
 
 const inverseProjectionMatrix = new Matrix4();
 

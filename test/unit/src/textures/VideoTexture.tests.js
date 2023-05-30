@@ -12,17 +12,20 @@ export default QUnit.module( 'Textures', () => {
 		QUnit.test( 'Extending', ( assert ) => {
 
 			const videoDocumentElement = {};
-
 			const object = new VideoTexture( videoDocumentElement );
-
-			assert.strictEqual( object instanceof Texture, true, 'VideoTexture extends from Texture' );
+			assert.strictEqual(
+				object instanceof Texture, true,
+				'VideoTexture extends from Texture'
+			);
 
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const videoDocumentElement = {};
+			const object = new VideoTexture( videoDocumentElement );
+			assert.ok( object, 'Can instantiate a VideoTexture.' );
 
 		} );
 
@@ -49,9 +52,7 @@ export default QUnit.module( 'Textures', () => {
 		QUnit.test( 'isVideoTexture', ( assert ) => {
 
 			const videoDocumentElement = {};
-
 			const object = new VideoTexture( videoDocumentElement );
-
 			assert.ok(
 				object.isVideoTexture,
 				'VideoTexture.isVideoTexture should be true'

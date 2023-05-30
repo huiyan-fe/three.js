@@ -1,6 +1,6 @@
 import {
 	Vector4
-} from 'bmap-three';
+} from 'three';
 import * as NURBSUtils from '../curves/NURBSUtils.js';
 
 /**

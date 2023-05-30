@@ -9,7 +9,7 @@ import {
 	RGBAFormat,
 	UVMapping,
 	UniformsLib
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Uniforms library for RectAreaLight shared webgl shaders

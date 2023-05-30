@@ -1,7 +1,7 @@
 import {
 	Matrix4,
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 /**
  * TODO

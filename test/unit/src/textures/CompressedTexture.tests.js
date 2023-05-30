@@ -11,22 +11,26 @@ export default QUnit.module( 'Textures', () => {
 		// INHERITANCE
 		QUnit.test( 'Extending', ( assert ) => {
 
-			var object = new CompressedTexture();
-
-			assert.strictEqual( object instanceof Texture, true, 'CompressedTexture extends from Texture' );
+			const object = new CompressedTexture();
+			assert.strictEqual(
+				object instanceof Texture, true,
+				'CompressedTexture extends from Texture'
+			);
 
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new CompressedTexture();
+			assert.ok( object, 'Can instantiate a CompressedTexture.' );
 
 		} );
 
 		// PROPERTIES
 		QUnit.todo( 'image', ( assert ) => {
 
+			// { width: width, height: height }
 			assert.ok( false, 'everything\'s gonna be alright' );
 
 		} );

@@ -1,7 +1,7 @@
 import {
 	StereoCamera,
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 class StereoEffect {
 

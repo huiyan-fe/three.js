@@ -3,7 +3,7 @@ import {
 	ShaderChunk,
 	ShaderLib,
 	UniformsUtils
-} from 'bmap-three';
+} from 'three';
 
 /**
  * ------------------------------------------------------------------------------------------

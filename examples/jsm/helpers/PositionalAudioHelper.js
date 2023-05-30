@@ -4,7 +4,7 @@ import {
 	LineBasicMaterial,
 	Line,
 	MathUtils
-} from 'bmap-three';
+} from 'three';
 
 class PositionalAudioHelper extends Line {
 

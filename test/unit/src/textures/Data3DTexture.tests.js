@@ -11,16 +11,19 @@ export default QUnit.module( 'Textures', () => {
 		// INHERITANCE
 		QUnit.test( 'Extending', ( assert ) => {
 
-			var object = new Data3DTexture();
-
-			assert.strictEqual( object instanceof Texture, true, 'Data3DTexture extends from Texture' );
+			const object = new Data3DTexture();
+			assert.strictEqual(
+				object instanceof Texture, true,
+				'Data3DTexture extends from Texture'
+			);
 
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new Data3DTexture();
+			assert.ok( object, 'Can instantiate a Data3DTexture.' );
 
 		} );
 

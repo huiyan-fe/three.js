@@ -5,14 +5,8 @@ import {
 	Group,
 	Matrix4,
 	Mesh,
-<<<<<<< HEAD
-	BufferAttribute,
-	BufferGeometry
-} from 'bmap-three';
-=======
 	Vector3
 } from 'three';
->>>>>>> mrdoob-dev
 
 import { mergeGroups, deepCloneAttribute } from './BufferGeometryUtils.js';
 

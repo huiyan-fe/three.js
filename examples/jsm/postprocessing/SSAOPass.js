@@ -7,6 +7,7 @@ import {
 	DstAlphaFactor,
 	DstColorFactor,
 	FloatType,
+	HalfFloatType,
 	MathUtils,
 	MeshNormalMaterial,
 	NearestFilter,
@@ -21,7 +22,7 @@ import {
 	Vector3,
 	WebGLRenderTarget,
 	ZeroFactor
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 import { SimplexNoise } from '../math/SimplexNoise.js';
 import { SSAOShader } from '../shaders/SSAOShader.js';
@@ -65,19 +66,20 @@ class SSAOPass extends Pass {
 		depthTexture.format = DepthStencilFormat;
 		depthTexture.type = UnsignedInt248Type;
 
-		this.beautyRenderTarget = new WebGLRenderTarget( this.width, this.height );
+		this.beautyRenderTarget = new WebGLRenderTarget( this.width, this.height, { type: HalfFloatType } );
 
 		// normal render target with depth buffer
 
 		this.normalRenderTarget = new WebGLRenderTarget( this.width, this.height, {
 			minFilter: NearestFilter,
 			magFilter: NearestFilter,
+			type: HalfFloatType,
 			depthTexture: depthTexture
 		} );
 
 		// ssao render target
 
-		this.ssaoRenderTarget = new WebGLRenderTarget( this.width, this.height );
+		this.ssaoRenderTarget = new WebGLRenderTarget( this.width, this.height, { type: HalfFloatType } );
 
 		this.blurRenderTarget = this.ssaoRenderTarget.clone();
 

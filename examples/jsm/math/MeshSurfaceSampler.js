@@ -1,7 +1,7 @@
 import {
 	Triangle,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Utility class for sampling weighted random points on the surface of a mesh.
@@ -22,12 +22,6 @@ class MeshSurfaceSampler {
 	constructor( mesh ) {
 
 		let geometry = mesh.geometry;
-
-		if ( ! geometry.isBufferGeometry || geometry.attributes.position.itemSize !== 3 ) {
-
-			throw new Error( 'THREE.MeshSurfaceSampler: Requires BufferGeometry triangle mesh.' );
-
-		}
 
 		if ( geometry.index ) {
 
@@ -114,11 +108,15 @@ class MeshSurfaceSampler {
 
 	sample( targetPosition, targetNormal, targetColor ) {
 
-		const cumulativeTotal = this.distribution[ this.distribution.length - 1 ];
-
-		const faceIndex = this.binarySearch( this.randomFunction() * cumulativeTotal );
-
+		const faceIndex = this.sampleFaceIndex();
 		return this.sampleFace( faceIndex, targetPosition, targetNormal, targetColor );
+
+	}
+
+	sampleFaceIndex() {
+
+		const cumulativeTotal = this.distribution[ this.distribution.length - 1 ];
+		return this.binarySearch( this.randomFunction() * cumulativeTotal );
 
 	}
 

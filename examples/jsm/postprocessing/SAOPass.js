@@ -5,6 +5,7 @@ import {
 	DepthTexture,
 	DstAlphaFactor,
 	DstColorFactor,
+	HalfFloatType,
 	MeshDepthMaterial,
 	MeshNormalMaterial,
 	NearestFilter,
@@ -16,7 +17,7 @@ import {
 	Vector2,
 	WebGLRenderTarget,
 	ZeroFactor
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 import { SAOShader } from '../shaders/SAOShader.js';
 import { DepthLimitedBlurShader } from '../shaders/DepthLimitedBlurShader.js';
@@ -62,13 +63,14 @@ class SAOPass extends Pass {
 
 		this.resolution = new Vector2( resolution.x, resolution.y );
 
-		this.saoRenderTarget = new WebGLRenderTarget( this.resolution.x, this.resolution.y );
+		this.saoRenderTarget = new WebGLRenderTarget( this.resolution.x, this.resolution.y, { type: HalfFloatType } );
 		this.blurIntermediateRenderTarget = this.saoRenderTarget.clone();
 		this.beautyRenderTarget = this.saoRenderTarget.clone();
 
 		this.normalRenderTarget = new WebGLRenderTarget( this.resolution.x, this.resolution.y, {
 			minFilter: NearestFilter,
-			magFilter: NearestFilter
+			magFilter: NearestFilter,
+			type: HalfFloatType
 		} );
 		this.depthRenderTarget = this.normalRenderTarget.clone();
 

@@ -2,7 +2,7 @@ import {
 	BufferAttribute,
 	BufferGeometry,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 import * as BufferGeometryUtils from '../utils/BufferGeometryUtils.js';
 
 const _A = new Vector3();

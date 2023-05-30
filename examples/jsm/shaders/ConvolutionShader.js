@@ -1,6 +1,6 @@
 import {
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Convolution shader
@@ -8,6 +8,8 @@ import {
  */
 
 const ConvolutionShader = {
+
+	name: 'ConvolutionShader',
 
 	defines: {
 

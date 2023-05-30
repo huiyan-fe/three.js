@@ -4,7 +4,7 @@ import {
 	ShaderMaterial,
 	UniformsLib,
 	UniformsUtils
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Reference: https://en.wikipedia.org/wiki/Cel_shading
@@ -227,21 +227,7 @@ class OutlineEffect {
 		function isCompatible( object ) {
 
 			const geometry = object.geometry;
-			let hasNormals = false;
-
-			if ( object.geometry !== undefined ) {
-
-				if ( geometry.isBufferGeometry ) {
-
-					hasNormals = geometry.attributes.normal !== undefined;
-
-				} else {
-
-					hasNormals = true; // the renderer always produces a normal attribute for Geometry
-
-				}
-
-			}
+			const hasNormals = ( geometry !== undefined ) && ( geometry.attributes.normal !== undefined );
 
 			return ( object.isMesh === true && object.material !== undefined && hasNormals === true );
 

@@ -3,8 +3,10 @@ import {
 	BufferGeometry,
 	Color,
 	DynamicDrawUsage,
-	Mesh
-} from 'bmap-three';
+	Mesh,
+	Sphere,
+	Vector3
+} from 'three';
 
 /**
  * Port of http://webglsamples.org/blob/blob.html
@@ -93,6 +95,8 @@ class MarchingCubes extends Mesh {
 				geometry.setAttribute( 'color', colorAttribute );
 
 			}
+
+			geometry.boundingSphere = new Sphere( new Vector3(), 1 );
 
 		};
 

@@ -1,4 +1,4 @@
-import { Vector2 } from 'bmap-three';
+import { Vector2 } from 'three';
 
 class SelectionHelper {
 

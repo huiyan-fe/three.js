@@ -2,7 +2,7 @@ import {
 	EventDispatcher,
 	Quaternion,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 const _changeEvent = { type: 'change' };
 

@@ -1,6 +1,6 @@
 import {
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Normal map shader

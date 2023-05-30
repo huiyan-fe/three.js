@@ -7,7 +7,7 @@ import {
 	Mesh,
 	MeshStandardMaterial,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 function TubePainter() {
 

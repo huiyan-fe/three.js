@@ -3,7 +3,7 @@ import {
 	Vector3,
 	Matrix4,
 	Quaternion,
-} from 'bmap-three';
+} from 'three';
 
 /**
  * This is a class to check whether objects are in a selection area in 3D space

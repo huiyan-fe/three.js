@@ -1,6 +1,6 @@
 import {
 	Color
-} from 'bmap-three';
+} from 'three';
 import { Pass } from './Pass.js';
 
 class ClearPass extends Pass {

@@ -4,7 +4,7 @@ import {
 	FloatType,
 	HalfFloatType,
 	RGBAFormat
-} from 'bmap-three';
+} from 'three';
 
 class LogLuvLoader extends DataTextureLoader {
 

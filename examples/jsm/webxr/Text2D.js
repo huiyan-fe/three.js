@@ -1,4 +1,4 @@
-import * as THREE from 'bmap-three';
+import * as THREE from 'three';
 
 function createText( message, height ) {
 

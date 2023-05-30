@@ -2,7 +2,7 @@ import {
 	Matrix3,
 	Vector3,
 	Color
-} from 'bmap-three';
+} from 'three';
 
 /**
  * https://github.com/gkjohnson/ply-exporter-js

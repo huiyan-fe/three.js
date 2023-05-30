@@ -5,7 +5,7 @@ import {
 	CubeTexture,
 	HalfFloatType,
 	DataUtils
-} from 'bmap-three';
+} from 'three';
 
 class RGBMLoader extends DataTextureLoader {
 

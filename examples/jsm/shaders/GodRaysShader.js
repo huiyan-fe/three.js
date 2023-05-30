@@ -1,7 +1,7 @@
 import {
 	Color,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 /**
  * God-rays (crepuscular rays)

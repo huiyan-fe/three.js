@@ -5,7 +5,7 @@ import {
 	ShaderMaterial,
 	UniformsUtils,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Based on "A Practical Analytic Model for Daylight"

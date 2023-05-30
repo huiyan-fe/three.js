@@ -5,7 +5,7 @@ import {
 	NumberKeyframeTrack,
 	Vector3,
 	VectorKeyframeTrack
-} from 'bmap-three';
+} from 'three';
 
 class AnimationClipCreator {
 

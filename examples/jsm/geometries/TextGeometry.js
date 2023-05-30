@@ -17,7 +17,7 @@
 
 import {
 	ExtrudeGeometry
-} from 'bmap-three';
+} from 'three';
 
 class TextGeometry extends ExtrudeGeometry {
 

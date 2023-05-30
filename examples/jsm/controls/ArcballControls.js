@@ -14,7 +14,7 @@ import {
 	Matrix4,
 	MathUtils,
 	EventDispatcher
-} from 'bmap-three';
+} from 'three';
 
 //trackball state
 const STATE = {

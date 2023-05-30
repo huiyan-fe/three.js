@@ -7,7 +7,7 @@ import {
 	Loader,
 	Mesh,
 	MeshPhongMaterial
-} from 'bmap-three';
+} from 'three';
 import * as fflate from '../libs/fflate.module.js';
 
 /**

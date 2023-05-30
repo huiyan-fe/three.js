@@ -11,7 +11,7 @@ import {
 	Quaternion,
 	SphereGeometry,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Dependencies

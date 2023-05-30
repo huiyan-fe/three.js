@@ -3,9 +3,9 @@ import {
 	DataUtils,
 	FloatType,
 	HalfFloatType,
-	LinearEncoding,
-	LinearFilter
-} from 'bmap-three';
+	LinearFilter,
+	LinearSRGBColorSpace
+} from 'three';
 
 // https://github.com/mrdoob/three.js/issues/5552
 // http://en.wikipedia.org/wiki/RGBE_image_format
@@ -445,7 +445,7 @@ class RGBELoader extends DataTextureLoader {
 				case FloatType:
 				case HalfFloatType:
 
-					texture.encoding = LinearEncoding;
+					texture.colorSpace = LinearSRGBColorSpace;
 					texture.minFilter = LinearFilter;
 					texture.magFilter = LinearFilter;
 					texture.generateMipmaps = false;

@@ -1,6 +1,6 @@
 import {
 	Object3D
-} from 'bmap-three';
+} from 'three';
 
 import {
 	XRHandPrimitiveModel

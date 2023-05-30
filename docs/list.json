@@ -5,10 +5,9 @@
 		"Manual": {
 
 			"Getting Started": {
-				"Creating a scene": "manual/en/introduction/Creating-a-scene",
 				"Installation": "manual/en/introduction/Installation",
+				"Creating a scene": "manual/en/introduction/Creating-a-scene",
 				"WebGL compatibility check": "manual/en/introduction/WebGL-compatibility-check",
-				"How to run things locally": "manual/en/introduction/How-to-run-things-locally",
 				"Drawing lines": "manual/en/introduction/Drawing-lines",
 				"Creating text": "manual/en/introduction/Creating-text",
 				"Loading 3D models": "manual/en/introduction/Loading-3D-models",
@@ -18,17 +17,13 @@
 			},
 
 			"Next Steps": {
-				"How to update things": "manual/en/introduction/How-to-update-things",
-				"How to dispose of objects": "manual/en/introduction/How-to-dispose-of-objects",
-				"How to create VR content": "manual/en/introduction/How-to-create-VR-content",
-				"How to use post-processing": "manual/en/introduction/How-to-use-post-processing",
+				"Updating resources": "manual/en/introduction/How-to-update-things",
+				"Disposing resources": "manual/en/introduction/How-to-dispose-of-objects",
+				"Creating VR content": "manual/en/introduction/How-to-create-VR-content",
+				"Post-processing": "manual/en/introduction/How-to-use-post-processing",
 				"Matrix transformations": "manual/en/introduction/Matrix-transformations",
 				"Animation system": "manual/en/introduction/Animation-system",
 				"Color management": "manual/en/introduction/Color-management"
-			},
-
-			"Build Tools": {
-				"Testing with NPM": "manual/en/buildTools/Testing-with-NPM"
 			}
 
 		},
@@ -340,6 +335,7 @@
 				"DragControls": "examples/en/controls/DragControls",
 				"FirstPersonControls": "examples/en/controls/FirstPersonControls",
 				"FlyControls": "examples/en/controls/FlyControls",
+				"MapControls": "examples/en/controls/MapControls",
 				"OrbitControls": "examples/en/controls/OrbitControls",
 				"PointerLockControls": "examples/en/controls/PointerLockControls",
 				"TrackballControls": "examples/en/controls/TrackballControls",
@@ -377,7 +373,6 @@
 				"OBJLoader": "examples/en/loaders/OBJLoader",
 				"PCDLoader": "examples/en/loaders/PCDLoader",
 				"PDBLoader": "examples/en/loaders/PDBLoader",
-				"PRWMLoader": "examples/en/loaders/PRWMLoader",
 				"SVGLoader": "examples/en/loaders/SVGLoader",
 				"TGALoader": "examples/en/loaders/TGALoader"
 			},
@@ -445,10 +440,9 @@
 		"الكتيب": {
 
 			"البدء": {
-				"إنشاء مشهد": "manual/ar/introduction/Creating-a-scene",
 				"التثبيت": "manual/ar/introduction/Installation",
+				"إنشاء مشهد": "manual/ar/introduction/Creating-a-scene",
 				"فحص توافق WebGL": "manual/ar/introduction/WebGL-compatibility-check",
-				"كيف تدير الأشياء محليًا": "manual/ar/introduction/How-to-run-things-locally",
 				"رسم خطوط": "manual/ar/introduction/Drawing-lines",
 				"إنشاء نص": "manual/ar/introduction/Creating-text",
 				"تحميل نماذج ثلاثية الأبعاد": "manual/ar/introduction/Loading-3D-models",
@@ -463,10 +457,6 @@
 				"كيفية استخدام المعالجة اللاحقة (post-processing)": "manual/ar/introduction/How-to-use-post-processing",
 				"تحولات المصفوفة (Matrix transformations)": "manual/ar/introduction/Matrix-transformations",
 				"نظام الحركات": "manual/ar/introduction/Animation-system"
-			},
-
-			"أدوات البناء": {
-				"الاختبار مع NPM": "manual/ar/buildTools/Testing-with-NPM"
 			}
 
 		},
@@ -504,7 +494,95 @@
 			"Cameras": {
 				"ArrayCamera": "api/ar/cameras/ArrayCamera",
 				"Camera": "api/ar/cameras/Camera",
-				"CubeCamera": "api/ar/cameras/CubeCamera"
+				"CubeCamera": "api/ar/cameras/CubeCamera",
+				"OrthographicCamera": "api/ar/cameras/OrthographicCamera",
+				"PerspectiveCamera": "api/ar/cameras/PerspectiveCamera",
+				"StereoCamera": "api/ar/cameras/StereoCamera"
+			},
+
+			"Constants": {
+				"Animation": "api/ar/constants/Animation",
+				"Core": "api/ar/constants/Core",
+				"CustomBlendingEquation": "api/ar/constants/CustomBlendingEquations",
+				"BufferAttributeUsage": "api/ar/constants/BufferAttributeUsage",
+				"Materials": "api/ar/constants/Materials",
+				"Renderer": "api/ar/constants/Renderer",
+				"Textures": "api/ar/constants/Textures"
+			},
+
+			"Core": {
+				"BufferAttribute": "api/ar/core/BufferAttribute",
+				"BufferGeometry": "api/ar/core/BufferGeometry",
+				"Clock": "api/ar/core/Clock",
+				"EventDispatcher": "api/ar/core/EventDispatcher",
+				"GLBufferAttribute": "api/ar/core/GLBufferAttribute",
+				"InstancedBufferAttribute": "api/ar/core/InstancedBufferAttribute",
+				"InstancedBufferGeometry": "api/ar/core/InstancedBufferGeometry",
+				"InstancedInterleavedBuffer": "api/ar/core/InstancedInterleavedBuffer",
+				"InterleavedBuffer": "api/ar/core/InterleavedBuffer",
+				"InterleavedBufferAttribute": "api/ar/core/InterleavedBufferAttribute",
+				"Layers": "api/ar/core/Layers",
+				"Object3D": "api/ar/core/Object3D",
+				"Raycaster": "api/ar/core/Raycaster",
+				"Uniform": "api/ar/core/Uniform"
+			},
+
+			"Core / BufferAttributes": {
+				"BufferAttribute Types": "api/ar/core/bufferAttributeTypes/BufferAttributeTypes"
+			},
+
+			"Extras": {
+				"DataUtils": "api/ar/extras/DataUtils",
+				"Earcut": "api/ar/extras/Earcut",
+				"ImageUtils": "api/ar/extras/ImageUtils",
+				"PMREMGenerator": "api/ar/extras/PMREMGenerator",
+				"ShapeUtils": "api/ar/extras/ShapeUtils"
+			},
+
+			"Extras / Core": {
+				"Curve": "api/ar/extras/core/Curve",
+				"CurvePath": "api/ar/extras/core/CurvePath",
+				"Interpolations": "api/ar/extras/core/Interpolations",
+				"Path": "api/ar/extras/core/Path",
+				"Shape": "api/ar/extras/core/Shape",
+				"ShapePath": "api/ar/extras/core/ShapePath"
+			},
+
+			"Extras / Curves": {
+				"ArcCurve": "api/ar/extras/curves/ArcCurve",
+				"CatmullRomCurve3": "api/ar/extras/curves/CatmullRomCurve3",
+				"CubicBezierCurve": "api/ar/extras/curves/CubicBezierCurve",
+				"CubicBezierCurve3": "api/ar/extras/curves/CubicBezierCurve3",
+				"EllipseCurve": "api/ar/extras/curves/EllipseCurve",
+				"LineCurve": "api/ar/extras/curves/LineCurve",
+				"LineCurve3": "api/ar/extras/curves/LineCurve3",
+				"QuadraticBezierCurve": "api/ar/extras/curves/QuadraticBezierCurve",
+				"QuadraticBezierCurve3": "api/ar/extras/curves/QuadraticBezierCurve3",
+				"SplineCurve": "api/ar/extras/curves/SplineCurve"
+			},
+
+			"Geometries": {
+				"BoxGeometry": "api/ar/geometries/BoxGeometry",
+				"CapsuleGeometry": "api/ar/geometries/CapsuleGeometry",
+				"CircleGeometry": "api/ar/geometries/CircleGeometry",
+				"ConeGeometry": "api/ar/geometries/ConeGeometry",
+				"CylinderGeometry": "api/ar/geometries/CylinderGeometry",
+				"DodecahedronGeometry": "api/ar/geometries/DodecahedronGeometry",
+				"EdgesGeometry": "api/ar/geometries/EdgesGeometry",
+				"ExtrudeGeometry": "api/ar/geometries/ExtrudeGeometry",
+				"IcosahedronGeometry": "api/ar/geometries/IcosahedronGeometry",
+				"LatheGeometry": "api/ar/geometries/LatheGeometry",
+				"OctahedronGeometry": "api/ar/geometries/OctahedronGeometry",
+				"PlaneGeometry": "api/ar/geometries/PlaneGeometry",
+				"PolyhedronGeometry": "api/ar/geometries/PolyhedronGeometry",
+				"RingGeometry": "api/ar/geometries/RingGeometry",
+				"ShapeGeometry": "api/ar/geometries/ShapeGeometry",
+				"SphereGeometry": "api/ar/geometries/SphereGeometry",
+				"TetrahedronGeometry": "api/ar/geometries/TetrahedronGeometry",
+				"TorusGeometry": "api/ar/geometries/TorusGeometry",
+				"TorusKnotGeometry": "api/ar/geometries/TorusKnotGeometry",
+				"TubeGeometry": "api/ar/geometries/TubeGeometry",
+				"WireframeGeometry": "api/ar/geometries/WireframeGeometry"
 			}
 
 		}
@@ -516,10 +594,9 @@
 		"手册": {
 
 			"起步": {
-				"创建一个场景": "manual/zh/introduction/Creating-a-scene",
 				"安装": "manual/zh/introduction/Installation",
+				"创建一个场景": "manual/zh/introduction/Creating-a-scene",
 				"WebGL兼容性检查": "manual/zh/introduction/WebGL-compatibility-check",
-				"如何在本地运行Three.js": "manual/zh/introduction/How-to-run-things-locally",
 				"画线": "manual/zh/introduction/Drawing-lines",
 				"创建文字": "manual/zh/introduction/Creating-text",
 				"载入3D模型": "manual/zh/introduction/Loading-3D-models",
@@ -534,10 +611,6 @@
 				"如何使用后期处理": "manual/zh/introduction/How-to-use-post-processing",
 				"矩阵变换": "manual/zh/introduction/Matrix-transformations",
 				"动画系统": "manual/zh/introduction/Animation-system"
-			},
-
-			"构建工具": {
-				"使用NPM进行测试": "manual/zh/buildTools/Testing-with-NPM"
 			}
 
 		},
@@ -612,6 +685,7 @@
 			},
 
 			"附件": {
+				"DataUtils": "api/zh/extras/DataUtils",
 				"Earcut": "api/zh/extras/Earcut",
 				"ImageUtils": "api/zh/extras/ImageUtils",
 				"PMREMGenerator": "api/zh/extras/PMREMGenerator",
@@ -642,6 +716,7 @@
 
 			"几何体": {
 				"BoxGeometry": "api/zh/geometries/BoxGeometry",
+				"CapsuleGeometry": "api/zh/geometries/CapsuleGeometry",
 				"CircleGeometry": "api/zh/geometries/CircleGeometry",
 				"ConeGeometry": "api/zh/geometries/ConeGeometry",
 				"CylinderGeometry": "api/zh/geometries/CylinderGeometry",
@@ -790,6 +865,8 @@
 			},
 
 			"渲染器": {
+				"WebGL3DRenderTarget": "api/zh/renderers/WebGL3DRenderTarget",
+				"WebGLArrayRenderTarget": "api/zh/renderers/WebGLArrayRenderTarget",
 				"WebGLMultipleRenderTargets": "api/zh/renderers/WebGLMultipleRenderTargets",
 				"WebGLRenderer": "api/zh/renderers/WebGLRenderer",
 				"WebGL1Renderer": "api/zh/renderers/WebGL1Renderer",
@@ -833,12 +910,6 @@
 
 		"Addons": {
 
-			"动画": {
-				"CCDIKSolver": "examples/zh/animations/CCDIKSolver",
-				"MMDAnimationHelper": "examples/zh/animations/MMDAnimationHelper",
-				"MMDPhysics": "examples/zh/animations/MMDPhysics"
-			},
-
 			"控制": {
 				"DragControls": "examples/zh/controls/DragControls",
 				"FirstPersonControls": "examples/zh/controls/FirstPersonControls",
@@ -860,8 +931,7 @@
 				"LightProbeHelper": "examples/zh/helpers/LightProbeHelper",
 				"PositionalAudioHelper": "examples/zh/helpers/PositionalAudioHelper",
 				"RectAreaLightHelper": "examples/zh/helpers/RectAreaLightHelper",
-				"VertexNormalsHelper": "examples/zh/helpers/VertexNormalsHelper",
-				"VertexTangentsHelper": "examples/zh/helpers/VertexTangentsHelper"
+				"VertexNormalsHelper": "examples/zh/helpers/VertexNormalsHelper"
 			},
 
 			"灯光": {
@@ -869,15 +939,13 @@
 			},
 
 			"加载器": {
-				"DRACOLoader": "examples/zh/loaders/DRACOLoader",
 				"FontLoader": "examples/zh/loaders/FontLoader",
+				"DracoLoader": "examples/zh/loaders/DracoLoader",
 				"GLTFLoader": "examples/zh/loaders/GLTFLoader",
 				"MMDLoader": "examples/zh/loaders/MMDLoader",
 				"MTLLoader": "examples/zh/loaders/MTLLoader",
 				"OBJLoader": "examples/zh/loaders/OBJLoader",
 				"PCDLoader": "examples/zh/loaders/PCDLoader",
-				"PDBLoader": "examples/zh/loaders/PDBLoader",
-				"PRWMLoader": "examples/zh/loaders/PRWMLoader",
 				"SVGLoader": "examples/zh/loaders/SVGLoader",
 				"TGALoader": "examples/zh/loaders/TGALoader"
 			},
@@ -888,26 +956,6 @@
 
 			"后期处理": {
 				"EffectComposer": "examples/zh/postprocessing/EffectComposer"
-			},
-
-			"导出器": {
-				"ColladaExporter": "examples/zh/exporters/ColladaExporter",
-				"GLTFExporter": "examples/zh/exporters/GLTFExporter",
-				"PLYExporter": "examples/zh/exporters/PLYExporter"
-			},
-
-			"数学库": {
-				"LookupTable": "examples/zh/math/Lut",
-				"MeshSurfaceSampler": "examples/zh/math/MeshSurfaceSampler",
-				"OBB": "examples/en/math/OBB"
-			},
-
-			"QuickHull": {
-				"Face": "examples/zh/math/convexhull/Face",
-				"HalfEdge": "examples/zh/math/convexhull/HalfEdge",
-				"ConvexHull": "examples/zh/math/convexhull/ConvexHull",
-				"VertexNode": "examples/zh/math/convexhull/VertexNode",
-				"VertexList": "examples/zh/math/convexhull/VertexList"
 			},
 
 			"渲染器": {
@@ -939,10 +987,9 @@
 		"매뉴얼": {
 
 			"시작하기": {
-				"장면 만들기": "manual/ko/introduction/Creating-a-scene",
 				"설치": "manual/ko/introduction/Installation",
+				"장면 만들기": "manual/ko/introduction/Creating-a-scene",
 				"WebGL 호환성 검사": "manual/ko/introduction/WebGL-compatibility-check",
-				"로컬 환경에서 구동 방법": "manual/ko/introduction/How-to-run-things-locally",
 				"선 그리기": "manual/ko/introduction/Drawing-lines",
 				"텍스트 만들기": "manual/ko/introduction/Creating-text",
 				"3D 모델 불러오기": "manual/ko/introduction/Loading-3D-models",
@@ -957,11 +1004,6 @@
 				"후처리 사용 방법": "manual/ko/introduction/How-to-use-post-processing",
 				"행렬 변환": "manual/ko/introduction/Matrix-transformations",
 				"애니메이션 시스템": "manual/ko/introduction/Animation-system"
-			},
-
-			"빌드 도구": {
-				"NPM 테스트": "manual/ko/buildTools/Testing-with-NPM"
-
 			}
 
 		},
@@ -1007,6 +1049,7 @@
 
 			"상수": {
 				"Animation": "api/ko/constants/Animation",
+				"BufferAttributeUsage": "api/ko/constants/BufferAttributeUsage",
 				"Core": "api/ko/constants/Core",
 				"CustomBlendingEquation": "api/ko/constants/CustomBlendingEquations",
 				"Materials": "api/ko/constants/Materials",
@@ -1063,6 +1106,30 @@
 				"QuadraticBezierCurve": "api/ko/extras/curves/QuadraticBezierCurve",
 				"QuadraticBezierCurve3": "api/ko/extras/curves/QuadraticBezierCurve3",
 				"SplineCurve": "api/ko/extras/curves/SplineCurve"
+			},
+
+			"Geometries": {
+				"BoxGeometry": "api/ko/geometries/BoxGeometry",
+				"CapsuleGeometry": "api/ko/geometries/CapsuleGeometry",
+				"CircleGeometry": "api/ko/geometries/CircleGeometry",
+				"ConeGeometry": "api/ko/geometries/ConeGeometry",
+				"CylinderGeometry": "api/ko/geometries/CylinderGeometry",
+				"DodecahedronGeometry": "api/ko/geometries/DodecahedronGeometry",
+				"EdgesGeometry": "api/ko/geometries/EdgesGeometry",
+				"ExtrudeGeometry": "api/ko/geometries/ExtrudeGeometry",
+				"IcosahedronGeometry": "api/ko/geometries/IcosahedronGeometry",
+				"LatheGeometry": "api/ko/geometries/LatheGeometry",
+				"OctahedronGeometry": "api/ko/geometries/OctahedronGeometry",
+				"PlaneGeometry": "api/ko/geometries/PlaneGeometry",
+				"PolyhedronGeometry": "api/ko/geometries/PolyhedronGeometry",
+				"RingGeometry": "api/ko/geometries/RingGeometry",
+				"ShapeGeometry": "api/ko/geometries/ShapeGeometry",
+				"SphereGeometry": "api/ko/geometries/SphereGeometry",
+				"TetrahedronGeometry": "api/ko/geometries/TetrahedronGeometry",
+				"TorusGeometry": "api/ko/geometries/TorusGeometry",
+				"TorusKnotGeometry": "api/ko/geometries/TorusKnotGeometry",
+				"TubeGeometry": "api/ko/geometries/TubeGeometry",
+				"WireframeGeometry": "api/ko/geometries/WireframeGeometry"
 			}
 
 		},
@@ -1088,10 +1155,9 @@
 		"マニュアル": {
 
 			"はじめてみましょう": {
-				"シーンの作成": "manual/ja/introduction/Creating-a-scene",
 				"インストールの方法": "manual/ja/introduction/Installation",
+				"シーンの作成": "manual/ja/introduction/Creating-a-scene",
 				"WebGLの互換性の確認": "manual/ja/introduction/WebGL-compatibility-check",
-				"localで実行する方法": "manual/ja/introduction/How-to-run-things-locally",
 				"線を引く": "manual/ja/introduction/Drawing-lines",
 				"テキストを作成する": "manual/ja/introduction/Creating-text",
 				"3Dモデルをロードする": "manual/ja/introduction/Loading-3D-models",
@@ -1107,10 +1173,6 @@
 				"post-processingの使い方": "manual/ja/introduction/How-to-use-post-processing",
 				"行列の変換": "manual/ja/introduction/Matrix-transformations",
 				"アニメーションシステム": "manual/ja/introduction/Animation-system"
-			},
-
-			"ビルドツール": {
-				"NPMでテストを実行する": "manual/ja/buildTools/Testing-with-NPM"
 			}
 
 		}
@@ -1122,10 +1184,9 @@
 		"Manuale": {
 
 			"Per iniziare": {
-				"Creare una scena": "manual/it/introduction/Creating-a-scene",
 				"Installazione": "manual/it/introduction/Installation",
+				"Creare una scena": "manual/it/introduction/Creating-a-scene",
 				"Controllo compatibilità WebGL": "manual/it/introduction/WebGL-compatibility-check",
-				"Esecuzione in locale": "manual/it/introduction/How-to-run-things-locally",
 				"Disegnare linee": "manual/it/introduction/Drawing-lines",
 				"Creare testo": "manual/it/introduction/Creating-text",
 				"Caricare modelli 3D": "manual/it/introduction/Loading-3D-models",
@@ -1142,10 +1203,6 @@
 				"Trasformazioni di matrici": "manual/it/introduction/Matrix-transformations",
 				"Sistema di animazione": "manual/it/introduction/Animation-system",
 				"Gestione del colore": "manual/it/introduction/Color-management"
-			},
-
-			"Strumenti di build": {
-				"Testare con NPM": "manual/it/buildTools/Testing-with-NPM"
 			}
 
 		},
@@ -1448,10 +1505,9 @@
 		"Manual": {
 
 			"Comece a usar": {
-				"Criando uma cena": "manual/pt-br/introduction/Creating-a-scene",
 				"Instalação": "manual/pt-br/introduction/Installation",
+				"Criando uma cena": "manual/pt-br/introduction/Creating-a-scene",
 				"Compatibilidade WebGL": "manual/pt-br/introduction/WebGL-compatibility-check",
-				"Como executar localmente": "manual/pt-br/introduction/How-to-run-things-locally",
 				"Desenhando linhas": "manual/pt-br/introduction/Drawing-lines",
 				"Criando texto": "manual/pt-br/introduction/Creating-text",
 				"Carregando modelos 3D": "manual/pt-br/introduction/Loading-3D-models",
@@ -1468,10 +1524,6 @@
 				"Transformações de matriz": "manual/pt-br/introduction/Matrix-transformations",
 				"Sistema de animação": "manual/pt-br/introduction/Animation-system",
 				"Gerenciamento de cor": "manual/pt-br/introduction/Color-management"
-			},
-
-			"Ferramentas de Build": {
-				"Testando com NPM": "manual/pt-br/buildTools/Testing-with-NPM"
 			}
 
 		},
@@ -1534,10 +1586,9 @@
 		"Manuel": {
 
 			"Débuter": {
-				"Créer une scène": "manual/fr/introduction/Creating-a-scene",
 				"Installation": "manual/fr/introduction/Installation",
+				"Créer une scène": "manual/fr/introduction/Creating-a-scene",
 				"Compatibilité WebGL": "manual/fr/introduction/WebGL-compatibility-check",
-				"Exécuter localement": "manual/fr/introduction/How-to-run-things-locally",
 				"Dessiner des lignes": "manual/fr/introduction/Drawing-lines",
 				"Créer un texte": "manual/fr/introduction/Creating-text",
 				"Importer des modèles 3D": "manual/fr/introduction/Loading-3D-models",
@@ -1554,16 +1605,7 @@
 				"Matrices de transformation": "manual/fr/introduction/Matrix-transformations",
 				"Système d'animation": "manual/fr/introduction/Animation-system",
 				"Gestion des couleurs": "manual/fr/introduction/Color-management"
-			},
-
-			"Outils de build": {
-				"Tests avec NPM": "manual/fr/buildTools/Testing-with-NPM"
-			},
-			"Noyau": {
-				"BufferAttribute": "api/fr/core/BufferAttribute",
-				"BufferGeometry": "api/fr/core/BufferGeometry"
 			}
-
 
 		},
 
@@ -1636,6 +1678,31 @@
 				"TorusKnotGeometry": "api/fr/geometries/TorusKnotGeometry",
 				"TubeGeometry": "api/fr/geometries/TubeGeometry",
 				"WireframeGeometry": "api/fr/geometries/WireframeGeometry"
+			},
+			"Matériaux": {
+				"LineBasicMaterial": "api/fr/materials/LineBasicMaterial",
+				"LineDashedMaterial": "api/fr/materials/LineDashedMaterial",
+				"Material": "api/fr/materials/Material",
+				"MeshBasicMaterial": "api/fr/materials/MeshBasicMaterial",
+				"MeshDepthMaterial": "api/fr/materials/MeshDepthMaterial",
+				"MeshDistanceMaterial": "api/fr/materials/MeshDistanceMaterial",
+				"MeshLambertMaterial": "api/fr/materials/MeshLambertMaterial",
+				"MeshMatcapMaterial": "api/fr/materials/MeshMatcapMaterial",
+				"MeshNormalMaterial": "api/fr/materials/MeshNormalMaterial",
+				"MeshPhongMaterial": "api/fr/materials/MeshPhongMaterial",
+				"MeshPhysicalMaterial": "api/fr/materials/MeshPhysicalMaterial",
+				"MeshStandardMaterial": "api/fr/materials/MeshStandardMaterial",
+				"MeshToonMaterial": "api/fr/materials/MeshToonMaterial",
+				"PointsMaterial": "api/fr/materials/PointsMaterial",
+				"RawShaderMaterial": "api/fr/materials/RawShaderMaterial",
+				"ShaderMaterial": "api/fr/materials/ShaderMaterial",
+				"ShadowMaterial": "api/fr/materials/ShadowMaterial",
+				"SpriteMaterial": "api/fr/materials/SpriteMaterial"
+			},
+
+			"Noyau": {
+				"BufferAttribute": "api/fr/core/BufferAttribute",
+				"BufferGeometry": "api/fr/core/BufferGeometry"
 			}
 
 		}
@@ -1647,10 +1714,9 @@
 		"Руководство": {
 
 			"Приступая к работе": {
-				"Создание сцены": "manual/ru/introduction/Creating-a-scene",
 				"Установка": "manual/ru/introduction/Installation",
+				"Создание сцены": "manual/ru/introduction/Creating-a-scene",
 				"Проверка совместимости с WebGL": "manual/ru/introduction/WebGL-compatibility-check",
-				"Локальная разработка ": "manual/ru/introduction/How-to-run-things-locally",
 				"Рисование линий": "manual/ru/introduction/Drawing-lines",
 				"Создание текста": "manual/ru/introduction/Creating-text",
 				"Загрузка 3D-моделей": "manual/ru/introduction/Loading-3D-models",
@@ -1667,10 +1733,6 @@
 				"Matrix transformations": "manual/en/introduction/Matrix-transformations",
 				"Animation system": "manual/en/introduction/Animation-system",
 				"Color management": "manual/en/introduction/Color-management"
-			},
-
-			"Build Tools": {
-				"Testing with NPM": "manual/en/buildTools/Testing-with-NPM"
 			}
 
 		},
@@ -2019,7 +2081,6 @@
 				"OBJLoader": "examples/en/loaders/OBJLoader",
 				"PCDLoader": "examples/en/loaders/PCDLoader",
 				"PDBLoader": "examples/en/loaders/PDBLoader",
-				"PRWMLoader": "examples/en/loaders/PRWMLoader",
 				"SVGLoader": "examples/en/loaders/SVGLoader",
 				"TGALoader": "examples/en/loaders/TGALoader"
 			},

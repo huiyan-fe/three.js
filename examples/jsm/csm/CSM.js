@@ -6,7 +6,7 @@ import {
 	ShaderChunk,
 	Matrix4,
 	Box3
-} from 'bmap-three';
+} from 'three';
 import { CSMFrustum } from './CSMFrustum.js';
 import { CSMShader } from './CSMShader.js';
 
@@ -23,8 +23,6 @@ const _up = new Vector3( 0, 1, 0 );
 export class CSM {
 
 	constructor( data ) {
-
-		data = data || {};
 
 		this.camera = data.camera;
 		this.parent = data.parent;

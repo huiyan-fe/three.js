@@ -9,7 +9,7 @@ import {
 	Sphere,
 	Vector3,
 	Vector4
-} from 'bmap-three';
+} from 'three';
 import { LineSegmentsGeometry } from '../lines/LineSegmentsGeometry.js';
 import { LineMaterial } from '../lines/LineMaterial.js';
 
@@ -80,7 +80,7 @@ function raycastWorldUnits( lineSegments, intersects ) {
 				face: null,
 				faceIndex: i,
 				uv: null,
-				uv2: null,
+				uv1: null,
 			} );
 
 		}
@@ -213,7 +213,7 @@ function raycastScreenSpace( lineSegments, camera, intersects ) {
 				face: null,
 				faceIndex: i,
 				uv: null,
-				uv2: null,
+				uv1: null,
 			} );
 
 		}

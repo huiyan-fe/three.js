@@ -1,14 +1,6 @@
 import { defaultShaderStages, NodeFrame, MathNode, GLSLNodeParser, NodeBuilder } from 'three/nodes';
 import SlotNode from './SlotNode.js';
-<<<<<<< HEAD
-import GLSLNodeParser from 'three-nodes/parsers/GLSLNodeParser.js';
-import WebGLPhysicalContextNode from './WebGLPhysicalContextNode.js';
-
-import { PerspectiveCamera, ShaderChunk, ShaderLib, UniformsUtils, UniformsLib,
-	LinearEncoding, RGBAFormat, UnsignedByteType, sRGBEncoding } from 'bmap-three';
-=======
 import { PerspectiveCamera, ShaderChunk, ShaderLib, UniformsUtils, UniformsLib } from 'three';
->>>>>>> mrdoob-dev
 
 const nodeFrame = new NodeFrame();
 nodeFrame.camera = new PerspectiveCamera();
@@ -23,6 +15,12 @@ const nodeShaderLib = {
 
 const glslMethods = {
 	[ MathNode.ATAN2 ]: 'atan'
+};
+
+const precisionLib = {
+	low: 'lowp',
+	medium: 'mediump',
+	high: 'highp'
 };
 
 function getIncludeSnippet( name ) {
@@ -63,18 +61,6 @@ class WebGLNodeBuilder extends NodeBuilder {
 	addSlot( shaderStage, slotNode ) {
 
 		this.slots[ shaderStage ].push( slotNode );
-
-	}
-
-	addFlowCode( code ) {
-
-		if ( ! /;\s*$/.test( code ) ) {
-
-			code += ';';
-
-		}
-
-		super.addFlowCode( code + '\n\t' );
 
 	}
 
@@ -436,27 +422,21 @@ class WebGLNodeBuilder extends NodeBuilder {
 
 	}
 
-	getTexture( textureProperty, uvSnippet ) {
+	getTexture( texture, textureProperty, uvSnippet ) {
 
-		return `texture2D( ${textureProperty}, ${uvSnippet} )`;
+		if ( texture.isTextureCube ) {
 
-	}
+			return `textureCube( ${textureProperty}, ${uvSnippet} )`;
 
-	getTextureBias( textureProperty, uvSnippet, biasSnippet ) {
+		} else {
 
-		if ( this.material.extensions !== undefined ) this.material.extensions.shaderTextureLOD = true;
+			return `texture2D( ${textureProperty}, ${uvSnippet} )`;
 
-		return `textureLod( ${textureProperty}, ${uvSnippet}, ${biasSnippet} )`;
-
-	}
-
-	getCubeTexture( textureProperty, uvSnippet ) {
-
-		return `textureCube( ${textureProperty}, ${uvSnippet} )`;
+		}
 
 	}
 
-	getCubeTextureBias( textureProperty, uvSnippet, biasSnippet ) {
+	getTextureBias( texture, textureProperty, uvSnippet, biasSnippet ) {
 
 		if ( this.material.extensions !== undefined ) this.material.extensions.shaderTextureLOD = true;
 
@@ -468,29 +448,45 @@ class WebGLNodeBuilder extends NodeBuilder {
 
 		const uniforms = this.uniforms[ shaderStage ];
 
-		let snippet = '';
+		let output = '';
 
 		for ( const uniform of uniforms ) {
 
+			let snippet = null;
+
 			if ( uniform.type === 'texture' ) {
 
-				snippet += `uniform sampler2D ${uniform.name}; `;
+				snippet = `sampler2D ${uniform.name}; `;
 
 			} else if ( uniform.type === 'cubeTexture' ) {
 
-				snippet += `uniform samplerCube ${uniform.name}; `;
+				snippet = `samplerCube ${uniform.name}; `;
 
 			} else {
 
 				const vectorType = this.getVectorType( uniform.type );
 
-				snippet += `uniform ${vectorType} ${uniform.name}; `;
+				snippet = `${vectorType} ${uniform.name}; `;
 
 			}
 
+			const precision = uniform.node.precision;
+
+			if ( precision !== null ) {
+
+				snippet = 'uniform ' + precisionLib[ precision ] + ' ' + snippet;
+
+			} else {
+
+				snippet = 'uniform ' + snippet;
+
+			}
+
+			output += snippet;
+
 		}
 
-		return snippet;
+		return output;
 
 	}
 

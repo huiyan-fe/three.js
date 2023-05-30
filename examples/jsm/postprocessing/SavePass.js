@@ -1,8 +1,9 @@
 import {
+	HalfFloatType,
 	ShaderMaterial,
 	UniformsUtils,
 	WebGLRenderTarget
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 import { CopyShader } from '../shaders/CopyShader.js';
 
@@ -30,7 +31,7 @@ class SavePass extends Pass {
 
 		if ( this.renderTarget === undefined ) {
 
-			this.renderTarget = new WebGLRenderTarget(); // will be resized later
+			this.renderTarget = new WebGLRenderTarget( 1, 1, { type: HalfFloatType } ); // will be resized later
 			this.renderTarget.texture.name = 'SavePass.rt';
 
 		}

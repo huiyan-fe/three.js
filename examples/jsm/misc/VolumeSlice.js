@@ -5,8 +5,9 @@ import {
 	Mesh,
 	MeshBasicMaterial,
 	PlaneGeometry,
-	Texture
-} from 'bmap-three';
+	Texture,
+	SRGBColorSpace
+} from 'three';
 
 /**
  * This class has been made to hold a slice of a volume data
@@ -68,6 +69,7 @@ class VolumeSlice {
 		const canvasMap = new Texture( this.canvas );
 		canvasMap.minFilter = LinearFilter;
 		canvasMap.wrapS = canvasMap.wrapT = ClampToEdgeWrapping;
+		canvasMap.colorSpace = SRGBColorSpace;
 		const material = new MeshBasicMaterial( { map: canvasMap, side: DoubleSide, transparent: true } );
 		/**
 		 * @member {Mesh} mesh The mesh ready to get used in the scene

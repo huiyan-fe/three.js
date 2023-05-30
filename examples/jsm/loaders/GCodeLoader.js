@@ -6,7 +6,7 @@ import {
 	LineBasicMaterial,
 	LineSegments,
 	Loader
-} from 'bmap-three';
+} from 'three';
 
 /**
  * GCodeLoader is used to load gcode files usually used for 3D printing or CNC applications.

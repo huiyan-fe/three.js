@@ -118,7 +118,7 @@ class Material extends EventDispatcher {
 
 			if ( newValue === undefined ) {
 
-				console.warn( 'THREE.Material: \'' + key + '\' parameter is undefined.' );
+				console.warn( `THREE.Material: parameter '${ key }' has value of undefined.` );
 				continue;
 
 			}
@@ -127,7 +127,7 @@ class Material extends EventDispatcher {
 
 			if ( currentValue === undefined ) {
 
-				console.warn( 'THREE.' + this.type + ': \'' + key + '\' is not a property of this material.' );
+				console.warn( `THREE.Material: '${ key }' is not a property of THREE.${ this.type }.` );
 				continue;
 
 			}
@@ -165,7 +165,7 @@ class Material extends EventDispatcher {
 
 		const data = {
 			metadata: {
-				version: 4.5,
+				version: 4.6,
 				type: 'Material',
 				generator: 'Material.toJSON'
 			}
@@ -227,6 +227,15 @@ class Material extends EventDispatcher {
 		if ( this.iridescenceThicknessMap && this.iridescenceThicknessMap.isTexture ) {
 
 			data.iridescenceThicknessMap = this.iridescenceThicknessMap.toJSON( meta ).uuid;
+
+		}
+
+		if ( this.anisotropy !== undefined ) data.anisotropy = this.anisotropy;
+		if ( this.anisotropyRotation !== undefined ) data.anisotropyRotation = this.anisotropyRotation;
+
+		if ( this.anisotropyMap && this.anisotropyMap.isTexture ) {
+
+			data.anisotropyMap = this.anisotropyMap.toJSON( meta ).uuid;
 
 		}
 

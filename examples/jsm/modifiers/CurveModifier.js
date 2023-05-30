@@ -13,7 +13,7 @@ import {
 	NearestFilter,
 	DynamicDrawUsage,
 	Matrix4
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Make a new DataTexture to store the descriptions of the curves.
@@ -270,6 +270,7 @@ export class InstancedFlow extends Flow {
 			count
 		);
 		mesh.instanceMatrix.setUsage( DynamicDrawUsage );
+		mesh.frustumCulled = false;
 		super( mesh, curveCount );
 
 		this.offsets = new Array( count ).fill( 0 );

@@ -7,7 +7,7 @@ import {
 	BufferGeometry,
 	Float32BufferAttribute,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 class ParametricGeometry extends BufferGeometry {
 
@@ -121,6 +121,16 @@ class ParametricGeometry extends BufferGeometry {
 		this.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
 		this.setAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
 		this.setAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+
+	}
+
+	copy( source ) {
+
+		super.copy( source );
+
+		this.parameters = Object.assign( {}, source.parameters );
+
+		return this;
 
 	}
 

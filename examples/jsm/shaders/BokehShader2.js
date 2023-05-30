@@ -1,6 +1,6 @@
 import {
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Depth-of-field shader with bokeh
@@ -345,6 +345,9 @@ const BokehShader = {
 
 			gl_FragColor.rgb = col;
 			gl_FragColor.a = 1.0;
+
+			#include <tonemapping_fragment>
+			#include <encodings_fragment>
 		}`
 
 };

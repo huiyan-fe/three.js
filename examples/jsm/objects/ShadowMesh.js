@@ -1,15 +1,10 @@
 import {
 	Matrix4,
 	Mesh,
-<<<<<<< HEAD
-	MeshBasicMaterial
-} from 'bmap-three';
-=======
 	MeshBasicMaterial,
 	EqualStencilFunc,
 	IncrementStencilOp
 } from 'three';
->>>>>>> mrdoob-dev
 
 /**
  * A shadow Mesh that follows a shadow-casting Mesh in the scene, but is confined to a single plane.
@@ -28,9 +23,9 @@ class ShadowMesh extends Mesh {
 			opacity: 0.6,
 			depthWrite: false,
 			stencilWrite: true,
-            		stencilFunc: EqualStencilFunc,
-            		stencilRef: 0,
-            		stencilZPass: IncrementStencilOp
+			stencilFunc: EqualStencilFunc,
+			stencilRef: 0,
+			stencilZPass: IncrementStencilOp
 
 		} );
 

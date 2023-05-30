@@ -1,6 +1,6 @@
 import {
 	Color
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Luminosity

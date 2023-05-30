@@ -11,16 +11,19 @@ export default QUnit.module( 'Renderers', () => {
 		// INHERITANCE
 		QUnit.test( 'Extending', ( assert ) => {
 
-			var object = new WebGLRenderTarget();
-
-			assert.strictEqual( object instanceof EventDispatcher, true, 'WebGLRenderTarget extends from EventDispatcher' );
+			const object = new WebGLRenderTarget();
+			assert.strictEqual(
+				object instanceof EventDispatcher, true,
+				'WebGLRenderTarget extends from EventDispatcher'
+			);
 
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new WebGLRenderTarget();
+			assert.ok( object, 'Can instantiate a WebGLRenderTarget.' );
 
 		} );
 
@@ -116,9 +119,12 @@ export default QUnit.module( 'Renderers', () => {
 
 		} );
 
-		QUnit.todo( 'dispose', ( assert ) => {
+		QUnit.test( 'dispose', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			assert.expect( 0 );
+
+			const object = new WebGLRenderTarget();
+			object.dispose();
 
 		} );
 

@@ -7,7 +7,7 @@ import {
 	Sphere,
 	Vector3,
 	WireframeGeometry
-} from 'bmap-three';
+} from 'three';
 
 const _box = new Box3();
 const _vector = new Vector3();

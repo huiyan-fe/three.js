@@ -1,7 +1,7 @@
 import {
 	ShaderMaterial,
 	UniformsUtils
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 import { HalftoneShader } from '../shaders/HalftoneShader.js';
 

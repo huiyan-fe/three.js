@@ -1,7 +1,7 @@
 import {
 	FileLoader,
 	Loader
-} from 'bmap-three';
+} from 'three';
 import opentype from '../libs/opentype.module.js';
 
 /**

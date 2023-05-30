@@ -1,4 +1,5 @@
-export const REVISION = '150dev';
+export const REVISION = '153dev';
+
 export const MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
 export const TOUCH = { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 };
 export const CullFaceNone = 0;
@@ -139,7 +140,9 @@ export const AdditiveAnimationBlendMode = 2501;
 export const TrianglesDrawMode = 0;
 export const TriangleStripDrawMode = 1;
 export const TriangleFanDrawMode = 2;
+/** @deprecated Use LinearSRGBColorSpace or NoColorSpace in three.js r152+. */
 export const LinearEncoding = 3000;
+/** @deprecated Use SRGBColorSpace in three.js r152+. */
 export const sRGBEncoding = 3001;
 export const BasicDepthPacking = 3200;
 export const RGBADepthPacking = 3201;
@@ -150,6 +153,7 @@ export const ObjectSpaceNormalMap = 1;
 export const NoColorSpace = '';
 export const SRGBColorSpace = 'srgb';
 export const LinearSRGBColorSpace = 'srgb-linear';
+export const DisplayP3ColorSpace = 'display-p3';
 
 export const ZeroStencilOp = 0;
 export const KeepStencilOp = 7680;
@@ -168,6 +172,15 @@ export const GreaterStencilFunc = 516;
 export const NotEqualStencilFunc = 517;
 export const GreaterEqualStencilFunc = 518;
 export const AlwaysStencilFunc = 519;
+
+export const NeverCompare = 512;
+export const LessCompare = 513;
+export const EqualCompare = 514;
+export const LessEqualCompare = 515;
+export const GreaterCompare = 516;
+export const NotEqualCompare = 517;
+export const GreaterEqualCompare = 518;
+export const AlwaysCompare = 519;
 
 export const StaticDrawUsage = 35044;
 export const DynamicDrawUsage = 35048;

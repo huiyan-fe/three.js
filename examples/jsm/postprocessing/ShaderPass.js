@@ -1,7 +1,7 @@
 import {
 	ShaderMaterial,
 	UniformsUtils
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 
 class ShaderPass extends Pass {
@@ -24,6 +24,7 @@ class ShaderPass extends Pass {
 
 			this.material = new ShaderMaterial( {
 
+				name: ( shader.name !== undefined ) ? shader.name : 'unspecified',
 				defines: Object.assign( {}, shader.defines ),
 				uniforms: this.uniforms,
 				vertexShader: shader.vertexShader,

@@ -5,7 +5,7 @@ import {
 	Sphere,
 	Triangle,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 import { Capsule } from '../math/Capsule.js';
 
 

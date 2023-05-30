@@ -3,7 +3,7 @@ import {
 	Object3D,
 	Quaternion,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 import { CCDIKSolver } from '../animation/CCDIKSolver.js';
 import { MMDPhysics } from '../animation/MMDPhysics.js';
 

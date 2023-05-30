@@ -10,7 +10,7 @@ import {
 	MeshBasicMaterial,
 	BufferAttribute,
 	DoubleSide
-} from 'bmap-three';
+} from 'three';
 
 class CSMHelper extends Group {
 

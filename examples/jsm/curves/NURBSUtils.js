@@ -1,7 +1,7 @@
 import {
 	Vector3,
 	Vector4
-} from 'bmap-three';
+} from 'three';
 
 /**
  * NURBS utils

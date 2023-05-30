@@ -1,6 +1,6 @@
 import {
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 /**
  * tool for "unwrapping" and debugging three.js geometries UV mapping

@@ -6,7 +6,7 @@ import {
 	LineBasicMaterial,
 	Mesh,
 	MeshBasicMaterial
-} from 'bmap-three';
+} from 'three';
 
 /**
  *  This helper must be added as a child of the light

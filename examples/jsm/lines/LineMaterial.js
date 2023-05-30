@@ -17,7 +17,7 @@ import {
 	UniformsLib,
 	UniformsUtils,
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 
 UniformsLib.line = {

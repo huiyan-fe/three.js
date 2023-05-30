@@ -3,7 +3,7 @@ import {
 	Plane,
 	Triangle,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Ported from: https://github.com/maurizzzio/quickhull3d/ by Mauricio Poppe (https://github.com/maurizzzio)

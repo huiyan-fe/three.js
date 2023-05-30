@@ -1,12 +1,14 @@
 import {
 	Color
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Colorify shader
  */
 
 const ColorifyShader = {
+
+	name: 'ColorifyShader',
 
 	uniforms: {
 

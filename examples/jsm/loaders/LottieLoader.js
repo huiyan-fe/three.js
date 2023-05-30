@@ -2,8 +2,9 @@ import {
 	FileLoader,
 	Loader,
 	CanvasTexture,
-	NearestFilter
-} from 'bmap-three';
+	NearestFilter,
+	SRGBColorSpace
+} from 'three';
 
 import lottie from '../libs/lottie_canvas.module.js';
 
@@ -21,6 +22,7 @@ class LottieLoader extends Loader {
 
 		const texture = new CanvasTexture();
 		texture.minFilter = NearestFilter;
+		texture.colorSpace = SRGBColorSpace;
 
 		const loader = new FileLoader( this.manager );
 		loader.setPath( this.path );

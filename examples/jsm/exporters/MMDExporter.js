@@ -2,7 +2,7 @@ import {
 	Matrix4,
 	Quaternion,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 import { MMDParser } from '../libs/mmdparser.module.js';
 
 /**

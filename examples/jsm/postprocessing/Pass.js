@@ -3,11 +3,13 @@ import {
 	Float32BufferAttribute,
 	OrthographicCamera,
 	Mesh
-} from 'bmap-three';
+} from 'three';
 
 class Pass {
 
 	constructor() {
+
+		this.isPass = true;
 
 		// if set to true, the pass is processed by the composer
 		this.enabled = true;

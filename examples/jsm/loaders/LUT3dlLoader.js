@@ -9,7 +9,7 @@ import {
 	UnsignedByteType,
 	ClampToEdgeWrapping,
 	LinearFilter,
-} from 'bmap-three';
+} from 'three';
 
 export class LUT3dlLoader extends Loader {
 

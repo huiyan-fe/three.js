@@ -2,7 +2,7 @@ import {
 	AnimationClip,
 	AnimationMixer,
 	Mesh
-} from 'bmap-three';
+} from 'three';
 
 class MorphAnimMesh extends Mesh {
 

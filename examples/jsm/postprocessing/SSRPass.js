@@ -14,7 +14,7 @@ import {
 	UnsignedShortType,
 	WebGLRenderTarget,
 	HalfFloatType,
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 import { SSRShader } from '../shaders/SSRShader.js';
 import { SSRBlurShader } from '../shaders/SSRShader.js';
@@ -162,6 +162,7 @@ class SSRPass extends Pass {
 		this.beautyRenderTarget = new WebGLRenderTarget( this.width, this.height, {
 			minFilter: NearestFilter,
 			magFilter: NearestFilter,
+			type: HalfFloatType,
 			depthTexture: depthTexture,
 			depthBuffer: true
 		} );
@@ -184,7 +185,8 @@ class SSRPass extends Pass {
 
 		this.metalnessRenderTarget = new WebGLRenderTarget( this.width, this.height, {
 			minFilter: NearestFilter,
-			magFilter: NearestFilter
+			magFilter: NearestFilter,
+			type: HalfFloatType,
 		} );
 
 

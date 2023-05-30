@@ -10,7 +10,7 @@ import {
 	HalfFloatType,
 	RGBAFormat,
 	DataUtils,
-} from 'bmap-three';
+} from 'three';
 import * as fflate from '../libs/fflate.module.js';
 
 const textEncoder = new TextEncoder();
@@ -87,7 +87,7 @@ function buildInfo( renderTarget, options = {} ) {
 		HEIGHT = renderTarget.height,
 		TYPE = renderTarget.texture.type,
 		FORMAT = renderTarget.texture.format,
-		ENCODING = renderTarget.texture.encoding,
+		COLOR_SPACE = renderTarget.texture.colorSpace,
 		COMPRESSION = ( options.compression !== undefined ) ? options.compression : ZIP_COMPRESSION,
 		EXPORTER_TYPE = ( options.type !== undefined ) ? options.type : HalfFloatType,
 		OUT_TYPE = ( EXPORTER_TYPE === FloatType ) ? 2 : 1,
@@ -99,7 +99,7 @@ function buildInfo( renderTarget, options = {} ) {
 		height: HEIGHT,
 		type: TYPE,
 		format: FORMAT,
-		encoding: ENCODING,
+		colorSpace: COLOR_SPACE,
 		compression: COMPRESSION,
 		blockLines: COMPRESSION_SIZE,
 		dataType: OUT_TYPE,

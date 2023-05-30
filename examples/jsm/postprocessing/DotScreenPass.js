@@ -1,7 +1,7 @@
 import {
 	ShaderMaterial,
 	UniformsUtils
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 import { DotScreenShader } from '../shaders/DotScreenShader.js';
 
@@ -21,6 +21,7 @@ class DotScreenPass extends Pass {
 
 		this.material = new ShaderMaterial( {
 
+			name: shader.name,
 			uniforms: this.uniforms,
 			vertexShader: shader.vertexShader,
 			fragmentShader: shader.fragmentShader

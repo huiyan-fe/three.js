@@ -2,7 +2,7 @@ import {
 	Mesh,
 	ShaderMaterial,
 	SphereGeometry
-} from 'bmap-three';
+} from 'three';
 
 class LightProbeHelper extends Mesh {
 

@@ -22,9 +22,10 @@ export default QUnit.module( 'Lights', () => {
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new SpotLightShadow();
+			assert.ok( object, 'Can instantiate a SpotLightShadow.' );
 
 		} );
 
@@ -82,16 +83,16 @@ export default QUnit.module( 'Lights', () => {
 
 		QUnit.test( 'toJSON', ( assert ) => {
 
-			var light = new SpotLight();
-			var shadow = new SpotLightShadow();
+			const light = new SpotLight();
+			const shadow = new SpotLightShadow();
 
 			shadow.bias = 10;
 			shadow.radius = 5;
 			shadow.mapSize.set( 128, 128 );
 			light.shadow = shadow;
 
-			var json = light.toJSON();
-			var newLight = new ObjectLoader().parse( json );
+			const json = light.toJSON();
+			const newLight = new ObjectLoader().parse( json );
 
 			assert.smartEqual( newLight.shadow, light.shadow, 'Reloaded shadow is equal to the original one' );
 

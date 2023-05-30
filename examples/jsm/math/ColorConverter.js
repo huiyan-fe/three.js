@@ -1,4 +1,4 @@
-import { MathUtils } from 'bmap-three';
+import { MathUtils } from 'three';
 
 const _hsl = {};
 

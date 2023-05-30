@@ -4,10 +4,11 @@ import {
 	AddEquation,
 	SrcAlphaFactor,
 	Color,
+	HalfFloatType,
 	ShaderMaterial,
 	UniformsUtils,
 	WebGLRenderTarget
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 import { CopyShader } from '../shaders/CopyShader.js';
 
@@ -87,7 +88,7 @@ class SSAARenderPass extends Pass {
 
 		if ( ! this.sampleRenderTarget ) {
 
-			this.sampleRenderTarget = new WebGLRenderTarget( readBuffer.width, readBuffer.height );
+			this.sampleRenderTarget = new WebGLRenderTarget( readBuffer.width, readBuffer.height, { type: HalfFloatType } );
 			this.sampleRenderTarget.texture.name = 'SSAARenderPass.sample';
 
 		}

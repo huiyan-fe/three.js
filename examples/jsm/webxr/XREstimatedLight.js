@@ -3,7 +3,7 @@ import {
 	Group,
 	LightProbe,
 	WebGLCubeRenderTarget
-} from 'bmap-three';
+} from 'three';
 
 class SessionLightProbe {
 

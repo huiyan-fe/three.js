@@ -1,6 +1,6 @@
 import {
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Dot screen shader
@@ -9,6 +9,8 @@ import {
  */
 
 const DotScreenShader = {
+
+	name: 'DotScreenShader',
 
 	uniforms: {
 

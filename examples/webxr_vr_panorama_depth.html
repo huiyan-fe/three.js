@@ -16,7 +16,7 @@
 
 		<!-- Import maps polyfill -->
 		<!-- Remove this when import maps will be widely supported -->
-		<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+		<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
 
 		<script type="importmap">
 			{
@@ -29,13 +29,8 @@
 
 		<script type="module">
 
-<<<<<<< HEAD
-			import * as THREE from 'bmap-three';
-			import { VRButton } from './jsm/webxr/VRButton.js';
-=======
 			import * as THREE from 'three';
 			import { VRButton } from 'three/addons/webxr/VRButton.js';
->>>>>>> mrdoob-dev
 
 			let camera, scene, renderer, sphere, clock;
 
@@ -75,6 +70,7 @@
 
 				loader.load( './textures/kandao3.jpg', function ( texture ) {
 
+					texture.colorSpace = THREE.SRGBColorSpace;
 					texture.minFilter = THREE.NearestFilter;
 					texture.generateMipmaps = false;
 					sphere.material.map = texture;

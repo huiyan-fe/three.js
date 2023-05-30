@@ -10,7 +10,7 @@ import {
  	MeshStandardMaterial,
  	PointLight,
  	Scene,
-} from 'bmap-three';
+} from 'three';
 
 class RoomEnvironment extends Scene {
 

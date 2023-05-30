@@ -24,6 +24,18 @@
 			and they require special handling during the disposal process. More information in the [link:https://threejs.org/docs/#manual/en/introduction/How-to-dispose-of-objects How to dispose of objects] guide.
 		</p>
 
+		<h2>进口</h2>
+
+		<p>
+			[name] 是一个附加组件，必须显式导入。
+			See [link:#manual/introduction/Installation Installation / Addons].
+		</p>
+
+		<code>
+			import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+		</code>
+
+
 		<h2>扩展</h2>
 
 		<p>
@@ -58,7 +70,7 @@
 		</ul>
 
 		<p><i>
-			<sup>1</sup>需要[link:https://threejs.org/docs/#api/en/renderers/WebGLRenderer.physicallyCorrectLights physicallyCorrectLights]被启用。
+			<sup>1</sup>Requires [link:https://threejs.org/docs/#api/en/renderers/WebGLRenderer.useLegacyLights useLegacyLights] to be disabled.
 		</i></p>
 		<p><i>
 			<sup>2</sup>支持UV变换，但存在一些重要的限制。
@@ -129,7 +141,7 @@
 		颜色空间并显示在屏幕上。除非你需要使用线性颜色空间进行后期处理，否则请在使用glTF的时候将[page:WebGLRenderer]进行如下配置：</p>
 
 		<code>
-		renderer.outputEncoding = THREE.sRGBEncoding;
+		renderer.outputColorSpace = THREE.SRGBColorSpace;
 		</code>
 
 		<p>假设渲染器的配置如上所示，则GLTFLoader将可以正确地自动配置从.gltf或.glb文件中引用的纹理。
@@ -137,7 +149,7 @@
 
 		<code>
 		// If texture is used for color information, set colorspace.
-		texture.encoding = THREE.sRGBEncoding;
+		texture.colorSpace = THREE.SRGBColorSpace;
 
 		// UVs use the convention that (0, 0) corresponds to the upper left corner of a texture.
 		texture.flipY = false;

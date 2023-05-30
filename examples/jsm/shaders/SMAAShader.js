@@ -1,6 +1,6 @@
 import {
 	Vector2
-} from 'bmap-three';
+} from 'three';
 
 /**
  * WebGL port of Subpixel Morphological Antialiasing (SMAA) v2.8

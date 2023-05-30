@@ -8,7 +8,7 @@ import {
 	Vector2,
 	Vector3,
 	Vector4
-} from 'bmap-three';
+} from 'three';
 
 class RenderableObject {
 

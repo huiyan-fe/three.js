@@ -10,16 +10,19 @@ export default QUnit.module( 'Objects', () => {
 		// INHERITANCE
 		QUnit.test( 'Extending', ( assert ) => {
 
-			var sprite = new Sprite();
-
-			assert.strictEqual( sprite instanceof Object3D, true, 'Sprite extends from Object3D' );
+			const sprite = new Sprite();
+			assert.strictEqual(
+				sprite instanceof Object3D, true,
+				'Sprite extends from Object3D'
+			);
 
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new Sprite();
+			assert.ok( object, 'Can instantiate a Sprite.' );
 
 		} );
 

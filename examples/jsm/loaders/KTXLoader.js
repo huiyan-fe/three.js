@@ -1,6 +1,6 @@
 import {
 	CompressedTextureLoader
-} from 'bmap-three';
+} from 'three';
 
 /**
  * for description see https://www.khronos.org/opengles/sdk/tools/KTX/

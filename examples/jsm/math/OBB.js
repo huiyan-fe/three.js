@@ -5,7 +5,7 @@ import {
 	Matrix3,
 	Ray,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 // module scope helper variables
 

@@ -2,7 +2,7 @@ import {
 	FileLoader,
 	Loader,
 	ShapePath
-} from 'bmap-three';
+} from 'three';
 
 class FontLoader extends Loader {
 

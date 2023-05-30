@@ -16,7 +16,7 @@ import {
 	FileLoader,
 	Loader,
 	NumberKeyframeTrack
-} from 'bmap-three';
+} from 'three';
 
 class MDDLoader extends Loader {
 

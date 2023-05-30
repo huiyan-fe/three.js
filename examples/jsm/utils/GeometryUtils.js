@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import {
-	Vector3
-} from 'bmap-three';
-=======
 import { Vector3 } from 'three';
->>>>>>> mrdoob-dev
 
 
 /**

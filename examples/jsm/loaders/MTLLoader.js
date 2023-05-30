@@ -9,8 +9,8 @@ import {
 	RepeatWrapping,
 	TextureLoader,
 	Vector2,
-	sRGBEncoding
-} from 'bmap-three';
+	SRGBColorSpace
+} from 'three';
 
 /**
  * Loads a Wavefront .mtl file specifying materials
@@ -361,7 +361,7 @@ class MaterialCreator {
 
 			if ( mapType === 'map' || mapType === 'emissiveMap' ) {
 
-				map.encoding = sRGBEncoding;
+				map.colorSpace = SRGBColorSpace;
 
 			}
 

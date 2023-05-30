@@ -18,7 +18,7 @@ import {
 	SphereGeometry,
 	TorusGeometry,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 const _raycaster = new Raycaster();
 

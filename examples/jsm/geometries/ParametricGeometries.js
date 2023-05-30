@@ -1,7 +1,7 @@
 import {
 	Curve,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 import { ParametricGeometry } from './ParametricGeometry.js';
 

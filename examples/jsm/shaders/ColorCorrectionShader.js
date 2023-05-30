@@ -1,6 +1,6 @@
 import {
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 /**
  * Color correction

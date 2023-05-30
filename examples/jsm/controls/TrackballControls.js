@@ -1,10 +1,11 @@
 import {
 	EventDispatcher,
+	MathUtils,
 	MOUSE,
 	Quaternion,
 	Vector2,
 	Vector3
-} from 'bmap-three';
+} from 'three';
 
 const _changeEvent = { type: 'change' };
 const _startEvent = { type: 'start' };
@@ -42,6 +43,9 @@ class TrackballControls extends EventDispatcher {
 
 		this.minDistance = 0;
 		this.maxDistance = Infinity;
+
+		this.minZoom = 0;
+		this.maxZoom = Infinity;
 
 		this.keys = [ 'KeyA' /*A*/, 'KeyS' /*S*/, 'KeyD' /*D*/ ];
 
@@ -205,8 +209,13 @@ class TrackballControls extends EventDispatcher {
 
 				} else if ( scope.object.isOrthographicCamera ) {
 
-					scope.object.zoom /= factor;
-					scope.object.updateProjectionMatrix();
+					scope.object.zoom = MathUtils.clamp( scope.object.zoom / factor, scope.minZoom, scope.maxZoom );
+
+					if ( lastZoom !== scope.object.zoom ) {
+
+						scope.object.updateProjectionMatrix();
+
+					}
 
 				} else {
 
@@ -226,8 +235,13 @@ class TrackballControls extends EventDispatcher {
 
 					} else if ( scope.object.isOrthographicCamera ) {
 
-						scope.object.zoom /= factor;
-						scope.object.updateProjectionMatrix();
+						scope.object.zoom = MathUtils.clamp( scope.object.zoom / factor, scope.minZoom, scope.maxZoom );
+
+						if ( lastZoom !== scope.object.zoom ) {
+
+							scope.object.updateProjectionMatrix();
+
+						}
 
 					} else {
 

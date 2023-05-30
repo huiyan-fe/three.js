@@ -6,7 +6,7 @@ import {
 	LuminanceFormat,
 	ShaderMaterial,
 	UniformsUtils
-} from 'bmap-three';
+} from 'three';
 import { Pass, FullScreenQuad } from './Pass.js';
 import { DigitalGlitch } from '../shaders/DigitalGlitch.js';
 
