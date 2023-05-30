@@ -11,7 +11,7 @@ export default QUnit.module( 'Objects', () => {
 		// INHERITANCE
 		QUnit.test( 'Extending', ( assert ) => {
 
-			var lineLoop = new LineLoop();
+			const lineLoop = new LineLoop();
 
 			assert.strictEqual( lineLoop instanceof Object3D, true, 'LineLoop extends from Object3D' );
 			assert.strictEqual( lineLoop instanceof Line, true, 'LineLoop extends from Line' );
@@ -19,9 +19,10 @@ export default QUnit.module( 'Objects', () => {
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new LineLoop();
+			assert.ok( object, 'Can instantiate a LineLoop.' );
 
 		} );
 

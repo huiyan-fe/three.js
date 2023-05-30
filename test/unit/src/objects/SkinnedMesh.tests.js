@@ -11,7 +11,7 @@ export default QUnit.module( 'Objects', () => {
 		// INHERITANCE
 		QUnit.test( 'Extending', ( assert ) => {
 
-			var skinnedMesh = new SkinnedMesh();
+			const skinnedMesh = new SkinnedMesh();
 
 			assert.strictEqual( skinnedMesh instanceof Object3D, true, 'SkinnedMesh extends from Object3D' );
 			assert.strictEqual( skinnedMesh instanceof Mesh, true, 'SkinnedMesh extends from Mesh' );
@@ -19,9 +19,10 @@ export default QUnit.module( 'Objects', () => {
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new SkinnedMesh();
+			assert.ok( object, 'Can instantiate a SkinnedMesh.' );
 
 		} );
 
@@ -99,7 +100,7 @@ export default QUnit.module( 'Objects', () => {
 
 		} );
 
-		QUnit.todo( 'boneTransform', ( assert ) => {
+		QUnit.todo( 'applyBoneTransform', ( assert ) => {
 
 			assert.ok( false, 'everything\'s gonna be alright' );
 

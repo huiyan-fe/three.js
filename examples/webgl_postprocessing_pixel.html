@@ -18,7 +18,7 @@
 
 	<!-- Import maps polyfill -->
 	<!-- Remove this when import maps will be widely supported -->
-	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+	<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
 
 	<script type="importmap">
 		{
@@ -36,6 +36,8 @@
 		import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 		import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 		import { RenderPixelatedPass } from 'three/addons/postprocessing/RenderPixelatedPass.js';
+		import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+		import { GammaCorrectionShader } from 'three/addons/shaders/GammaCorrectionShader.js';
 		import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 		let camera, scene, renderer, composer, crystalMesh, clock;
@@ -67,6 +69,9 @@
 			const renderPixelatedPass = new RenderPixelatedPass( 6, scene, camera );
 			composer.addPass( renderPixelatedPass );
 
+			const outputPass = new ShaderPass( GammaCorrectionShader );
+			composer.addPass( outputPass );
+
 			window.addEventListener( 'resize', onWindowResize );
 
 			const controls = new OrbitControls( camera, renderer.domElement );
@@ -80,7 +85,7 @@
 				.onChange( () => {
 
 					renderPixelatedPass.setPixelSize( params.pixelSize );
-		
+
 				} );
 			gui.add( renderPixelatedPass, 'normalEdgeStrength' ).min( 0 ).max( 2 ).step( .05 );
 			gui.add( renderPixelatedPass, 'depthEdgeStrength' ).min( 0 ).max( 1 ).step( .05 );
@@ -97,7 +102,7 @@
 			// meshes
 
 			const boxMaterial = new THREE.MeshPhongMaterial( { map: texChecker2 } );
-		
+
 			function addBox( boxSideLength, x, z, rotation ) {
 
 				const mesh = new THREE.Mesh( new THREE.BoxGeometry( boxSideLength, boxSideLength, boxSideLength ), boxMaterial );
@@ -108,7 +113,7 @@
 				mesh.position.set( x, boxSideLength / 2 + .0001, z );
 				scene.add( mesh );
 				return mesh;
-		
+
 			}
 
 			addBox( .4, 0, 0, Math.PI / 4 );
@@ -128,8 +133,8 @@
 			crystalMesh = new THREE.Mesh(
 				geometry,
 				new THREE.MeshPhongMaterial( {
-					color: 0x2379cf,
-					emissive: 0x143542,
+					color: 0x68b7e9,
+					emissive: 0x4f7e8b,
 					shininess: 10,
 					specular: 0xffffff
 				} )
@@ -140,15 +145,15 @@
 
 			// lights
 
-			scene.add( new THREE.AmbientLight( 0x2d3645, 1.5 ) );
+			scene.add( new THREE.AmbientLight( 0x757f8e ) );
 
-			const directionalLight = new THREE.DirectionalLight( 0xfffc9c, .5 );
+			const directionalLight = new THREE.DirectionalLight( 0xfffecd, .5 );
 			directionalLight.position.set( 100, 100, 100 );
 			directionalLight.castShadow = true;
 			directionalLight.shadow.mapSize.set( 2048, 2048 );
 			scene.add( directionalLight );
 
-			const spotLight = new THREE.SpotLight( 0xff8800, 1, 10, Math.PI / 16, .02, 2 );
+			const spotLight = new THREE.SpotLight( 0xffc100, 1, 10, Math.PI / 16, .02, 2 );
 			spotLight.position.set( 2, 2, 0 );
 			const target = spotLight.target;
 			scene.add( target );
@@ -175,7 +180,7 @@
 			requestAnimationFrame( animate );
 
 			const t = clock.getElapsedTime();
-		
+
 			crystalMesh.material.emissiveIntensity = Math.sin( t * 3 ) * .5 + .5;
 			crystalMesh.position.y = .7 + Math.sin( t * 2 ) * .05;
 			crystalMesh.rotation.y = stopGoEased( t, 2, 4 ) * 2 * Math.PI;
@@ -211,6 +216,7 @@
 			texture.generateMipmaps = false;
 			texture.wrapS = THREE.RepeatWrapping;
 			texture.wrapT = THREE.RepeatWrapping;
+			texture.colorSpace = THREE.SRGBColorSpace;
 			return texture;
 
 		}
@@ -271,7 +277,7 @@
 			camera.updateProjectionMatrix();
 
 		}
-		
+
 	</script>
 </body>
 

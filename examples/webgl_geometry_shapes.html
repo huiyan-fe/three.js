@@ -18,7 +18,7 @@
 
 		<!-- Import maps polyfill -->
 		<!-- Remove this when import maps will be widely supported -->
-		<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+		<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
 
 		<script type="importmap">
 			{
@@ -73,6 +73,7 @@
 
 				const loader = new THREE.TextureLoader();
 				const texture = loader.load( 'textures/uv_grid_opengl.jpg' );
+				texture.colorSpace = THREE.SRGBColorSpace;
 
 				// it's necessary to apply these settings in order to correctly display the texture on a shape geometry
 

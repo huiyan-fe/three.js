@@ -1,35 +1,36 @@
-import TempNode from '../core/Node.js';
-import { ShaderNode, vec3, mat3, float, clamp, max, pow } from '../shadernode/ShaderNodeBaseElements.js';
+import TempNode from '../core/TempNode.js';
+import { addNodeClass } from '../core/Node.js';
+import { ShaderNode, nodeObject, float, mat3 } from '../shadernode/ShaderNode.js';
 
 import { NoToneMapping, LinearToneMapping, ReinhardToneMapping, CineonToneMapping, ACESFilmicToneMapping } from 'three';
 
 // exposure only
-export const LinearToneMappingNode = new ShaderNode( ( { color, exposure } ) => {
+const LinearToneMappingNode = new ShaderNode( ( { color, exposure } ) => {
 
-	return color.mul( exposure );
+	return color.mul( exposure ).clamp();
 
 } );
 
 // source: https://www.cs.utah.edu/docs/techreports/2002/pdf/UUCS-02-001.pdf
-export const ReinhardToneMappingNode = new ShaderNode( ( { color, exposure } ) => {
+const ReinhardToneMappingNode = new ShaderNode( ( { color, exposure } ) => {
 
 	color = color.mul( exposure );
 
-	return clamp( color.div( vec3( 1.0 ).add( color ) ) );
+	return color.div( color.add( 1.0 ) ).clamp();
 
 } );
 
 // source: http://filmicworlds.com/blog/filmic-tonemapping-operators/
-export const OptimizedCineonToneMappingNode = new ShaderNode( ( { color, exposure } ) => {
+const OptimizedCineonToneMappingNode = new ShaderNode( ( { color, exposure } ) => {
 
 	// optimized filmic operator by Jim Hejl and Richard Burgess-Dawson
 	color = color.mul( exposure );
-	color = max( vec3( 0.0 ), color.sub( 0.004 ) );
+	color = color.sub( 0.004 ).max( 0.0 );
 
 	const a = color.mul( color.mul( 6.2 ).add( 0.5 ) );
 	const b = color.mul( color.mul( 6.2 ).add( 1.7 ) ).add( 0.06 );
 
-	return pow( a.div( b ), vec3( 2.2 ) );
+	return a.div( b ).pow( 2.2 );
 
 } );
 
@@ -48,16 +49,16 @@ const ACESFilmicToneMappingNode = new ShaderNode( ( { color, exposure } ) => {
 
 	// sRGB => XYZ => D65_2_D60 => AP1 => RRT_SAT
 	const ACESInputMat = mat3(
-		vec3( 0.59719, 0.07600, 0.02840 ), // transposed from source
-		vec3( 0.35458, 0.90834, 0.13383 ),
-		vec3( 0.04823, 0.01566, 0.83777 )
+		0.59719, 0.35458, 0.04823,
+		0.07600, 0.90834, 0.01566,
+		0.02840, 0.13383, 0.83777
 	);
 
 	// ODT_SAT => XYZ => D60_2_D65 => sRGB
 	const ACESOutputMat = mat3(
-		vec3( 1.60475, - 0.10208, - 0.00327 ), // transposed from source
-		vec3( - 0.53108, 1.10813, - 0.07276 ),
-		vec3( - 0.07367, - 0.00605, 1.07602 )
+		1.60475, - 0.53108, - 0.07367,
+		- 0.10208, 1.10813, - 0.00605,
+		- 0.00327, - 0.07276, 1.07602
 	);
 
 	color = color.mul( exposure ).div( 0.6 );
@@ -70,7 +71,7 @@ const ACESFilmicToneMappingNode = new ShaderNode( ( { color, exposure } ) => {
 	color = ACESOutputMat.mul( color );
 
 	// Clamp to [0, 1]
-	return clamp( color );
+	return color.clamp();
 
 } );
 
@@ -125,3 +126,7 @@ class ToneMappingNode extends TempNode {
 }
 
 export default ToneMappingNode;
+
+export const toneMapping = ( mapping, exposure, color ) => nodeObject( new ToneMappingNode( mapping, nodeObject( exposure ), nodeObject( color ) ) );
+
+addNodeClass( ToneMappingNode );

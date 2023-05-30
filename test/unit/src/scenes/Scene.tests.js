@@ -11,16 +11,19 @@ export default QUnit.module( 'Scenes', () => {
 		// INHERITANCE
 		QUnit.test( 'Extending', ( assert ) => {
 
-			var object = new Scene();
-
-			assert.strictEqual( object instanceof Object3D, true, 'Scene extends from Object3D' );
+			const object = new Scene();
+			assert.strictEqual(
+				object instanceof Object3D, true,
+				'Scene extends from Object3D'
+			);
 
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new Scene();
+			assert.ok( object, 'Can instantiate a Scene.' );
 
 		} );
 

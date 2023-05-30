@@ -9,18 +9,22 @@ export default QUnit.module( 'Textures', () => {
 	QUnit.module( 'Texture', () => {
 
 		// INHERITANCE
-		QUnit.test( 'Instancing', ( assert ) => {
+		QUnit.test( 'Extending', ( assert ) => {
 
-			var object = new Texture();
-
-			assert.strictEqual( object instanceof EventDispatcher, true, 'Texture extends from EventDispatcher' );
+			const object = new Texture();
+			assert.strictEqual(
+				object instanceof EventDispatcher, true,
+				'Texture extends from EventDispatcher'
+			);
 
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			// no params
+			const object = new Texture();
+			assert.ok( object, 'Can instantiate a Texture.' );
 
 		} );
 
@@ -175,7 +179,7 @@ export default QUnit.module( 'Textures', () => {
 
 		} );
 
-		QUnit.todo( 'encoding', ( assert ) => {
+		QUnit.todo( 'colorSpace', ( assert ) => {
 
 			assert.ok( false, 'everything\'s gonna be alright' );
 
@@ -240,9 +244,12 @@ export default QUnit.module( 'Textures', () => {
 
 		} );
 
-		QUnit.todo( 'dispose', ( assert ) => {
+		QUnit.test( 'dispose', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			assert.expect( 0 );
+
+			const object = new Texture();
+			object.dispose();
 
 		} );
 

@@ -11,16 +11,19 @@ export default QUnit.module( 'Textures', () => {
 		// INHERITANCE
 		QUnit.test( 'Extending', ( assert ) => {
 
-			var object = new DataArrayTexture();
-
-			assert.strictEqual( object instanceof Texture, true, 'DataArrayTexture extends from Texture' );
+			const object = new DataArrayTexture();
+			assert.strictEqual(
+				object instanceof Texture, true,
+				'DataArrayTexture extends from Texture'
+			);
 
 		} );
 
 		// INSTANCING
-		QUnit.todo( 'Instancing', ( assert ) => {
+		QUnit.test( 'Instancing', ( assert ) => {
 
-			assert.ok( false, 'everything\'s gonna be alright' );
+			const object = new DataArrayTexture();
+			assert.ok( object, 'Can instantiate a DataArrayTexture.' );
 
 		} );
 

@@ -1,4 +1,6 @@
-import Node from './Node.js';
+import Node, { addNodeClass } from './Node.js';
+import { varying } from '../core/VaryingNode.js';
+import { nodeImmutable } from '../shadernode/ShaderNode.js';
 
 class InstanceIndexNode extends Node {
 
@@ -12,10 +14,32 @@ class InstanceIndexNode extends Node {
 
 	generate( builder ) {
 
-		return builder.getInstanceIndex();
+		const nodeType = this.getNodeType( builder );
+
+		const propertyName = builder.getInstanceIndex();
+
+		let output = null;
+
+		if ( builder.shaderStage === 'vertex' || builder.shaderStage === 'compute' ) {
+
+			output = propertyName;
+
+		} else {
+
+			const nodeVarying = varying( this );
+
+			output = nodeVarying.build( builder, nodeType );
+
+		}
+
+		return output;
 
 	}
 
 }
 
 export default InstanceIndexNode;
+
+export const instanceIndex = nodeImmutable( InstanceIndexNode );
+
+addNodeClass( InstanceIndexNode );
