@@ -10,8 +10,9 @@ import RenderContexts from './RenderContexts.js';
 import Textures from './Textures.js';
 import Background from './Background.js';
 import Nodes from './nodes/Nodes.js';
-import { Frustum, Matrix4, Vector2, Vector3, Vector4, Color, SRGBColorSpace, NoToneMapping } from 'three';
+import { Scene, Frustum, Matrix4, Vector2, Vector3, Vector4, Color, DoubleSide, BackSide, FrontSide, SRGBColorSpace, NoToneMapping } from 'three';
 
+const _scene = new Scene();
 const _drawingBufferSize = new Vector2();
 const _screen = new Vector4();
 const _frustum = new Frustum();
@@ -41,6 +42,9 @@ class Renderer {
 		this.toneMappingExposure = 1.0;
 
 		this.sortObjects = true;
+
+		this.depth = true;
+		this.stencil = true;
 
 		// internals
 
@@ -79,6 +83,7 @@ class Renderer {
 		this._clearStencil = 0;
 
 		this._renderTarget = null;
+		this._currentActiveCubeFace = 0;
 
 		this._initialized = false;
 		this._initPromise = null;
@@ -88,6 +93,10 @@ class Renderer {
 		this.shadowMap = {
 			enabled: false,
 			type: null
+		};
+
+		this.xr = {
+			enabled: false
 		};
 
 	}
@@ -129,7 +138,7 @@ class Renderer {
 			this._textures = new Textures( backend, this._info );
 			this._pipelines = new Pipelines( backend, this._nodes );
 			this._bindings = new Bindings( backend, this._nodes, this._textures, this._attributes, this._pipelines, this._info );
-			this._objects = new RenderObjects( this, this._nodes, this._geometries, this._pipelines, this._info );
+			this._objects = new RenderObjects( this, this._nodes, this._geometries, this._pipelines, this._bindings, this._info );
 			this._renderLists = new RenderLists();
 			this._renderContexts = new RenderContexts();
 
@@ -148,7 +157,13 @@ class Renderer {
 
 	}
 
-	async compile( scene, camera ) {
+	get coordinateSystem() {
+
+		return this.backend.coordinateSystem;
+
+	}
+
+	async compile( /*scene, camera*/ ) {
 
 		console.warn( 'THREE.Renderer: .compile() is not implemented yet.' );
 
@@ -167,12 +182,27 @@ class Renderer {
 
 		//
 
-		const renderContext = this._renderContexts.get( scene, camera );
+		const sceneRef = ( scene.isScene === true ) ? scene : _scene;
+
 		const renderTarget = this._renderTarget;
+		const renderContext = this._renderContexts.get( scene, camera, renderTarget );
+		const activeCubeFace = this._activeCubeFace;
 
 		this._currentRenderContext = renderContext;
 
 		nodeFrame.renderId ++;
+
+		//
+
+		const coordinateSystem = this.coordinateSystem;
+
+		if ( camera.coordinateSystem !== coordinateSystem ) {
+
+			camera.coordinateSystem = coordinateSystem;
+
+			camera.updateProjectionMatrix();
+
+		}
 
 		//
 
@@ -215,13 +245,20 @@ class Renderer {
 		renderContext.scissorValue.copy( scissor ).multiplyScalar( pixelRatio ).floor();
 		renderContext.scissor = this._scissorTest && renderContext.scissorValue.equals( _screen ) === false;
 
+		renderContext.depth = this.depth;
+		renderContext.stencil = this.stencil;
+
+		//
+
+		sceneRef.onBeforeRender( this, scene, camera, renderTarget );
+
 		//
 
 		_projScreenMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
-		_frustum.setFromProjectionMatrix( _projScreenMatrix );
+		_frustum.setFromProjectionMatrix( _projScreenMatrix, coordinateSystem );
 
 		const renderList = this._renderLists.get( scene, camera );
-		renderList.init();
+		renderList.begin();
 
 		this._projectObject( scene, camera, 0, renderList );
 
@@ -241,23 +278,26 @@ class Renderer {
 
 			const renderTargetData = this._textures.get( renderTarget );
 
-			renderContext.texture = renderTargetData.texture;
+			renderContext.textures = renderTargetData.textures;
 			renderContext.depthTexture = renderTargetData.depthTexture;
 
 		} else {
 
-			renderContext.texture = null;
+			renderContext.textures = null;
 			renderContext.depthTexture = null;
 
 		}
 
+		renderContext.activeCubeFace = activeCubeFace;
+		renderContext.occlusionQueryCount = renderList.occlusionQueryCount;
+
 		//
 
-		this._nodes.updateScene( scene );
+		this._nodes.updateScene( sceneRef );
 
 		//
 
-		this._background.update( scene, renderList, renderContext );
+		this._background.update( sceneRef, renderList, renderContext );
 
 		//
 
@@ -269,8 +309,8 @@ class Renderer {
 		const transparentObjects = renderList.transparent;
 		const lightsNode = renderList.lightsNode;
 
-		if ( opaqueObjects.length > 0 ) this._renderObjects( opaqueObjects, camera, scene, lightsNode );
-		if ( transparentObjects.length > 0 ) this._renderObjects( transparentObjects, camera, scene, lightsNode );
+		if ( opaqueObjects.length > 0 ) this._renderObjects( opaqueObjects, camera, sceneRef, lightsNode );
+		if ( transparentObjects.length > 0 ) this._renderObjects( transparentObjects, camera, sceneRef, lightsNode );
 
 		// finish render pass
 
@@ -282,6 +322,10 @@ class Renderer {
 		this._currentRenderContext = previousRenderState;
 
 		this._lastRenderContext = renderContext;
+
+		//
+
+		sceneRef.onAfterRender( this, scene, camera, renderTarget );
 
 	}
 
@@ -297,9 +341,17 @@ class Renderer {
 
 	}
 
-	async getArrayBuffer( attribute ) {
+	getArrayBuffer( attribute ) { // @deprecated, r155
 
-		return await this.backend.getArrayBuffer( attribute );
+		console.warn( 'THREE.Renderer: getArrayBuffer() is deprecated. Use getArrayBufferAsync() instead.' );
+
+		return this.getArrayBufferAsync( attribute );
+
+	}
+
+	async getArrayBufferAsync( attribute ) {
+
+		return await this.backend.getArrayBufferAsync( attribute );
 
 	}
 
@@ -499,6 +551,14 @@ class Renderer {
 
 	}
 
+	isOccluded( object ) {
+
+		const renderContext = this._currentRenderContext || this._lastRenderContext;
+
+		return renderContext && this.backend.isOccluded( renderContext, object );
+
+	}
+
 	clear( color = true, depth = true, stencil = true ) {
 
 		const renderContext = this._currentRenderContext || this._lastRenderContext;
@@ -542,9 +602,16 @@ class Renderer {
 
 	}
 
-	setRenderTarget( renderTarget ) {
+	setRenderTarget( renderTarget, activeCubeFace = 0 ) {
 
 		this._renderTarget = renderTarget;
+		this._activeCubeFace = activeCubeFace;
+
+	}
+
+	getRenderTarget() {
+
+		return this._renderTarget;
 
 	}
 
@@ -554,37 +621,47 @@ class Renderer {
 
 		const backend = this.backend;
 		const pipelines = this._pipelines;
-		const computeGroup = Array.isArray( computeNodes ) ? computeNodes : [ computeNodes ];
+		const bindings = this._bindings;
+		const nodes = this._nodes;
+		const computeList = Array.isArray( computeNodes ) ? computeNodes : [ computeNodes ];
 
-		backend.beginCompute( computeGroup );
+		backend.beginCompute( computeNodes );
 
-		for ( const computeNode of computeGroup ) {
+		for ( const computeNode of computeList ) {
 
 			// onInit
 
 			if ( pipelines.has( computeNode ) === false ) {
 
+				const dispose = () => {
+
+					computeNode.removeEventListener( 'dispose', dispose );
+
+					pipelines.delete( computeNode );
+					bindings.delete( computeNode );
+					nodes.delete( computeNode );
+
+				};
+
+				computeNode.addEventListener( 'dispose', dispose );
+
+				//
+
 				computeNode.onInit( { renderer: this } );
 
 			}
 
-			this._nodes.updateForCompute( computeNode );
-			this._bindings.updateForCompute( computeNode );
+			nodes.updateForCompute( computeNode );
+			bindings.updateForCompute( computeNode );
 
-			const computePipeline = pipelines.getForCompute( computeNode );
-			const computeBindings = this._bindings.getForCompute( computeNode );
+			const computeBindings = bindings.getForCompute( computeNode );
+			const computePipeline = pipelines.getForCompute( computeNode, computeBindings );
 
-			backend.compute( computeGroup, computeNode, computeBindings, computePipeline );
+			backend.compute( computeNodes, computeNode, computeBindings, computePipeline );
 
 		}
 
-		backend.finishCompute( computeGroup );
-
-	}
-
-	getRenderTarget() {
-
-		return this._renderTarget;
+		backend.finishCompute( computeNodes );
 
 	}
 
@@ -601,6 +678,12 @@ class Renderer {
 		this._textures.updateTexture( framebufferTexture );
 
 		this.backend.copyFramebufferToTexture( framebufferTexture, renderContext );
+
+	}
+
+	readRenderTargetPixelsAsync( renderTarget, x, y, width, height ) {
+
+		return this.backend.copyTextureToBuffer( renderTarget.texture, x, y, width, height );
 
 	}
 
@@ -764,10 +847,35 @@ class Renderer {
 
 		object.onBeforeRender( this, scene, camera, geometry, material, group );
 
+		material.onBeforeRender( this, scene, camera, geometry, material, group );
+
 		//
 
-		const renderObject = this._objects.get( object, material, scene, camera, lightsNode );
-		renderObject.context = this._currentRenderContext;
+		if ( material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false ) {
+
+			material.side = BackSide;
+			this._renderObjectDirect( object, material, scene, camera, lightsNode, 'backSide' ); // create backSide pass id
+
+			material.side = FrontSide;
+			this._renderObjectDirect( object, material, scene, camera, lightsNode ); // use default pass id
+
+			material.side = DoubleSide;
+
+		} else {
+
+			this._renderObjectDirect( object, material, scene, camera, lightsNode );
+
+		}
+
+		//
+
+		object.onAfterRender( this, scene, camera, geometry, material, group );
+
+	}
+
+	_renderObjectDirect( object, material, scene, camera, lightsNode, passId ) {
+
+		const renderObject = this._objects.get( object, material, scene, camera, lightsNode, this._currentRenderContext, passId );
 
 		//
 
@@ -781,8 +889,9 @@ class Renderer {
 		//
 
 		this._nodes.updateForRender( renderObject );
-		this._geometries.update( renderObject );
+		this._geometries.updateForRender( renderObject );
 		this._bindings.updateForRender( renderObject );
+		this._pipelines.updateForRender( renderObject );
 
 		//
 

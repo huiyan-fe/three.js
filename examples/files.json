@@ -132,6 +132,7 @@
 		"webgl_loader_xyz",
 		"webgl_lod",
 		"webgl_marchingcubes",
+		"webgl_materials_alphahash",
 		"webgl_materials_blending",
 		"webgl_materials_blending_custom",
 		"webgl_materials_bumpmap",
@@ -141,6 +142,7 @@
 		"webgl_materials_cubemap_dynamic",
 		"webgl_materials_cubemap_refraction",
 		"webgl_materials_cubemap_mipmaps",
+		"webgl_materials_cubemap_render_to_mipmaps",
 		"webgl_materials_curvature",
 		"webgl_materials_displacementmap",
 		"webgl_materials_envmaps",
@@ -304,11 +306,16 @@
 		"webgl2_volume_instancing",
 		"webgl2_volume_perlin"
 	],
-	"webgpu": [
+	"webgpu (wip)": [
 		"webgpu_audio_processing",
 		"webgpu_backdrop",
+		"webgpu_backdrop_area",
+		"webgpu_clearcoat",
 		"webgpu_compute",
+		"webgpu_compute_particles",
+		"webgpu_compute_texture",
 		"webgpu_cubemap_adjustments",
+		"webgpu_cubemap_dynamic",
 		"webgpu_cubemap_mix",
 		"webgpu_depth_texture",
 		"webgpu_equirectangular",
@@ -320,8 +327,13 @@
 		"webgpu_lights_selective",
 		"webgpu_loader_gltf",
 		"webgpu_loader_gltf_compressed",
+		"webgpu_loader_gltf_iridescence",
+		"webgpu_loader_gltf_sheen",
 		"webgpu_materials",
 		"webgpu_materials_video",
+		"webgpu_multiple_rendertargets",
+		"webgpu_morphtargets",
+		"webgpu_occlusion",
 		"webgpu_particles",
 		"webgpu_rtt",
 		"webgpu_sandbox",
@@ -329,7 +341,9 @@
 		"webgpu_skinning",
 		"webgpu_skinning_instancing",
 		"webgpu_skinning_points",
-		"webgpu_sprites"
+		"webgpu_sprites",
+		"webgpu_tsl_editor",
+		"webgpu_video_panorama"
 	],
 	"webaudio": [
 		"webaudio_orientation",
