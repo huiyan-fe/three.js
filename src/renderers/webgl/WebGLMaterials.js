@@ -375,7 +375,7 @@ function WebGLMaterials( renderer, properties ) {
 		if ( envMap ) {
 
 			//uniforms.envMap.value = material.envMap; // part of uniforms common
-			uniforms.envMapIntensity.value = material.envMapIntensity;
+			uniforms.envMapIntensity.value = material.envMapIntensity * ( renderer.envMapIntensity === undefined ? 1 : renderer.envMapIntensity );
 
 		}
 
