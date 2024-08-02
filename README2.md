@@ -7,8 +7,14 @@
 
 ## 同步three更新
 1. 访问 https://github.com/huiyan-fe/three.js
-2. 点击`Sync Fork`，然后`Update Branch`，正常情况下应该不会有什么冲突，如果有，找`@李高锋`解决一下冲突
+2. 点击`Sync Fork`，然后`Update Branch`，正常情况下应该不会有什么冲突，如果有，参考下面的解决冲突部分
 3. 执行`git pull`，本地代码更新为最新的`threejs`代码，然后就可以准备发布了
+
+## 解决冲突
+1. 如果在执行上面步骤的时候发现，点击`Sync Fork`后报冲突，则点击`Open Pull Request`
+2. 在上面代码对比的部分，将`mrdoob/three.js:master <- huiyan-fe/three.js:master`改为`huiyan-fe/three.js:master <- mrdoob/three.js:master`
+3. 点击确定，创建`Pull Request`，然后一直点下一步
+4. 一直点到报冲突提示用命令行解决的地方，按照命令行拉下来代码，找`@李高锋`看下冲突部分的代码，手动解决冲突后把代码提交就OK了
 
 ## 发布
 1. 执行编译`npm run build`
