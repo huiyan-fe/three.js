@@ -19,9 +19,9 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/",
-					"three/nodes": "./jsm/nodes/Nodes.js"
+					"three": "../build/three.webgpu.js",
+					"three/tsl": "../build/three.webgpu.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
@@ -29,12 +29,9 @@
 		<script type="module">
 
 			import * as THREE from 'three';
-			import { tslFn, uniform, storage, instanceIndex, float, texture, viewportTopLeft, color } from 'three/nodes';
+			import { tslFn, uniform, storage, storageObject, instanceIndex, float, texture, viewportTopLeft, color } from 'three/tsl';
 
 			import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-
-			import WebGPU from 'three/addons/capabilities/WebGPU.js';
-			import WebGPURenderer from 'three/addons/renderers/webgpu/WebGPURenderer.js';
 
 			let camera, scene, renderer;
 			let computeNode;
@@ -52,7 +49,7 @@
 
 				// compute audio
 
-				renderer.compute( computeNode );
+				await renderer.computeAsync( computeNode );
 
 				const waveArray = new Float32Array( await renderer.getArrayBufferAsync( waveGPUBuffer ) );
 
@@ -81,23 +78,6 @@
 
 			async function init() {
 
-				if ( WebGPU.isAvailable() === false ) {
-
-					document.body.appendChild( WebGPU.getErrorMessage() );
-
-					throw new Error( 'No WebGPU support' );
-
-				}
-
-				document.onclick = () => {
-
-					const overlay = document.getElementById( 'overlay' );
-					if ( overlay !== null ) overlay.remove();
-
-					playAudioBuffer();
-
-				};
-
 				// audio buffer
 
 				const soundBuffer = await fetch( 'sounds/webgpu-audio-processing.mp3' ).then( res => res.arrayBuffer() );
@@ -115,15 +95,13 @@
 
 				// create webgpu buffers
 
-				waveGPUBuffer = new THREE.InstancedBufferAttribute( waveBuffer, 1 );
+				waveGPUBuffer = new THREE.StorageInstancedBufferAttribute( waveBuffer, 1 );
 
 				const waveStorageNode = storage( waveGPUBuffer, 'float', waveBuffer.length );
 
-
 				// read-only buffer
 
-				const waveNode = storage( new THREE.InstancedBufferAttribute( waveBuffer, 1 ), 'float', waveBuffer.length );
-
+				const waveNode = storageObject( new THREE.StorageInstancedBufferAttribute( waveBuffer, 1 ), 'float', waveBuffer.length ).toReadOnly();
 
 				// params
 
@@ -203,13 +181,23 @@
 
 				// renderer
 
-				renderer = new WebGPURenderer( { antialias: true } );
+				renderer = new THREE.WebGPURenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.setAnimationLoop( render );
 				container.appendChild( renderer.domElement );
 
 				window.addEventListener( 'resize', onWindowResize );
+
+
+				document.onclick = () => {
+
+					const overlay = document.getElementById( 'overlay' );
+					if ( overlay !== null ) overlay.remove();
+
+					playAudioBuffer();
+
+				};
 
 			}
 

@@ -1,6 +1,6 @@
 <html lang="en">
 	<head>
-		<title>three.js - WebGPU - Depth Texture</title>
+		<title>three.js webgpu - depth texture</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
@@ -8,15 +8,15 @@
 	<body>
 
 		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> WebGPU - Depth Texture
+			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgpu - depth texture
 		</div>
 
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/",
-					"three/nodes": "./jsm/nodes/Nodes.js"
+					"three": "../build/three.webgpu.js",
+					"three/tsl": "../build/three.webgpu.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
@@ -24,18 +24,13 @@
 		<script type="module">
 
 			import * as THREE from 'three';
-			import { texture, MeshBasicNodeMaterial } from 'three/nodes';
-
-			import WebGPU from 'three/addons/capabilities/WebGPU.js';
-			import WebGL from 'three/addons/capabilities/WebGL.js';
-
-			import WebGPURenderer from 'three/addons/renderers/webgpu/WebGPURenderer.js';
+			import { texture } from 'three/tsl';
 
 			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 			let camera, scene, controls, renderer;
 
-			let cameraFX, sceneFX, renderTarget;
+			let quad, renderTarget;
 
 			const dpr = window.devicePixelRatio;
 
@@ -43,20 +38,12 @@
 
 			function init() {
 
-				if ( WebGPU.isAvailable() === false && WebGL.isWebGL2Available() === false ) {
-
-					document.body.appendChild( WebGPU.getErrorMessage() );
-
-					throw new Error( 'No WebGPU or WebGL2 support' );
-
-				}
-
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 20 );
 				camera.position.z = 4;
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0x222222 );
-				scene.overrideMaterial = new MeshBasicNodeMaterial();
+				scene.overrideMaterial = new THREE.MeshBasicNodeMaterial();
 
 				//
 
@@ -84,7 +71,7 @@
 
 				//
 
-				renderer = new WebGPURenderer( { antialias: true } );
+				renderer = new THREE.WebGPURenderer( { antialias: true } );
 				renderer.setPixelRatio( dpr );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				renderer.setAnimationLoop( animate );
@@ -100,18 +87,10 @@
 
 				// FX
 
-				cameraFX = new THREE.OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
-				sceneFX = new THREE.Scene();
-
-				const geometryFX = new THREE.PlaneGeometry( 2, 2 );
-
-				//
-
-				const materialFX = new MeshBasicNodeMaterial();
+				const materialFX = new THREE.MeshBasicNodeMaterial();
 				materialFX.colorNode = texture( depthTexture );
 
-				const quad = new THREE.Mesh( geometryFX, materialFX );
-				sceneFX.add( quad );
+				quad = new THREE.QuadMesh( materialFX );
 
 				//
 
@@ -136,7 +115,7 @@
 				renderer.render( scene, camera );
 
 				renderer.setRenderTarget( null );
-				renderer.render( sceneFX, cameraFX );
+				quad.render( renderer );
 
 			}
 

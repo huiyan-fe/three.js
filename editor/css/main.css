@@ -2,6 +2,10 @@
 	color-scheme: light dark;
 }
 
+[hidden] {
+	display: none !important;
+}
+
 body {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 14px;
@@ -67,22 +71,39 @@ textarea, input { outline: none; } /* osx */
 	position: relative;
 	display: block;
 	width: 100%;
-	min-width: 260px;
+	min-width: 335px;
 }
 
 .TabbedPanel .Tabs {
 	position: relative;
+	z-index: 1; /** Above .Panels **/
 	display: block;
 	width: 100%;
+	white-space: pre;
+	overflow: hidden;
+	overflow-x: auto;
 }
 
+	.TabbedPanel .Tabs::-webkit-scrollbar {
+		height: 5px;
+		background: #eee;
+	}
+	.TabbedPanel .Tabs::-webkit-scrollbar-thumb {
+		background: #08f3;
+	}
+	.TabbedPanel .Tabs:hover::-webkit-scrollbar-thumb {
+		background: #08f;
+		cursor: ew-resize;
+	}
+
 	.TabbedPanel .Tabs .Tab {
-		padding: 10px;
+		padding: 10px 9px;
 		text-transform: uppercase;
 	}
 
 	.TabbedPanel .Panels {
-		position: relative;
+		position: absolute;
+		top: 40px;
 		display: block;
 		width: 100%;
 	}
@@ -93,7 +114,7 @@ textarea, input { outline: none; } /* osx */
 	background-color: #fff;
 	padding: 0;
 	width: 100%;
-	min-height: 140px;
+	min-height: 180px;
 	font-size: 12px;
 	cursor: default;
 	overflow: auto;
@@ -292,23 +313,35 @@ select {
 
 #resizer {
 	position: absolute;
+	z-index: 2; /* Above #sidebar */
 	top: 32px;
-	right: 295px;
+	right: 350px;
 	width: 5px;
 	bottom: 0px;
-	/* background-color: rgba(255,0,0,0.5); */
+	transform: translatex(2.5px);
 	cursor: col-resize;
 }
+
+	#resizer:hover {
+		background-color: #08f8;
+		transition-property: background-color;
+		transition-delay: 0.1s;
+		transition-duration: 0.2s;
+	}
+
+	#resizer:active {
+		background-color: #08f;
+	}
 
 #viewport {
 	position: absolute;
 	top: 32px;
 	left: 0;
-	right: 300px;
+	right: 350px;
 	bottom: 0;
 }
 
-	#viewport #info {
+	#viewport .Text {
 		text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
 		pointer-events: none;
 	}
@@ -317,7 +350,7 @@ select {
 	position: absolute;
 	top: 32px;
 	left: 0;
-	right: 300px;
+	right: 350px;
 	bottom: 0;
 	opacity: 0.9;
 }
@@ -326,7 +359,7 @@ select {
 	position: absolute;
 	top: 32px;
 	left: 0;
-	right: 300px;
+	right: 350px;
 	bottom: 0;
 }
 
@@ -362,18 +395,32 @@ select {
 			line-height: 16px;
 		}
 
+		#menubar .menu .key {
+			position: absolute;
+			right: 10px;
+			color: #ccc;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			font-size: 9px;
+			padding: 2px 4px;
+			right: 10px;
+			pointer-events: none;
+		}
+
 		#menubar .menu .options {
 			position: fixed;
+			z-index: 1; /* higher than resizer */
 			display: none;
 			padding: 5px 0;
 			background: #eee;
-			width: 150px;
-			max-height: calc(100% - 80px);
+			min-width: 150px;
+			max-height: calc(100vh - 80px);
 			overflow: auto;
 		}
 
 		#menubar .menu:hover .options {
 			display: block;
+			box-shadow: 0 10px 10px -5px #00000033;
 		}
 
 			#menubar .menu .options hr {
@@ -392,9 +439,29 @@ select {
 					background-color: #08f;
 				}
 
-				#menubar .menu .options .option:active {
+				#menubar .menu .options .option:not(.submenu-title):active {
 					color: #666;
 					background: transparent;
+				}
+
+				#menubar .menu .options .option.toggle::before {
+
+					content: ' ';
+					display: inline-block;
+					width: 16px;
+
+				}
+
+				#menubar .menu .options .option.toggle-on::before {
+
+					content: '✔';
+					font-size: 12px;
+
+				}
+
+				#menubar .submenu-title::after {
+					content: '⏵';
+					float: right;
 				}
 
 		#menubar .menu .options .inactive {
@@ -402,16 +469,20 @@ select {
 			background-color: transparent;
 			padding: 5px 10px;
 			margin: 0 !important;
+			cursor: not-allowed;
 		}
+
+		
 
 #sidebar {
 	position: absolute;
 	right: 0;
 	top: 32px;
 	bottom: 0;
-	width: 300px;
+	width: 350px;
 	background: #eee;
 	overflow: auto;
+	overflow-x: hidden;
 }
 
 	#sidebar .Panel {
@@ -429,6 +500,12 @@ select {
 		align-items: center;
 		min-height: 24px;
 		margin-bottom: 10px;
+	}
+
+	#sidebar .Row .Label {
+
+		width: 120px;
+
 	}
 
 #tabs {
@@ -470,7 +547,7 @@ select {
 	background-color: #fff;
 	padding: 0;
 	width: 100%;
-	height: 140px;
+	height: 180px;
 	font-size: 12px;
 	cursor: default;
 	overflow: auto;
@@ -526,7 +603,7 @@ select {
 	}
 
 	#menubar .menu .options {
-		max-height: calc(100% - 372px);
+		max-height: calc(100% - 80px);
 	}
 
 	#menubar .menu.right {
@@ -604,6 +681,11 @@ select {
 		background: #111;
 	}
 
+			#menubar .menu .key {
+				color: #444;
+				border-color: #444;
+			}
+
 			#menubar .menu .options {
 				background: #111;
 			}
@@ -655,9 +737,12 @@ select {
 		}
 
 	.Outliner {
-		color: #888;
 		background: #222;
 	}
+
+		.Outliner .option {
+			color: #999;
+		}
 
 		.Outliner .option:hover {
 			background-color: rgba(21,60,94,0.5);
@@ -671,6 +756,10 @@ select {
 		background-color: #1b1b1b;
 		border-top: 1px solid #222;
 	}
+
+		.TabbedPanel .Tabs::-webkit-scrollbar {
+			background: #111;
+		}
 
 		.TabbedPanel .Tab {
 			color: #555;

@@ -1,6 +1,6 @@
 <html lang="en">
 	<head>
-		<title>three.js - webgpu - tsl editor</title>
+		<title>three.js webgpu - tsl editor</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
@@ -41,9 +41,9 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/",
-					"three/nodes": "./jsm/nodes/Nodes.js"
+					"three": "../build/three.webgpu.js",
+					"three/tsl": "../build/three.webgpu.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
@@ -51,27 +51,16 @@
 		<script type="module">
 
 			import * as THREE from 'three';
-			import * as Nodes from 'three/nodes';
 
-			import WebGPU from 'three/addons/capabilities/WebGPU.js';
-			import WebGPURenderer from 'three/addons/renderers/webgpu/WebGPURenderer.js';
-			import WGSLNodeBuilder from 'three/addons/renderers/webgpu/nodes/WGSLNodeBuilder.js';
-			import GLSLNodeBuilder from 'three/addons/renderers/webgl/nodes/GLSLNodeBuilder.js';
-			import GLSL1NodeBuilder from 'three/addons/renderers/webgl-legacy/nodes/GLSL1NodeBuilder.js';
+			import WebGPURenderer from '../src/renderers/webgpu/WebGPURenderer.js';
+			import WGSLNodeBuilder from '../src/renderers/webgpu/nodes/WGSLNodeBuilder.js';
+			import GLSLNodeBuilder from '../src/renderers/webgl-fallback/nodes/GLSLNodeBuilder.js';
 
 			import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 			init();
 
 			function init() {
-
-				if ( WebGPU.isAvailable() === false ) {
-
-					document.body.appendChild( WebGPU.getErrorMessage() );
-
-					throw new Error( 'No WebGPU support' );
-
-				}
 
 				// add the depedencies
 
@@ -93,8 +82,8 @@
 				renderer.setSize( 200, 200 );
 				rendererDOM.appendChild( renderer.domElement );
 
-				const material = new Nodes.NodeMaterial();
-				material.outputNode = Nodes.vec4( 0, 0, 0, 1 );
+				const material = new THREE.NodeMaterial();
+				material.fragmentNode = THREE.vec4( 0, 0, 0, 1 );
 
 				const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 1, 1 ), material );
 				scene.add( mesh );
@@ -107,7 +96,7 @@
 
 				// editor
 
-				window.require.config( { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs' } } );
+				window.require.config( { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.48.0/min/vs' } } );
 
 				require( [ 'vs/editor/editor.main' ], () => {
 
@@ -126,7 +115,7 @@
 
 					const tslCode = `// Simple uv.x animation
 
-const { texture, uniform, vec2, vec4, uv, oscSine, timerLocal } = TSL;
+const { texture, uniform, vec2, vec4, uv, oscSine, timerLocal } = THREE;
 
 //const samplerTexture = new THREE.Texture();
 const samplerTexture = new THREE.TextureLoader().load( './textures/uv_grid_opengl.jpg' );
@@ -154,7 +143,8 @@ output = vec4( finalColor, opacity );
 						value: tslCode,
 						language: 'javascript',
 						theme: 'vs-dark',
-						automaticLayout: true
+						automaticLayout: true,
+						minimap: { enabled: false }
 					} );
 
 					const result = window.monaco.editor.create( resultDOM, {
@@ -162,7 +152,8 @@ output = vec4( finalColor, opacity );
 						language: 'wgsl',
 						theme: 'vs-dark',
 						automaticLayout: true,
-						readOnly: true
+						readOnly: true,
+						minimap: { enabled: false }
 					} );
 
 					const showCode = () => {
@@ -177,9 +168,9 @@ output = vec4( finalColor, opacity );
 						try {
 
 							const tslCode = `let output = null;\n${ editor.getValue() }\nreturn { output };`;
-							const nodes = new Function( 'THREE', 'TSL', tslCode )( THREE, Nodes );
+							const nodes = new Function( 'THREE', tslCode )( THREE );
 
-							mesh.material.outputNode = nodes.output;
+							mesh.material.fragmentNode = nodes.output;
 							mesh.material.needsUpdate = true;
 
 							let NodeBuilder;
@@ -191,10 +182,6 @@ output = vec4( finalColor, opacity );
 							} else if ( options.output === 'GLSL ES 3.0' ) {
 
 								NodeBuilder = GLSLNodeBuilder;
-
-							} else {
-
-								NodeBuilder = GLSL1NodeBuilder;
 
 							}
 
@@ -234,7 +221,7 @@ output = vec4( finalColor, opacity );
 
 					const gui = new GUI();
 
-					gui.add( options, 'output', [ 'WGSL', 'GLSL ES 3.0', 'GLSL' ] ).onChange( build );
+					gui.add( options, 'output', [ 'WGSL', 'GLSL ES 3.0' ] ).onChange( build );
 					gui.add( options, 'shader', [ 'vertex', 'fragment' ] ).onChange( showCode );
 
 					gui.add( options, 'outputColorSpace', [ THREE.LinearSRGBColorSpace, THREE.SRGBColorSpace ] ).onChange( ( value ) => {

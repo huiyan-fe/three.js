@@ -128,8 +128,7 @@
 
 					}
 
-					attributes.color.updateRange.offset = startVertex * 3;
-					attributes.color.updateRange.count = ( currentVertex - startVertex ) * 3;
+					attributes.color.addUpdateRange( startVertex * 3, ( currentVertex - startVertex ) * 3 );
 					attributes.color.needsUpdate = true;
 
 					if ( currentVertex >= totalVertex ) {
@@ -155,7 +154,6 @@
 			let camera, scene, renderer;
 
 			init();
-			animate();
 
 			function init() {
 
@@ -192,6 +190,7 @@
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setAnimationLoop( animate );
 				document.body.appendChild( renderer.domElement );
 
 				new SimpleGI( renderer, scene );
@@ -214,8 +213,6 @@
 			}
 
 			function animate() {
-
-				requestAnimationFrame( animate );
 
 				renderer.setRenderTarget( null );
 				renderer.render( scene, camera );

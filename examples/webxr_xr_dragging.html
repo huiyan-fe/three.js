@@ -36,12 +36,10 @@
 			let raycaster;
 
 			const intersected = [];
-			const tempMatrix = new THREE.Matrix4();
 
 			let controls, group;
 
 			init();
-			animate();
 
 			function init() {
 
@@ -121,11 +119,15 @@
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setAnimationLoop( animate );
 				renderer.shadowMap.enabled = true;
 				renderer.xr.enabled = true;
 				container.appendChild( renderer.domElement );
 
-				document.body.appendChild( XRButton.createButton( renderer ) );
+				document.body.appendChild( XRButton.createButton( renderer, {
+					'optionalFeatures': [ 'depth-sensing' ],
+					'depthSensing': { 'usagePreference': [ 'gpu-optimized' ], 'dataFormatPreference': [] }
+				} ) );
 
 				// controllers
 
@@ -219,10 +221,7 @@
 
 				controller.updateMatrixWorld();
 
-				tempMatrix.identity().extractRotation( controller.matrixWorld );
-
-				raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
-				raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( tempMatrix );
+				raycaster.setFromXRController( controller );
 
 				return raycaster.intersectObjects( group.children, false );
 
@@ -273,12 +272,6 @@
 			//
 
 			function animate() {
-
-				renderer.setAnimationLoop( render );
-
-			}
-
-			function render() {
 
 				cleanIntersected();
 

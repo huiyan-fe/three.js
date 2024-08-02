@@ -31,18 +31,18 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/",
-					"three/nodes": "./jsm/nodes/Nodes.js"
+					"three": "../build/three.webgpu.js",
+					"three/tsl": "../build/three.webgpu.js",
+					"three/addons/": "./jsm/"
 				}
 			}
 		</script>
 
 		<script type="module">
 
-			import Transpiler from './jsm/transpiler/Transpiler.js';
-			import GLSLDecoder from './jsm/transpiler/GLSLDecoder.js';
-			import TSLEncoder from './jsm/transpiler/TSLEncoder.js';
+			import Transpiler from 'three/addons/transpiler/Transpiler.js';
+			import GLSLDecoder from 'three/addons/transpiler/GLSLDecoder.js';
+			import TSLEncoder from 'three/addons/transpiler/TSLEncoder.js';
 
 			init();
 
@@ -50,7 +50,7 @@
 
 				// editor
 
-				window.require.config( { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs' } } );
+				window.require.config( { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.48.0/min/vs' } } );
 
 				require( [ 'vs/editor/editor.main' ], () => {
 
@@ -77,7 +77,8 @@ float V_GGX_SmithCorrelated( const in float alpha, const in float dotNL, const i
 						value: glslCode,
 						language: 'glsl',
 						theme: 'vs-dark',
-						automaticLayout: true
+						automaticLayout: true,
+						minimap: { enabled: false }
 					} );
 
 					const result = window.monaco.editor.create( resultDOM, {
@@ -85,7 +86,8 @@ float V_GGX_SmithCorrelated( const in float alpha, const in float dotNL, const i
 						language: 'javascript',
 						theme: 'vs-dark',
 						automaticLayout: true,
-						readOnly: true
+						readOnly: true,
+						minimap: { enabled: false }
 					} );
 
 					const showCode = ( code ) => {

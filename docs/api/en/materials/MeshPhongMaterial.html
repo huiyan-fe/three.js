@@ -85,8 +85,10 @@
 
 		<h3>[property:Float aoMapIntensity]</h3>
 		<p>
-			Intensity of the ambient occlusion effect. Default is `1`. Zero is no
-			occlusion effect.
+			Intensity of the ambient occlusion effect. Range is 0-1, where `0`
+			disables ambient occlusion. Where intensity is `1` and the [page:.aoMap]
+			red channel is also `1`, ambient light is fully occluded on a surface.
+			Default is `1`.
 		</p>
 
 		<h3>[property:Texture bumpMap]</h3>
@@ -162,6 +164,11 @@
 
 		<h3>[property:Texture envMap]</h3>
 		<p>The environment map. Default is null.</p>
+
+		<h3>[property:Euler envMapRotation]</h3>
+		<p>
+			The rotation of the environment map in radians. Default is `(0,0,0)`.
+		</p>
 
 		<h3>[property:Boolean flatShading]</h3>
 		<p>

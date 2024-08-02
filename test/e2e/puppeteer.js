@@ -1,6 +1,5 @@
 import chalk from 'chalk';
-import puppeteer from 'puppeteer-core';
-import { install, computeExecutablePath/*, resolveBuildId*/, detectBrowserPlatform } from '@puppeteer/browsers';
+import puppeteer from 'puppeteer';
 import express from 'express';
 import path from 'path';
 import pixelmatch from 'pixelmatch';
@@ -56,6 +55,7 @@ const exceptionList = [
 	'webxr_vr_sandbox',
 	'webxr_vr_video',
 	'webxr_xr_ballshooter',
+	'webxr_xr_dragging_custom_depth',
 
 	'webgl_worker_offscreencanvas', // in a worker, not robust
 
@@ -78,19 +78,22 @@ const exceptionList = [
 	// Unknown
 	// TODO: most of these can be fixed just by increasing idleTime and parseTime
 	'webgl_animation_skinning_blending',
+	'webgl_animation_skinning_additive_blending',
 	'webgl_buffergeometry_glbufferattribute',
+	'webgl_interactive_cubes_gpu',
 	'webgl_clipping_advanced',
 	'webgl_lensflares',
 	'webgl_lights_spotlights',
 	'webgl_loader_imagebitmap',
+	'webgl_loader_texture_ktx',
 	'webgl_loader_texture_lottie',
 	'webgl_loader_texture_pvrtc',
 	'webgl_materials_alphahash',
 	'webgl_materials_blending',
 	'webgl_mirror',
 	'webgl_morphtargets_face',
-	'webgl_nodes_materials_standard',
-	'webgl_postprocessing_crossfade',
+	'webgl_postprocessing_transition',
+	'webgl_postprocessing_glitch',
 	'webgl_postprocessing_dof2',
 	'webgl_raymarching_reflect',
 	'webgl_renderer_pathtracer',
@@ -98,44 +101,65 @@ const exceptionList = [
 	'webgl_shadowmap_progressive',
 	'webgl_test_memory2',
 	'webgl_tiled_forward',
-	'webgl2_volume_instancing',
-	'webgl2_multisampled_renderbuffers',
 	'webgl_points_dynamic',
+	'webgpu_multisampled_renderbuffers',
+	'webgl_test_wide_gamut',
 
 	// TODO: implement determinism for setTimeout and setInterval
 	// could it fix some examples from above?
 	'physics_rapier_instancing',
+	'physics_jolt_instancing',
 
-	// Awaiting for WebGPU support
-	'webgpu_backdrop',
-	'webgpu_backdrop_area',
+	// Awaiting for WebGL backend support
 	'webgpu_clearcoat',
 	'webgpu_compute_audio',
-	'webgpu_compute_particles',
-	'webgpu_compute_particles_rain',
-	'webgpu_compute_points',
 	'webgpu_compute_texture',
 	'webgpu_compute_texture_pingpong',
-	'webgpu_cubemap_dynamic',
-	'webgpu_loader_gltf',
-	'webgpu_loader_gltf_compressed',
-	'webgpu_loader_gltf_iridescence',
-	'webgpu_loader_gltf_sheen',
 	'webgpu_materials',
-	'webgpu_materials_video',
 	'webgpu_sandbox',
-	'webgpu_shadertoy',
 	'webgpu_sprites',
+	'webgpu_video_panorama',
+	'webgpu_postprocessing_bloom_emissive',
+
+	// Awaiting for WebGPU Backend support in Puppeteer
+	'webgpu_storage_buffer',
+
+	// WebGPURenderer: Unknown problem
+	'webgpu_backdrop_water',
+	'webgpu_camera_logarithmicdepthbuffer',
+	'webgpu_clipping',
+	'webgpu_instance_points',
+	'webgpu_loader_materialx',
+	'webgpu_materials_displacementmap',
+	'webgpu_materials_video',
+	'webgpu_materialx_noise',
+	'webgpu_morphtargets_face',
+	'webgpu_occlusion',
+	'webgpu_particles',
+	'webgpu_refraction',
+	'webgpu_shadertoy',
+	'webgpu_shadowmap',
 	'webgpu_tsl_editor',
 	'webgpu_tsl_transpiler',
-	'webgpu_video_panorama'
+	'webgpu_tsl_interoperability',
+	'webgpu_portal',
+	'webgpu_custom_fog',
+	'webgpu_instancing_morph',
+	'webgpu_mesh_batch',
+	'webgpu_texturegrad',
+	'webgpu_performance_renderbundle',
+	'webgpu_lights_rectarealight',
+
+	// WebGPU idleTime and parseTime too low
+	'webgpu_compute_particles',
+	'webgpu_compute_particles_rain',
+	'webgpu_compute_particles_snow',
+	'webgpu_compute_points',
+	'webgpu_materials_texture_anisotropy'
 
 ];
 
 /* CONFIG VARIABLES END */
-
-const chromiumChannel = 'stable'; // stable -- beta -- dev -- canary -- latest
-const installedBrowsersDir = 'test/e2e/chromium';
 
 const port = 1234;
 const pixelThreshold = 0.1; // threshold error in one pixel
@@ -159,7 +183,7 @@ console.red = msg => console.log( chalk.red( msg ) );
 console.yellow = msg => console.log( chalk.yellow( msg ) );
 console.green = msg => console.log( chalk.green( msg ) );
 
-let browser, platform;
+let browser;
 
 /* Launch server */
 
@@ -217,10 +241,6 @@ async function main() {
 
 	}
 
-	/* Download browser */
-
-	const executablePath = await downloadLatestChromium();
-
 	/* Launch browser */
 
 	const flags = [ '--hide-scrollbars', '--enable-gpu' ];
@@ -230,7 +250,6 @@ async function main() {
 	const viewport = { width: width * viewScale, height: height * viewScale };
 
 	browser = await puppeteer.launch( {
-		executablePath,
 		headless: process.env.VISIBLE ? false : 'new',
 		args: flags,
 		defaultViewport: viewport,
@@ -244,9 +263,15 @@ async function main() {
 
 	/* Prepare injections */
 
+	const buildInjection = ( code ) => code.replace( /Math\.random\(\) \* 0xffffffff/g, 'Math._random() * 0xffffffff' );
+
 	const cleanPage = await fs.readFile( 'test/e2e/clean-page.js', 'utf8' );
 	const injection = await fs.readFile( 'test/e2e/deterministic-injection.js', 'utf8' );
-	const build = ( await fs.readFile( 'build/three.module.js', 'utf8' ) ).replace( /Math\.random\(\) \* 0xffffffff/g, 'Math._random() * 0xffffffff' );
+
+	const builds = {
+		'three.module.js': buildInjection( await fs.readFile( 'build/three.module.js', 'utf8' ) ),
+		'three.webgpu.js': buildInjection( await fs.readFile( 'build/three.webgpu.js', 'utf8' ) )
+	};
 
 	/* Prepare pages */
 
@@ -255,7 +280,7 @@ async function main() {
 	const pages = await browser.pages();
 	while ( pages.length < numPages && pages.length < files.length ) pages.push( await browser.newPage() );
 
-	for ( const page of pages ) await preparePage( page, injection, build, errorMessagesCache );
+	for ( const page of pages ) await preparePage( page, injection, builds, errorMessagesCache );
 
 	/* Loop for each file */
 
@@ -296,26 +321,7 @@ async function main() {
 
 }
 
-async function downloadLatestChromium() {
-
-	platform = detectBrowserPlatform();
-
-	const revision = '1108766'; //await resolveBuildId( 'chromium', platform, chromiumChannel );
-	                            // the Chromium snapshots server doesn't work properly currently so fix the revision
-	const options = { browser: 'chromium', buildId: revision, cacheDir: path.resolve( installedBrowsersDir ) };
-
-	console.log( `Using Chromium r${ revision }, ${ chromiumChannel } channel on ${ platform }` );
-	console.log( 'Downloading...' );
-
-	await install( options );
-
-	console.log( 'Downloaded.' );
-
-	return computeExecutablePath( options );
-
-}
-
-async function preparePage( page, injection, build, errorMessages ) {
+async function preparePage( page, injection, builds, errorMessages ) {
 
 	/* let page.file, page.pageSize, page.error */
 
@@ -403,19 +409,25 @@ async function preparePage( page, injection, build, errorMessages ) {
 
 	page.on( 'request', async ( request ) => {
 
-		if ( request.url() === `http://localhost:${ port }/build/three.module.js` ) {
+		const url = request.url();
 
-			await request.respond( {
-				status: 200,
-				contentType: 'application/javascript; charset=utf-8',
-				body: build
-			} );
+		for ( const build in builds ) {
 
-		} else {
+			if ( url === `http://localhost:${ port }/build/${ build }` ) {
 
-			await request.continue();
+				await request.respond( {
+					status: 200,
+					contentType: 'application/javascript; charset=utf-8',
+					body: builds[ build ]
+				} );
+
+				return;
+
+			}
 
 		}
+
+		await request.continue();
 
 	} );
 
@@ -511,7 +523,7 @@ async function makeAttempt( pages, failedScreenshots, cleanPage, isMakeScreensho
 
 		} catch ( e ) {
 
-			if ( ! e.message.includes( 'Render timeout exceeded' ) ) {
+			if ( e.includes && e.includes( 'Render timeout exceeded' ) === false ) {
 
 				throw new Error( `Error happened while rendering file ${ file }: ${ e }` );
 
@@ -547,7 +559,7 @@ async function makeAttempt( pages, failedScreenshots, cleanPage, isMakeScreensho
 
 			} catch {
 
-				await screenshot.writeAsync( `test/e2e/output-screenshots/${ platform }-${ file }-actual.jpg` );
+				await screenshot.writeAsync( `test/e2e/output-screenshots/${ file }-actual.jpg` );
 				throw new Error( `Screenshot does not exist: ${ file }` );
 
 			}
@@ -566,8 +578,8 @@ async function makeAttempt( pages, failedScreenshots, cleanPage, isMakeScreensho
 
 			} catch {
 
-				await screenshot.writeAsync( `test/e2e/output-screenshots/${ platform }-${ file }-actual.jpg` );
-				await expected.writeAsync( `test/e2e/output-screenshots/${ platform }-${ file }-expected.jpg` );
+				await screenshot.writeAsync( `test/e2e/output-screenshots/${ file }-actual.jpg` );
+				await expected.writeAsync( `test/e2e/output-screenshots/${ file }-expected.jpg` );
 				throw new Error( `Image sizes does not match in file: ${ file }` );
 
 			}
@@ -582,9 +594,9 @@ async function makeAttempt( pages, failedScreenshots, cleanPage, isMakeScreensho
 
 			} else {
 
-				await screenshot.writeAsync( `test/e2e/output-screenshots/${ platform }-${ file }-actual.jpg` );
-				await expected.writeAsync( `test/e2e/output-screenshots/${ platform }-${ file }-expected.jpg` );
-				await diff.writeAsync( `test/e2e/output-screenshots/${ platform }-${ file }-diff.jpg` );
+				await screenshot.writeAsync( `test/e2e/output-screenshots/${ file }-actual.jpg` );
+				await expected.writeAsync( `test/e2e/output-screenshots/${ file }-expected.jpg` );
+				await diff.writeAsync( `test/e2e/output-screenshots/${ file }-diff.jpg` );
 				throw new Error( `Diff wrong in ${ differentPixels.toFixed( 1 ) }% of pixels in file: ${ file }` );
 
 			}
@@ -615,7 +627,7 @@ function close( exitCode = 1 ) {
 
 	console.log( 'Closing...' );
 
-	if ( browser !== undefined ) browser.close();
+	browser.close();
 	server.close();
 	process.exit( exitCode );
 

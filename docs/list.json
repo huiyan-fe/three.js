@@ -103,7 +103,8 @@
 				"Earcut": "api/en/extras/Earcut",
 				"ImageUtils": "api/en/extras/ImageUtils",
 				"PMREMGenerator": "api/en/extras/PMREMGenerator",
-				"ShapeUtils": "api/en/extras/ShapeUtils"
+				"ShapeUtils": "api/en/extras/ShapeUtils",
+				"TextureUtils": "api/en/extras/TextureUtils"
 			},
 
 			"Extras / Core": {
@@ -240,6 +241,7 @@
 				"Interpolant": "api/en/math/Interpolant",
 				"Line3": "api/en/math/Line3",
 				"MathUtils": "api/en/math/MathUtils",
+				"Matrix2": "api/en/math/Matrix2",
 				"Matrix3": "api/en/math/Matrix3",
 				"Matrix4": "api/en/math/Matrix4",
 				"Plane": "api/en/math/Plane",
@@ -262,6 +264,7 @@
 			},
 
 			"Objects": {
+				"BatchedMesh": "api/en/objects/BatchedMesh",
 				"Bone": "api/en/objects/Bone",
 				"Group": "api/en/objects/Group",
 				"InstancedMesh": "api/en/objects/InstancedMesh",
@@ -277,9 +280,7 @@
 			},
 
 			"Renderers": {
-				"WebGLMultipleRenderTargets": "api/en/renderers/WebGLMultipleRenderTargets",
 				"WebGLRenderer": "api/en/renderers/WebGLRenderer",
-				"WebGL1Renderer": "api/en/renderers/WebGL1Renderer",
 				"WebGLRenderTarget": "api/en/renderers/WebGLRenderTarget",
 				"WebGL3DRenderTarget": "api/en/renderers/WebGL3DRenderTarget",
 				"WebGLArrayRenderTarget": "api/en/renderers/WebGLArrayRenderTarget",
@@ -344,8 +345,9 @@
 				"ConvexGeometry": "examples/en/geometries/ConvexGeometry",
 				"DecalGeometry": "examples/en/geometries/DecalGeometry",
 				"ParametricGeometry": "examples/en/geometries/ParametricGeometry",
-				"TextGeometry": "examples/en/geometries/TextGeometry",
-				"SDFGeometryGenerator": "examples/en/geometries/SDFGeometryGenerator"
+				"SDFGeometryGenerator": "examples/en/geometries/SDFGeometryGenerator",
+				"TeapotGeometry": "examples/en/geometries/TeapotGeometry",
+				"TextGeometry": "examples/en/geometries/TextGeometry"
 			},
 
 			"Helpers": {
@@ -367,6 +369,8 @@
 				"GLTFLoader": "examples/en/loaders/GLTFLoader",
 				"KTX2Loader": "examples/en/loaders/KTX2Loader",
 				"LDrawLoader": "examples/en/loaders/LDrawLoader",
+				"LUT3dlLoader": "examples/en/loaders/LUT3dlLoader",
+				"LUTCubeLoader": "examples/en/loaders/LUTCubeLoader",
 				"MMDLoader": "examples/en/loaders/MMDLoader",
 				"MTLLoader": "examples/en/loaders/MTLLoader",
 				"OBJLoader": "examples/en/loaders/OBJLoader",
@@ -377,7 +381,8 @@
 			},
 
 			"Objects": {
-				"Lensflare": "examples/en/objects/Lensflare"
+				"Lensflare": "examples/en/objects/Lensflare",
+				"Sky": "examples/en/objects/Sky"
 			},
 
 			"Post-Processing": {
@@ -397,6 +402,14 @@
 				"LookupTable": "examples/en/math/Lut",
 				"MeshSurfaceSampler": "examples/en/math/MeshSurfaceSampler",
 				"OBB": "examples/en/math/OBB"
+			},
+
+			"Misc": {
+				"Timer": "examples/en/misc/Timer"
+			},
+
+			"Modifiers": {
+				"EdgeSplit": "examples/en/modifiers/EdgeSplitModifier"
 			},
 
 			"ConvexHull": {
@@ -448,6 +461,7 @@
 				"رسم خطوط": "manual/ar/introduction/Drawing-lines",
 				"إنشاء نص": "manual/ar/introduction/Creating-text",
 				"تحميل نماذج ثلاثية الأبعاد": "manual/ar/introduction/Loading-3D-models",
+				"المكتبات والإضافات": "manual/ar/introduction/Libraries-and-Plugins",
 				"الأسئلة الشائعة": "manual/ar/introduction/FAQ",
 				"روابط مفيدة": "manual/ar/introduction/Useful-links"
 			},
@@ -712,9 +726,7 @@
 			},
 
 			"Renderers": {
-				"WebGLMultipleRenderTargets": "api/ar/renderers/WebGLMultipleRenderTargets",
 				"WebGLRenderer": "api/ar/renderers/WebGLRenderer",
-				"WebGL1Renderer": "api/ar/renderers/WebGL1Renderer",
 				"WebGLRenderTarget": "api/ar/renderers/WebGLRenderTarget",
 				"WebGL3DRenderTarget": "api/ar/renderers/WebGL3DRenderTarget",
 				"WebGLArrayRenderTarget": "api/ar/renderers/WebGLArrayRenderTarget",
@@ -764,7 +776,8 @@
 				"如何创建VR内容": "manual/zh/introduction/How-to-create-VR-content",
 				"如何使用后期处理": "manual/zh/introduction/How-to-use-post-processing",
 				"矩阵变换": "manual/zh/introduction/Matrix-transformations",
-				"动画系统": "manual/zh/introduction/Animation-system"
+				"动画系统": "manual/zh/introduction/Animation-system",
+				"色彩管理": "manual/zh/introduction/Color-management"
 			}
 
 		},
@@ -812,6 +825,7 @@
 				"Animation": "api/zh/constants/Animation",
 				"Core": "api/zh/constants/Core",
 				"CustomBlendingEquation": "api/zh/constants/CustomBlendingEquations",
+				"BufferAttributeUsage": "api/zh/constants/BufferAttributeUsage",
 				"Materials": "api/zh/constants/Materials",
 				"Renderer": "api/zh/constants/Renderer",
 				"Textures": "api/zh/constants/Textures"
@@ -1002,6 +1016,7 @@
 			},
 
 			"物体": {
+				"BatchedMesh": "api/zh/objects/BatchedMesh",
 				"Bone": "api/zh/objects/Bone",
 				"Group": "api/zh/objects/Group",
 				"InstancedMesh": "api/zh/objects/InstancedMesh",
@@ -1017,12 +1032,10 @@
 			},
 
 			"渲染器": {
+				"WebGLRenderer": "api/zh/renderers/WebGLRenderer",
+				"WebGLRenderTarget": "api/zh/renderers/WebGLRenderTarget",
 				"WebGL3DRenderTarget": "api/zh/renderers/WebGL3DRenderTarget",
 				"WebGLArrayRenderTarget": "api/zh/renderers/WebGLArrayRenderTarget",
-				"WebGLMultipleRenderTargets": "api/zh/renderers/WebGLMultipleRenderTargets",
-				"WebGLRenderer": "api/zh/renderers/WebGLRenderer",
-				"WebGL1Renderer": "api/zh/renderers/WebGL1Renderer",
-				"WebGLRenderTarget": "api/zh/renderers/WebGLRenderTarget",
 				"WebGLCubeRenderTarget": "api/zh/renderers/WebGLCubeRenderTarget"
 			},
 
@@ -1048,8 +1061,8 @@
 				"CompressedTexture": "api/zh/textures/CompressedTexture",
 				"CompressedArrayTexture": "api/zh/textures/CompressedArrayTexture",
 				"CubeTexture": "api/zh/textures/CubeTexture",
-				"DataArrayTexture": "api/zh/textures/DataArrayTexture",
 				"Data3DTexture": "api/zh/textures/Data3DTexture",
+				"DataArrayTexture": "api/zh/textures/DataArrayTexture",
 				"DataTexture": "api/zh/textures/DataTexture",
 				"DepthTexture": "api/zh/textures/DepthTexture",
 				"FramebufferTexture": "api/zh/textures/FramebufferTexture",
@@ -1060,12 +1073,20 @@
 
 		},
 
-		"Addons": {
+		"附加": {
+
+			"动画": {
+				"CCDIKSolver": "examples/zh/animations/CCDIKSolver",
+				"MMDAnimationHelper": "examples/zh/animations/MMDAnimationHelper",
+				"MMDPhysics": "examples/zh/animations/MMDPhysics"
+			},
 
 			"控制": {
+				"ArcballControls": "examples/zh/controls/ArcballControls",
 				"DragControls": "examples/zh/controls/DragControls",
 				"FirstPersonControls": "examples/zh/controls/FirstPersonControls",
 				"FlyControls": "examples/zh/controls/FlyControls",
+				"MapControls": "examples/zh/controls/MapControls",
 				"OrbitControls": "examples/zh/controls/OrbitControls",
 				"PointerLockControls": "examples/zh/controls/PointerLockControls",
 				"TrackballControls": "examples/zh/controls/TrackballControls",
@@ -1076,14 +1097,16 @@
 				"ConvexGeometry": "examples/zh/geometries/ConvexGeometry",
 				"DecalGeometry": "examples/zh/geometries/DecalGeometry",
 				"ParametricGeometry": "examples/zh/geometries/ParametricGeometry",
-				"TextGeometry": "examples/zh/geometries/TextGeometry"
+				"TextGeometry": "examples/zh/geometries/TextGeometry",
+				"SDFGeometryGenerator": "examples/zh/geometries/SDFGeometryGenerator"
 			},
 
 			"辅助对象": {
 				"LightProbeHelper": "examples/zh/helpers/LightProbeHelper",
 				"PositionalAudioHelper": "examples/zh/helpers/PositionalAudioHelper",
 				"RectAreaLightHelper": "examples/zh/helpers/RectAreaLightHelper",
-				"VertexNormalsHelper": "examples/zh/helpers/VertexNormalsHelper"
+				"VertexNormalsHelper": "examples/zh/helpers/VertexNormalsHelper",
+				"VertexTangentsHelper": "examples/zh/helpers/VertexTangentsHelper"
 			},
 
 			"灯光": {
@@ -1091,23 +1114,61 @@
 			},
 
 			"加载器": {
+				"3DMLoader": "examples/zh/loaders/3DMLoader",
+				"DRACOLoader": "examples/zh/loaders/DRACOLoader",
 				"FontLoader": "examples/zh/loaders/FontLoader",
-				"DracoLoader": "examples/zh/loaders/DracoLoader",
 				"GLTFLoader": "examples/zh/loaders/GLTFLoader",
+				"KTX2Loader": "examples/zh/loaders/KTX2Loader",
+				"LDrawLoader": "examples/zh/loaders/LDrawLoader",
+				"LUT3dlLoader": "examples/zh/loaders/LUT3dlLoader",
+				"LUTCubeLoader": "examples/zh/loaders/LUTCubeLoader",
 				"MMDLoader": "examples/zh/loaders/MMDLoader",
 				"MTLLoader": "examples/zh/loaders/MTLLoader",
 				"OBJLoader": "examples/zh/loaders/OBJLoader",
 				"PCDLoader": "examples/zh/loaders/PCDLoader",
+				"PDBLoader": "examples/zh/loaders/PDBLoader",
 				"SVGLoader": "examples/zh/loaders/SVGLoader",
 				"TGALoader": "examples/zh/loaders/TGALoader"
 			},
 
 			"物体": {
-				"Lensflare": "examples/zh/objects/Lensflare"
+				"Lensflare": "examples/zh/objects/Lensflare",
+				"Sky": "examples/zh/objects/Sky"
 			},
 
 			"后期处理": {
 				"EffectComposer": "examples/zh/postprocessing/EffectComposer"
+			},
+
+			"导出器": {
+				"DRACOExporter": "examples/zh/exporters/DRACOExporter",
+				"EXRExporter": "examples/zh/exporters/EXRExporter",
+				"GLTFExporter": "examples/zh/exporters/GLTFExporter",
+				"OBJExporter": "examples/zh/exporters/OBJExporter",
+				"PLYExporter": "examples/zh/exporters/PLYExporter",
+				"STLExporter": "examples/zh/exporters/STLExporter"
+			},
+
+			"数学库": {
+				"LookupTable": "examples/zh/math/Lut",
+				"MeshSurfaceSampler": "examples/zh/math/MeshSurfaceSampler",
+				"OBB": "examples/zh/math/OBB"
+			},
+
+			"修改器":{
+				"EdgeSplitModifier": "examples/zh/modifiers/EdgeSplitModifier"
+			},
+
+			"杂项": {
+				"Timer": "examples/zh/misc/Timer"
+			},
+
+			"凸包": {
+				"Face": "examples/zh/math/convexhull/Face",
+				"HalfEdge": "examples/zh/math/convexhull/HalfEdge",
+				"ConvexHull": "examples/zh/math/convexhull/ConvexHull",
+				"VertexNode": "examples/zh/math/convexhull/VertexNode",
+				"VertexList": "examples/zh/math/convexhull/VertexList"
 			},
 
 			"渲染器": {
@@ -1118,8 +1179,13 @@
 
 			"实用工具": {
 				"BufferGeometryUtils": "examples/zh/utils/BufferGeometryUtils",
+				"CameraUtils": "examples/zh/utils/CameraUtils",
 				"SceneUtils": "examples/zh/utils/SceneUtils",
 				"SkeletonUtils": "examples/zh/utils/SkeletonUtils"
+			},
+
+			"WebXR": {
+				"XREstimatedLight": "examples/zh/webxr/XREstimatedLight"
 			}
 
 		},
@@ -1289,6 +1355,7 @@
 		"Addons": {
 
 			"컨트롤": {
+				"ArcballControls": "examples/ko/controls/ArcballControls",
 				"DragControls": "examples/ko/controls/DragControls",
 				"FirstPersonControls": "examples/ko/controls/FirstPersonControls",
 				"FlyControls": "examples/ko/controls/FlyControls",
@@ -1608,9 +1675,7 @@
 			},
 
 			"Renderers": {
-				"WebGLMultipleRenderTargets": "api/it/renderers/WebGLMultipleRenderTargets",
 				"WebGLRenderer": "api/it/renderers/WebGLRenderer",
-				"WebGL1Renderer": "api/it/renderers/WebGL1Renderer",
 				"WebGLRenderTarget": "api/it/renderers/WebGLRenderTarget",
 				"WebGL3DRenderTarget": "api/it/renderers/WebGL3DRenderTarget",
 				"WebGLArrayRenderTarget": "api/it/renderers/WebGLArrayRenderTarget",
@@ -2136,9 +2201,7 @@
 			},
 
 			"Renderers": {
-				"WebGLMultipleRenderTargets": "api/en/renderers/WebGLMultipleRenderTargets",
 				"WebGLRenderer": "api/en/renderers/WebGLRenderer",
-				"WebGL1Renderer": "api/en/renderers/WebGL1Renderer",
 				"WebGLRenderTarget": "api/en/renderers/WebGLRenderTarget",
 				"WebGL3DRenderTarget": "api/en/renderers/WebGL3DRenderTarget",
 				"WebGLArrayRenderTarget": "api/en/renderers/WebGLArrayRenderTarget",

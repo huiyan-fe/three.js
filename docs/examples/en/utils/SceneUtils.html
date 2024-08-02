@@ -21,7 +21,7 @@
 		</p>
 
 		<code>
-			import { SceneUtils } from 'three/addons/utils/SceneUtils.js';
+			import * as SceneUtils from 'three/addons/utils/SceneUtils.js';
 		</code>
 
 		<h2>Methods</h2>
@@ -83,6 +83,30 @@
 		[page:InstancedMesh] instances automatically. Manually sorting may be
 		helpful to improve display of alpha blended materials (back to front),
 		and to reduce overdraw in opaque materials (front to back).
+		</p>
+
+		<h3>[method:Generator traverseGenerator]( [param:Object3D object] )</h3>
+		<p>
+		object -- The 3D object to traverse.
+		</p>
+		<p>
+		A generator based version of [page:Object3D.traverse]().
+		</p>
+
+		<h3>[method:Generator traverseVisibleGenerator]( [param:Object3D object] )</h3>
+		<p>
+		object -- The 3D object to traverse.
+		</p>
+		<p>
+		A generator based version of [page:Object3D.traverseVisible]().
+		</p>
+
+		<h3>[method:Generator traverseAncestorsGenerator]( [param:Object3D object] )</h3>
+		<p>
+		object -- The 3D object to traverse.
+		</p>
+		<p>
+		A generator based version of [page:Object3D.traverseAncestors]().
 		</p>
 
 		<h2>Source</h2>

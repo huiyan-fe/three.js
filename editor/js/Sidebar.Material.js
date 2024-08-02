@@ -31,7 +31,7 @@ function SidebarMaterial( editor ) {
 
 	const materialSlotRow = new UIRow();
 
-	materialSlotRow.add( new UIText( strings.getKey( 'sidebar/material/slot' ) ).setWidth( '90px' ) );
+	materialSlotRow.add( new UIText( strings.getKey( 'sidebar/material/slot' ) ).setClass( 'Label' ) );
 
 	const materialSlotSelect = new UISelect().setWidth( '170px' ).setFontSize( '12px' ).onChange( update );
 	materialSlotSelect.setOptions( { 0: '' } ).setValue( 0 );
@@ -44,7 +44,7 @@ function SidebarMaterial( editor ) {
 	const materialClassRow = new UIRow();
 	const materialClass = new UISelect().setWidth( '150px' ).setFontSize( '12px' ).onChange( update );
 
-	materialClassRow.add( new UIText( strings.getKey( 'sidebar/material/type' ) ).setWidth( '90px' ) );
+	materialClassRow.add( new UIText( strings.getKey( 'sidebar/material/type' ) ).setClass( 'Label' ) );
 	materialClassRow.add( materialClass );
 
 	container.add( materialClassRow );
@@ -61,7 +61,7 @@ function SidebarMaterial( editor ) {
 
 	} );
 
-	materialUUIDRow.add( new UIText( strings.getKey( 'sidebar/material/uuid' ) ).setWidth( '90px' ) );
+	materialUUIDRow.add( new UIText( strings.getKey( 'sidebar/material/uuid' ) ).setClass( 'Label' ) );
 	materialUUIDRow.add( materialUUID );
 	materialUUIDRow.add( materialUUIDRenew );
 
@@ -76,7 +76,7 @@ function SidebarMaterial( editor ) {
 
 	} );
 
-	materialNameRow.add( new UIText( strings.getKey( 'sidebar/material/name' ) ).setWidth( '90px' ) );
+	materialNameRow.add( new UIText( strings.getKey( 'sidebar/material/name' ) ).setClass( 'Label' ) );
 	materialNameRow.add( materialName );
 
 	container.add( materialNameRow );
@@ -111,6 +111,11 @@ function SidebarMaterial( editor ) {
 	const materialReflectivity = new SidebarMaterialNumberProperty( editor, 'reflectivity', strings.getKey( 'sidebar/material/reflectivity' ) );
 	container.add( materialReflectivity );
 
+	// ior
+
+	const materialIOR = new SidebarMaterialNumberProperty( editor, 'ior', strings.getKey( 'sidebar/material/ior' ), [ 1, 2.333 ], 3 );
+	container.add( materialIOR );
+
 	// roughness
 
 	const materialRoughness = new SidebarMaterialNumberProperty( editor, 'roughness', strings.getKey( 'sidebar/material/roughness' ), [ 0, 1 ] );
@@ -130,6 +135,11 @@ function SidebarMaterial( editor ) {
 
 	const materialClearcoatRoughness = new SidebarMaterialNumberProperty( editor, 'clearcoatRoughness', strings.getKey( 'sidebar/material/clearcoatroughness' ), [ 0, 1 ] );
 	container.add( materialClearcoatRoughness );
+
+	// dispersion
+
+	const materialDispersion = new SidebarMaterialNumberProperty( editor, 'dispersion', strings.getKey( 'sidebar/material/dispersion' ), [ 0, 10 ] );
+	container.add( materialDispersion );
 
 	// iridescence
 
@@ -408,10 +418,37 @@ function SidebarMaterial( editor ) {
 
 	} );
 
-	materialUserDataRow.add( new UIText( strings.getKey( 'sidebar/material/userdata' ) ).setWidth( '90px' ) );
+	materialUserDataRow.add( new UIText( strings.getKey( 'sidebar/material/userdata' ) ).setClass( 'Label' ) );
 	materialUserDataRow.add( materialUserData );
 
 	container.add( materialUserDataRow );
+
+	// Export JSON
+
+	const exportJson = new UIButton( strings.getKey( 'sidebar/material/export' ) );
+	exportJson.setMarginLeft( '120px' );
+	exportJson.onClick( function () {
+
+		const object = editor.selected;
+		const material = Array.isArray( object.material ) ? object.material[ currentMaterialSlot ] : object.material;
+
+		let output = material.toJSON();
+
+		try {
+
+			output = JSON.stringify( output, null, '\t' );
+			output = output.replace( /[\n\t]+([\d\.e\-\[\]]+)/g, '$1' );
+
+		} catch ( e ) {
+
+			output = JSON.stringify( output );
+
+		}
+
+		editor.utils.save( new Blob( [ output ] ), `${ materialName.getValue() || 'material' }.json` );
+
+	} );
+	container.add( exportJson );
 
 	//
 
@@ -421,7 +458,11 @@ function SidebarMaterial( editor ) {
 
 		currentMaterialSlot = parseInt( materialSlotSelect.getValue() );
 
-		if ( currentMaterialSlot !== previousSelectedSlot ) refreshUI();
+		if ( currentMaterialSlot !== previousSelectedSlot ) {
+
+			editor.signals.materialChanged.dispatch( currentObject, currentMaterialSlot );
+
+		}
 
 		let material = editor.getObjectMaterial( currentObject, currentMaterialSlot );
 
@@ -443,19 +484,51 @@ function SidebarMaterial( editor ) {
 
 				}
 
-				if ( Array.isArray( currentObject.material ) ) {
+				const currentMaterial = currentObject.material;
 
-					// don't remove the entire multi-material. just the material of the selected slot
+				if ( material.type === 'MeshPhysicalMaterial' && currentMaterial.type === 'MeshStandardMaterial' ) {
 
-					editor.removeMaterial( currentObject.material[ currentMaterialSlot ] );
+					// TODO Find a easier to maintain approach
 
-				} else {
+					const properties = [
+						'color', 'emissive', 'roughness', 'metalness', 'map', 'emissiveMap', 'alphaMap',
+						'bumpMap', 'normalMap', 'normalScale', 'displacementMap', 'roughnessMap', 'metalnessMap',
+						'envMap', 'lightMap', 'aoMap', 'side'
+					];
 
-					editor.removeMaterial( currentObject.material );
+					for ( const property of properties ) {
+
+						const value = currentMaterial[ property ];
+
+						if ( value === null ) continue;
+						
+						if ( value[ 'clone' ] !== undefined ) {
+
+							material[ property ] = value.clone();
+
+						} else {
+
+							material[ property ] = value;
+
+						}
+
+					}
 
 				}
 
-				editor.execute( new SetMaterialCommand( editor, currentObject, material, currentMaterialSlot ), 'New Material: ' + materialClass.getValue() );
+				if ( Array.isArray( currentMaterial ) ) {
+
+					// don't remove the entire multi-material. just the material of the selected slot
+
+					editor.removeMaterial( currentMaterial[ currentMaterialSlot ] );
+
+				} else {
+
+					editor.removeMaterial( currentMaterial );
+
+				}
+
+				editor.execute( new SetMaterialCommand( editor, currentObject, material, currentMaterialSlot ), strings.getKey( 'command/SetMaterial' ) + ': ' + materialClass.getValue() );
 				editor.addMaterial( material );
 				// TODO Copy other references in the scene graph
 				// keeping name and UUID then.

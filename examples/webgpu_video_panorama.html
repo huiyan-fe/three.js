@@ -26,7 +26,8 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "../build/three.module.js",
+					"three": "../build/three.webgpu.js",
+					"three/tsl": "../build/three.webgpu.js",
 					"three/addons/": "./jsm/"
 				}
 			}
@@ -35,9 +36,6 @@
 		<script type="module">
 
 			import * as THREE from 'three';
-
-			import WebGPU from 'three/addons/capabilities/WebGPU.js';
-			import WebGPURenderer from 'three/addons/renderers/webgpu/WebGPURenderer.js';
 
 			let camera, scene, renderer;
 
@@ -52,17 +50,8 @@
 			const distance = .5;
 
 			init();
-			animate();
 
 			function init() {
-
-				if ( WebGPU.isAvailable() === false ) {
-
-					document.body.appendChild( WebGPU.getErrorMessage() );
-
-					throw new Error( 'No WebGPU support' );
-
-				}
 
 				const container = document.getElementById( 'container' );
 
@@ -84,9 +73,10 @@
 				const mesh = new THREE.Mesh( geometry, material );
 				scene.add( mesh );
 
-				renderer = new WebGPURenderer( { antialias: true } );
+				renderer = new THREE.WebGPURenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setAnimationLoop( animate );
 				container.appendChild( renderer.domElement );
 
 				document.addEventListener( 'pointerdown', onPointerDown );
@@ -139,7 +129,6 @@
 
 			function animate() {
 
-				requestAnimationFrame( animate );
 				update();
 
 			}

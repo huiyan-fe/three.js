@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { TGALoader } from 'three/addons/loaders/TGALoader.js';
 
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
-import { SetSceneCommand } from './commands/SetSceneCommand.js';
 
 import { LoaderUtils } from './LoaderUtils.js';
 
@@ -70,7 +69,7 @@ function Loader( editor ) {
 		const reader = new FileReader();
 		reader.addEventListener( 'progress', function ( event ) {
 
-			const size = '(' + Math.floor( event.total / 1000 ).format() + ' KB)';
+			const size = '(' + editor.utils.formatNumber( Math.floor( event.total / 1000 ) ) + ' KB)';
 			const progress = Math.floor( ( event.loaded / event.total ) * 100 ) + '%';
 
 			console.log( 'Loading', filename, size, progress );
@@ -99,7 +98,7 @@ function Loader( editor ) {
 
 					}, function ( error ) {
 
-						console.error( error )
+						console.error( error );
 
 					} );
 
@@ -269,21 +268,8 @@ function Loader( editor ) {
 
 					const contents = event.target.result;
 
-					const { GLTFLoader } = await import( 'three/addons/loaders/GLTFLoader.js' );
-					const { DRACOLoader } = await import( 'three/addons/loaders/DRACOLoader.js' );
-					const { KTX2Loader } = await import( 'three/addons/loaders/KTX2Loader.js' );
-					const { MeshoptDecoder } = await import( 'three/addons/libs/meshopt_decoder.module.js' );
+					const loader = await createGLTFLoader();
 
-					const dracoLoader = new DRACOLoader();
-					dracoLoader.setDecoderPath( '../examples/jsm/libs/draco/gltf/' );
-
-					const ktx2Loader = new KTX2Loader();
-					ktx2Loader.setTranscoderPath( '../examples/jsm/libs/basis/' );
-
-					const loader = new GLTFLoader();
-					loader.setDRACOLoader( dracoLoader );
-					loader.setKTX2Loader( ktx2Loader );
-					loader.setMeshoptDecoder( MeshoptDecoder );
 					loader.parse( contents, '', function ( result ) {
 
 						const scene = result.scene;
@@ -292,7 +278,8 @@ function Loader( editor ) {
 						scene.animations.push( ...result.animations );
 						editor.execute( new AddObjectCommand( editor, scene ) );
 
-						dracoLoader.dispose();
+						loader.dracoLoader.dispose();
+						loader.ktx2Loader.dispose();
 
 					} );
 
@@ -311,21 +298,7 @@ function Loader( editor ) {
 
 					const contents = event.target.result;
 
-					const { DRACOLoader } = await import( 'three/addons/loaders/DRACOLoader.js' );
-					const { GLTFLoader } = await import( 'three/addons/loaders/GLTFLoader.js' );
-					const { KTX2Loader } = await import( 'three/addons/loaders/KTX2Loader.js' );
-					const { MeshoptDecoder } = await import( 'three/addons/libs/meshopt_decoder.module.js' );
-
-					const dracoLoader = new DRACOLoader();
-					dracoLoader.setDecoderPath( '../examples/jsm/libs/draco/gltf/' );
-
-					const ktx2Loader = new KTX2Loader();
-					ktx2Loader.setTranscoderPath( '../examples/jsm/libs/basis/' );
-
-					const loader = new GLTFLoader( manager );
-					loader.setDRACOLoader( dracoLoader );
-					loader.setKTX2Loader( ktx2Loader );
-					loader.setMeshoptDecoder( MeshoptDecoder );
+					const loader = await createGLTFLoader( manager );
 
 					loader.parse( contents, '', function ( result ) {
 
@@ -335,7 +308,8 @@ function Loader( editor ) {
 						scene.animations.push( ...result.animations );
 						editor.execute( new AddObjectCommand( editor, scene ) );
 
-						dracoLoader.dispose();
+						loader.dracoLoader.dispose();
+						loader.ktx2Loader.dispose();
 
 					} );
 
@@ -396,29 +370,6 @@ function Loader( editor ) {
 
 				}, false );
 				reader.readAsText( file );
-
-				break;
-
-			}
-
-			case 'ifc':
-
-			{
-
-				reader.addEventListener( 'load', async function ( event ) {
-
-					const { IFCLoader } = await import( 'three/addons/loaders/IFCLoader.js' );
-
-					var loader = new IFCLoader();
-					loader.ifcManager.setWasmPath( 'three/addons/loaders/ifc/' );
-
-					const model = await loader.parse( event.target.result );
-					model.mesh.name = filename;
-
-					editor.execute( new AddObjectCommand( editor, model.mesh ) );
-
-				}, false );
-				reader.readAsArrayBuffer( file );
 
 				break;
 
@@ -531,7 +482,7 @@ function Loader( editor ) {
 
 					const contents = event.target.result;
 
-					const { PCDLoader } = await import( '../../examples/jsm/loaders/PCDLoader.js' );
+					const { PCDLoader } = await import( 'three/addons/loaders/PCDLoader.js' );
 
 					const points = new PCDLoader().parse( contents );
 					points.name = filename;
@@ -634,6 +585,7 @@ function Loader( editor ) {
 					//
 
 					const group = new THREE.Group();
+					group.name = filename;
 					group.scale.multiplyScalar( 0.1 );
 					group.scale.y *= - 1;
 
@@ -678,7 +630,7 @@ function Loader( editor ) {
 
 					const contents = event.target.result;
 
-					const { USDZLoader } = await import( '../../examples/jsm/loaders/USDZLoader.js' );
+					const { USDZLoader } = await import( 'three/addons/loaders/USDZLoader.js' );
 
 					const group = new USDZLoader().parse( contents );
 					group.name = filename;
@@ -763,7 +715,7 @@ function Loader( editor ) {
 
 					const result = new VRMLLoader().parse( contents );
 
-					editor.execute( new SetSceneCommand( editor, result ) );
+					editor.execute( new AddObjectCommand( editor, result ) );
 
 				}, false );
 				reader.readAsText( file );
@@ -876,15 +828,7 @@ function Loader( editor ) {
 
 				loader.parse( data, function ( result ) {
 
-					if ( result.isScene ) {
-
-						editor.execute( new SetSceneCommand( editor, result ) );
-
-					} else {
-
-						editor.execute( new AddObjectCommand( editor, result ) );
-
-					}
+					editor.execute( new AddObjectCommand( editor, result ) );
 
 				} );
 
@@ -906,6 +850,24 @@ function Loader( editor ) {
 
 		const zip = unzipSync( new Uint8Array( contents ) );
 
+		const manager = new THREE.LoadingManager();
+		manager.setURLModifier( function ( url ) {
+
+			const file = zip[ url ];
+
+			if ( file ) {
+
+				console.log( 'Loading', url );
+
+				const blob = new Blob( [ file.buffer ], { type: 'application/octet-stream' } );
+				return URL.createObjectURL( blob );
+
+			}
+
+			return url;
+
+		} );
+
 		// Poly
 
 		if ( zip[ 'model.obj' ] && zip[ 'materials.mtl' ] ) {
@@ -913,9 +875,11 @@ function Loader( editor ) {
 			const { MTLLoader } = await import( 'three/addons/loaders/MTLLoader.js' );
 			const { OBJLoader } = await import( 'three/addons/loaders/OBJLoader.js' );
 
-			const materials = new MTLLoader().parse( strFromU8( zip[ 'materials.mtl' ] ) );
+			const materials = new MTLLoader( manager ).parse( strFromU8( zip[ 'materials.mtl' ] ) );
 			const object = new OBJLoader().setMaterials( materials ).parse( strFromU8( zip[ 'model.obj' ] ) );
+
 			editor.execute( new AddObjectCommand( editor, object ) );
+			return;
 
 		}
 
@@ -924,24 +888,6 @@ function Loader( editor ) {
 		for ( const path in zip ) {
 
 			const file = zip[ path ];
-
-			const manager = new THREE.LoadingManager();
-			manager.setURLModifier( function ( url ) {
-
-				const file = zip[ url ];
-
-				if ( file ) {
-
-					console.log( 'Loading', url );
-
-					const blob = new Blob( [ file.buffer ], { type: 'application/octet-stream' } );
-					return URL.createObjectURL( blob );
-
-				}
-
-				return url;
-
-			} );
 
 			const extension = path.split( '.' ).pop().toLowerCase();
 
@@ -966,21 +912,7 @@ function Loader( editor ) {
 
 				{
 
-					const { GLTFLoader } = await import( 'three/addons/loaders/GLTFLoader.js' );
-					const { DRACOLoader } = await import( 'three/addons/loaders/DRACOLoader.js' );
-					const { KTX2Loader } = await import( 'three/addons/loaders/KTX2Loader.js' );
-					const { MeshoptDecoder } = await import( 'three/addons/libs/meshopt_decoder.module.js' );
-
-					const dracoLoader = new DRACOLoader();
-					dracoLoader.setDecoderPath( '../examples/jsm/libs/draco/gltf/' );
-
-					const ktx2Loader = new KTX2Loader();
-					ktx2Loader.setTranscoderPath( '../examples/jsm/libs/basis/' );
-
-					const loader = new GLTFLoader();
-					loader.setDRACOLoader( dracoLoader );
-					loader.setKTX2Loader( ktx2Loader );
-					loader.setMeshoptDecoder( MeshoptDecoder );
+					const loader = await createGLTFLoader();
 
 					loader.parse( file.buffer, '', function ( result ) {
 
@@ -989,7 +921,8 @@ function Loader( editor ) {
 						scene.animations.push( ...result.animations );
 						editor.execute( new AddObjectCommand( editor, scene ) );
 
-						dracoLoader.dispose();
+						loader.dracoLoader.dispose();
+						loader.ktx2Loader.dispose();
 
 					} );
 
@@ -1001,22 +934,8 @@ function Loader( editor ) {
 
 				{
 
-					const { GLTFLoader } = await import( 'three/addons/loaders/GLTFLoader.js' );
-					const { DRACOLoader } = await import( 'three/addons/loaders/DRACOLoader.js' );
-					const { KTX2Loader } = await import( 'three/addons/loaders/KTX2Loader.js' );
-					const { MeshoptDecoder } = await import( 'three/addons/libs/meshopt_decoder.module.js' );
+					const loader = await createGLTFLoader( manager );
 
-					const dracoLoader = new DRACOLoader();
-					dracoLoader.setDecoderPath( '../examples/jsm/libs/draco/gltf/' );
-
-					const ktx2Loader = new KTX2Loader();
-					ktx2Loader.setTranscoderPath( '../examples/jsm/libs/basis/' );
-
-					const loader = new GLTFLoader();
-					loader.setDRACOLoader( dracoLoader );
-					loader.setKTX2Loader( ktx2Loader );
-					loader.setMeshoptDecoder( MeshoptDecoder );
-					
 					loader.parse( strFromU8( file ), '', function ( result ) {
 
 						const scene = result.scene;
@@ -1024,7 +943,8 @@ function Loader( editor ) {
 						scene.animations.push( ...result.animations );
 						editor.execute( new AddObjectCommand( editor, scene ) );
 
-						dracoLoader.dispose();
+						loader.dracoLoader.dispose();
+						loader.ktx2Loader.dispose();
 
 					} );
 
@@ -1035,6 +955,30 @@ function Loader( editor ) {
 			}
 
 		}
+
+	}
+
+	async function createGLTFLoader( manager ) {
+
+		const { GLTFLoader } = await import( 'three/addons/loaders/GLTFLoader.js' );
+		const { DRACOLoader } = await import( 'three/addons/loaders/DRACOLoader.js' );
+		const { KTX2Loader } = await import( 'three/addons/loaders/KTX2Loader.js' );
+		const { MeshoptDecoder } = await import( 'three/addons/libs/meshopt_decoder.module.js' );
+
+		const dracoLoader = new DRACOLoader();
+		dracoLoader.setDecoderPath( '../examples/jsm/libs/draco/gltf/' );
+
+		const ktx2Loader = new KTX2Loader( manager );
+		ktx2Loader.setTranscoderPath( '../examples/jsm/libs/basis/' );
+
+		editor.signals.rendererDetectKTX2Support.dispatch( ktx2Loader );
+
+		const loader = new GLTFLoader( manager );
+		loader.setDRACOLoader( dracoLoader );
+		loader.setKTX2Loader( ktx2Loader );
+		loader.setMeshoptDecoder( MeshoptDecoder );
+
+		return loader;
 
 	}
 

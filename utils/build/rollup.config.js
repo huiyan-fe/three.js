@@ -45,30 +45,9 @@ function header() {
 
 			code.prepend( `/**
  * @license
- * Copyright 2010-2023 Three.js Authors
+ * Copyright 2010-2024 Three.js Authors
  * SPDX-License-Identifier: MIT
  */\n` );
-
-			return {
-				code: code.toString(),
-				map: code.generateMap()
-			};
-
-		}
-
-	};
-
-}
-
-function deprecationWarning() {
-
-	return {
-
-		renderChunk( code ) {
-
-			code = new MagicString( code );
-
-			code.prepend( `console.warn( 'Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation' );\n` );
 
 			return {
 				code: code.toString(),
@@ -124,39 +103,31 @@ const builds = [
 			}
 		]
 	},
-
-	{ // @deprecated, r150
-		input: 'src/Three.js',
+	{
+		input: 'src/Three.WebGPU.js',
 		plugins: [
-			glsl(),
-			header(),
-			deprecationWarning()
+			header()
 		],
 		output: [
 			{
-				format: 'umd',
-				name: 'THREE',
-				file: 'build/three.js',
-				indent: '\t'
+				format: 'esm',
+				file: 'build/three.webgpu.js'
 			}
 		]
 	},
-	{ // @deprecated, r150
-		input: 'src/Three.js',
+	{
+		input: 'src/Three.WebGPU.js',
 		plugins: [
-			glsl(),
 			header(),
-			deprecationWarning(),
 			terser()
 		],
 		output: [
 			{
-				format: 'umd',
-				name: 'THREE',
-				file: 'build/three.min.js'
+				format: 'esm',
+				file: 'build/three.webgpu.min.js'
 			}
 		]
 	}
 ];
 
-export default ( args ) => args.configOnlyModule ? builds[ 0 ] : builds;
+export default ( args ) => args.configOnlyModule ? [ builds[ 0 ], builds[ 3 ] ] : builds;

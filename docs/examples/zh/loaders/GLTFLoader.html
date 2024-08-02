@@ -24,7 +24,7 @@
 			and they require special handling during the disposal process. More information in the [link:https://threejs.org/docs/#manual/en/introduction/How-to-dispose-of-objects How to dispose of objects] guide.
 		</p>
 
-		<h2>进口</h2>
+		<h2>导入</h2>
 
 		<p>
 			[name] 是一个附加组件，必须显式导入。
@@ -45,6 +45,7 @@
 		<ul>
 			<li>KHR_draco_mesh_compression</li>
 			<li>KHR_materials_clearcoat</li>
+			<li>KHR_materials_dispersion</li>
 			<li>KHR_materials_ior</li>
 			<li>KHR_materials_specular</li>
 			<li>KHR_materials_transmission</li>
@@ -52,9 +53,9 @@
 			<li>KHR_materials_unlit</li>
 			<li>KHR_materials_volume</li>
 			<li>KHR_mesh_quantization</li>
-			<li>KHR_lights_punctual<sup>1</sup></li>
+			<li>KHR_lights_punctual</li>
 			<li>KHR_texture_basisu</li>
-			<li>KHR_texture_transform<sup>2</sup></li>
+			<li>KHR_texture_transform</li>
 			<li>EXT_texture_webp</li>
 			<li>EXT_meshopt_compression</li>
 			<li>EXT_mesh_gpu_instancing</li>
@@ -65,22 +66,12 @@
 		</p>
 
 		<ul>
-			<li>[link:https://github.com/takahirox/three-gltf-extensions KHR_materials_variants]<sup>3</sup></li>
+			<li>[link:https://github.com/takahirox/three-gltf-extensions KHR_materials_variants]<sup>1</sup></li>
 			<li>[link:https://github.com/takahirox/three-gltf-extensions MSFT_texture_dds]</li>
 		</ul>
 
 		<p><i>
-			<sup>2</sup>支持UV变换，但存在一些重要的限制。
-			Transforms applied to
-			a texture using the first UV slot (all textures except aoMap and lightMap) must share the same
-			transform, or no transform at all.
-			aoMap 和 lightMap 纹理不能被变换。每个材质最多只能使用一次变换。
-			请参阅#[link:https://github.com/mrdoob/three.js/pull/13831 13831] 和
-			#[link:https://github.com/mrdoob/three.js/issues/12788 12788]。
-		</i></p>
-
-		<p><i>
-			<sup>3</sup>You can also manually process the extension after loading in your application. See [link:https://threejs.org/examples/#webgl_loader_gltf_variants Three.js glTF materials variants example].
+			<sup>1</sup>You can also manually process the extension after loading in your application. See [link:https://threejs.org/examples/#webgl_loader_gltf_variants Three.js glTF materials variants example].
 		</i></p>
 
 		<h2>代码示例</h2>
@@ -206,7 +197,7 @@
 
 		<h3>[method:this setDRACOLoader]( [param:DRACOLoader dracoLoader] )</h3>
 		<p>
-		[page:DRACOLoader dracoLoader] — THREE.DRACOLoader的实例，用于解码使用KHR_draco_mesh_compression扩展压缩过的文件。
+		[page:DRACOLoader dracoLoader] — DRACOLoader的实例，用于解码使用KHR_draco_mesh_compression扩展压缩过的文件。
 		</p>
 		<p>
 		请参阅[link:https://github.com/mrdoob/three.js/tree/dev/examples/jsm/libs/draco#readme readme]来了解Draco及其解码器的详细信息。
